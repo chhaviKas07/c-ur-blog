@@ -1,10 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react";
 import "./ForgotPassword.css";
-import Loader from "../Layout/Loader/Loader";
+import Loader from "../layout/Loader/Loader";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, forgotPassword } from "../../Slices/UserSlice";
-import MetaData from "../Layout/MetaData";
+import { clearErrors, forgotPassword } from "../../userSlice";
+import MetaData from "../layout/MetaData";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";

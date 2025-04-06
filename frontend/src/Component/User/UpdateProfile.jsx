@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import "./UpdateProfile.css";
-import Loader from "../Layout/Loader/Loader";
+import Loader from "../layout/Loader/Loader";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import FaceIcon from "@mui/icons-material/Face";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,8 +9,8 @@ import {
   updateProfile,
   loadUser,
   updateProfileReset,
-} from "../../Slices/UserSlice";
-import MetaData from "../Layout/MetaData";
+} from "../../userSlice";
+import MetaData from "../layout/MetaData";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -49,12 +49,16 @@ const UpdateProfile = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
-
+  
     if (avatar) {
-      formData.append("avatar", avatar);
+      formData.append("avatar", avatar); // Make sure `avatar` is a File object
     }
-
-    console.log("Form Data: ", formData);
+  
+    console.log("FormData Entries:");
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);  // Debugging
+    }
+  
     dispatch(updateProfile(formData));
   };
 

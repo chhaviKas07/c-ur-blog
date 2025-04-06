@@ -149,9 +149,9 @@
 // export default Payment;
 
 import React, { Fragment, useEffect, useRef } from "react";
-import CheckoutSteps from "../../Component/Cart/CheckoutSteps";
+import CheckoutSteps from "./CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
-import MetaData from "../../Component/Layout/MetaData";
+import MetaData from "../layout/MetaData";
 import Typography from "@mui/material/Typography";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -168,7 +168,7 @@ import "./payment.css";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import EventIcon from "@mui/icons-material/Event";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import { createUserBlogPayment, clearErrors } from "../../Slices/OrderSlice"; // Updated import
+import { createOrder, clearErrors } from "../../OrderSlice"; // Updated import
 
 const Payment = () => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
@@ -178,7 +178,7 @@ const Payment = () => {
   const payBtn = useRef(null);
   const navigate = useNavigate();
 
-  const { userInfo, cartItems } = useSelector((state) => state.cart);
+    const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const { error } = useSelector((state) => state.orders); // Updated to userBlogPayments
 
@@ -244,11 +244,11 @@ const Payment = () => {
             name: user.name,
             email: user.email,
             address: {
-              line1: userInfo.address || "",
-              city: userInfo.city || "",
-              state: userInfo.state || "",
-              postal_code: userInfo.pinCode || "",
-              country: userInfo.country || "",
+              line1: shippingInfo.address,
+              city: shippingInfo.city,
+              state: shippingInfo.state,
+              postal_code: shippingInfo.pinCode,
+              country: shippingInfo.country,
             },
           },
         },
@@ -260,7 +260,7 @@ const Payment = () => {
       } else {
         if (result.paymentIntent.status === "succeeded") {
           const order = {
-            userInfo,
+            shippingInfo,
             orderItems: cartItems, // Include orderItems
             itemsPrice: orderInfo?.subtotal,
             taxPrice: orderInfo?.tax,
@@ -271,7 +271,7 @@ const Payment = () => {
               status: result.paymentIntent.status,
             },
           };
-          dispatch(createUserBlogPayment(order));
+          dispatch(createOrder(order));
           navigate("/success");
         } else {
           toast.error("There's some issue while processing payment");

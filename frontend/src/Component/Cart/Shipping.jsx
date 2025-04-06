@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
 import "./Shipping.css";
 import { useSelector, useDispatch } from "react-redux";
-import { saveShippingInfo } from "../../Slices/CartSlice";
-import MetaData from "../Layout/MetaData";
+import { saveShippingInfo } from "../../CartSlice.jsx";
+import MetaData from "../layout/MetaData";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import HomeIcon from "@mui/icons-material/Home";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
@@ -18,14 +18,24 @@ import { useNavigate } from "react-router-dom";
 const Shipping = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userInfo } = useSelector((state) => state.cart);
+  // const { userInfo } = useSelector((state) => state.cart);
+  // const { shippingInfo } = useSelector((state) => state.cart);
 
-  const [address, setAddress] = useState(userInfo.address);
-  const [city, setCity] = useState(userInfo.city);
-  const [state, setState] = useState(userInfo.state);
-  const [country, setCountry] = useState(userInfo.country);
-  const [pinCode, setPinCode] = useState(userInfo.pinCode);
-  const [phoneNo, setPhoneNo] = useState(userInfo.phoneNo);
+  // const [address, setAddress] = useState(userInfo.address);
+  // const [city, setCity] = useState(userInfo.city);
+  // const [state, setState] = useState(userInfo.state);
+  // const [country, setCountry] = useState(userInfo.country);
+  // const [pinCode, setPinCode] = useState(userInfo.pinCode);
+  // const [phoneNo, setPhoneNo] = useState(userInfo.phoneNo);
+
+  const { shippingInfo } = useSelector((state) => state.cart);
+
+  const [address, setAddress] = useState(shippingInfo.address);
+  const [city, setCity] = useState(shippingInfo.city);
+  const [state, setState] = useState(shippingInfo.state);
+  const [country, setCountry] = useState(shippingInfo.country);
+  const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
+  const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
 
   const shippingSubmit = (e) => {
     e.preventDefault();

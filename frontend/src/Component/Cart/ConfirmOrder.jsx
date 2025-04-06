@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import CheckoutSteps from "../Cart/CheckoutSteps";
+import CheckoutSteps from "./CheckoutSteps";
 import { useSelector } from "react-redux";
-import MetaData from "../Layout/MetaData";
+import MetaData from "../layout/MetaData";
 import "./ConfirmOrder.css";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
@@ -9,15 +9,21 @@ import { useNavigate } from "react-router-dom";
 
 const ConfirmOrder = () => {
   const navigate = useNavigate();
-  const { userInfo, cartItems } = useSelector((state) => state.cart);
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
 
-  const subtotal = 500; // Fixed subtotal
-  const shippingCharges = 0; // No shipping charges
-  const tax = 100; // No tax
-  const totalPrice = subtotal + tax + shippingCharges; // Total price is also fixed
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0
+  );
 
-  const address = `${userInfo.address}, ${userInfo.city}, ${userInfo.state}, ${userInfo.pinCode}, ${userInfo.country}`;
+  const shippingCharges = subtotal > 1000 ? 0 : 200;
+
+  const tax = subtotal * 0.18;
+
+  const totalPrice = subtotal + tax + shippingCharges;
+
+  const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
 
   const proceedToPayment = () => {
     const data = {
@@ -39,7 +45,7 @@ const ConfirmOrder = () => {
       <div className="confirmOrderPage">
         <div>
           <div className="confirmshippingArea">
-            <Typography>User Info</Typography>
+            <Typography>Shipping Info</Typography>
             <div className="confirmshippingAreaBox">
               <div>
                 <p>Name:</p>
@@ -47,7 +53,7 @@ const ConfirmOrder = () => {
               </div>
               <div>
                 <p>Phone:</p>
-                <span>{userInfo.phoneNo}</span>
+                <span>{shippingInfo.phoneNo}</span>
               </div>
               <div>
                 <p>Address:</p>
@@ -60,25 +66,32 @@ const ConfirmOrder = () => {
             <div className="confirmCartItemsContainer">
               {cartItems &&
                 cartItems.map((item) => (
-                  <div key={item.blog}>
-                    <img src={item.image} alt="Blog" />
-                    <Link to={`/blog/${item.blog}`}>{item.title}</Link>{" "}
+                  <div key={item.product}>
+                    <img src={item.image} alt="Product" />
+                    <Link to={`/product/${item.product}`}>
+                      {item.name}
+                    </Link>{" "}
                     <span>
-                      {item.quantity} x ₹{item.price} ={" "}
-                      <b>₹{item.quantity * item.price}</b>
+                      {item.quantity} X ₹{item.price} ={" "}
+                      <b>₹{item.price * item.quantity}</b>
                     </span>
                   </div>
                 ))}
             </div>
           </div>
         </div>
+        {/*  */}
         <div>
           <div className="orderSummary">
-            <Typography>Order Summary</Typography>
+            <Typography>Order Summery</Typography>
             <div>
               <div>
                 <p>Subtotal:</p>
                 <span>₹{subtotal}</span>
+              </div>
+              <div>
+                <p>Shipping Charges:</p>
+                <span>₹{shippingCharges}</span>
               </div>
               <div>
                 <p>GST:</p>
@@ -100,5 +113,4 @@ const ConfirmOrder = () => {
     </Fragment>
   );
 };
-
 export default ConfirmOrder;

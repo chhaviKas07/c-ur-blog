@@ -1,24 +1,16 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import dns from 'node:dns'
-
-dns.setDefaultResultOrder('verbatim')
-
-// https://vitejs.dev/config/
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    include: ['redux-thunk'],
-  },
   server: {
+    port: 5173, // Frontend port
     proxy: {
-      '/api': {
-        target: 'http://192.168.137.1:3001',
+      "/api": {
+        target: "http://localhost:3001", // ✅ Correct backend URL
         changeOrigin: true,
         secure: false,
-        ws: false
       },
     },
-  }
+  },
 });

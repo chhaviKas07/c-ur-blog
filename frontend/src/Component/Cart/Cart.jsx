@@ -2,7 +2,10 @@ import React, { Fragment } from "react";
 import "./Cart.css";
 import CartItemCard from "./CartItemCard.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { addItemsToCart, removeItemsFromCart } from "../../Slices/CartSlice";
+import {
+  addItemsToCartThunk,
+  removeItemsFromCartThunk,
+} from "../../CartSlice.jsx";
 import Typography from "@mui/material/Typography";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,28 +15,39 @@ const Cart = () => {
   const navigate = useNavigate();
   const { cartItems } = useSelector((state) => state.cart);
 
+  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const totalAmount = cartItems.reduce(
+    (acc, item) => acc + item.quantity * item.price,
+    0
+  );
+
+  // const increaseQuantity = (id, quantity, stock) => {
+  //   const newQty = quantity + 1;
+  //   if (stock <= quantity) return;
+  //   dispatch(addItemsToCartThunk({ id, quantity: newQty }));
+  // };
+
   const increaseQuantity = (id, quantity, stock) => {
     const newQty = quantity + 1;
-    if (stock <= quantity) {
-      return;
-    }
-    dispatch(addItemsToCart({ id, quantity: newQty }));
+    console.log("🔼 Increasing:", { id, quantity, newQty, stock });
+  
+    if (stock <= quantity) return;
+  
+    dispatch(addItemsToCartThunk({ id, quantity: newQty }));
   };
-
+  
   const decreaseQuantity = (id, quantity) => {
     const newQty = quantity - 1;
-    if (1 >= quantity) {
-      return;
-    }
-    dispatch(addItemsToCart({ id, quantity: newQty }));
+    if (newQty < 1) return;
+    dispatch(addItemsToCartThunk({ id, quantity: newQty }));
   };
 
   const deleteCartItems = (id) => {
-    dispatch(removeItemsFromCart(id));
+    if (!id) return;
+    dispatch(removeItemsFromCartThunk(id));
   };
 
   const checkoutHandler = () => {
-    // navigate("/login?redirect=shipping");
     navigate("/shipping");
   };
 
@@ -42,36 +56,48 @@ const Cart = () => {
       {cartItems.length === 0 ? (
         <div className="emptyCart">
           <RemoveShoppingCartIcon />
-
-          <Typography>No Blogs in Your Cart</Typography>
-          <Link to="/blogs">View Blogs</Link>
+          <Typography>No Products in Your Cart</Typography>
+          <Link to="/products">View Products</Link>
         </div>
       ) : (
         <Fragment>
           <div className="cartPage">
             <div className="cartHeader">
               <p>Product</p>
+              <p>Quantity</p>
+              <p>Price</p>
             </div>
 
-            {cartItems &&
-              cartItems.map((item) => (
-                <div className="cartContainer" key={item.blog}>
+            {cartItems.map((item) => {
+              const itemId = item.product || item._id || item.id;
+              return (
+                <div className="cartContainer" key={itemId}>
                   <CartItemCard item={item} deleteCartItems={deleteCartItems} />
                   <div className="cartInput">
-                    <button
-                      onClick={() => decreaseQuantity(item.blog, item.quantity)}
-                    >
+                    <button onClick={() => decreaseQuantity(itemId, item.quantity)}>
                       -
                     </button>
-                    <input type="number" value={item.blog} readOnly />
-                    <button onClick={() => increaseQuantity(item.blog)}>
+                    <input type="number" value={item.quantity} readOnly />
+                    <button
+                      onClick={() =>
+                        increaseQuantity(itemId, item.quantity, item.stock)
+                      }
+                    >
                       +
                     </button>
                   </div>
+                  <p>₹{(item.price * item.quantity).toFixed(2)}</p>
                 </div>
-              ))}
+              );
+            })}
 
             <div className="cartGrossProfit">
+              <div></div>
+              <div className="cartGrossProfitBox">
+                <p>Gross Total</p>
+                <p>{`₹${totalAmount.toFixed(2)}`}</p>
+              </div>
+              <div></div>
               <div className="checkOutBtn">
                 <button onClick={checkoutHandler}>Check Out</button>
               </div>

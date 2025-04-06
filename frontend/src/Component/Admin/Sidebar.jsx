@@ -111,7 +111,7 @@ const Sidebar = () => {
       <div className="sidebar-section">
         <p>Blogs</p>
         <Link
-          to="/admin/blogs"
+          to="/admin/products"
           style={{
             textDecoration: "none",
             color: "inherit",
@@ -123,7 +123,7 @@ const Sidebar = () => {
           <span>All</span>
         </Link>
         <Link
-          to="/admin/blog/new"
+          to="/admin/product/new"
           style={{
             textDecoration: "none",
             color: "inherit",
@@ -135,7 +135,7 @@ const Sidebar = () => {
           <span>Create</span>
         </Link>
       </div>
-      <Link to="/admin/blogpayments">
+      <Link to="/admin/orders">
         <p>
           <ListAltIcon />
           Orders

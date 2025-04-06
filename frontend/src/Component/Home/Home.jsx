@@ -1,39 +1,42 @@
 import React, { Fragment, useEffect } from "react";
 import { CgMouse } from "react-icons/cg";
 import "./Home.css";
-import BlogCard from "./BlogCard.jsx";
-import MetaData from "../Layout/MetaData.jsx";
-import { getBlogs, clearBlogErrors } from "../../Slices/ProductSlice.jsx";
+import ProductCard from "./ProductCard.jsx";
+import MetaData from "../layout/MetaData.jsx";
+import { clearErrors, getProducts } from "../../productSlice.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import Loader from "../Layout/Loader/Loader.jsx";
-import ReactJsAlert from "reactjs-alert";
+import Loader from "../layout/Loader/Loader.jsx";
+// import { useAlert } from "react-alert";
 
 const Home = () => {
+  // const alert = useAlert();
   const dispatch = useDispatch();
-  const { loading, error, blogs } = useSelector((state) => state.blogs);
-
+  const { loading, error, products } = useSelector((state) => state.products);
   useEffect(() => {
     if (error) {
-      dispatch(clearBlogErrors());
+      console.error("Error fetching products:", error);
+      dispatch(clearErrors());
     }
-    dispatch(getBlogs());
+    dispatch(getProducts({}));
   }, [dispatch, error]);
-
+  
+  console.log("Products from Redux:", products);
   const handleRefresh = () => {
-    dispatch(getBlogs());
+    window.location.reload(); // Example functionality
   };
-
+  
+  
   return (
     <Fragment>
       {loading ? (
         <Loader />
       ) : (
         <Fragment>
-          <MetaData title="C_UR_BLOG" />
+          <MetaData title="C_UR_PRODUCT" />
 
           <div className="banner">
-            <p>Welcome to C_UR_BLOG</p>
-            <h1>FIND AMAZING BLOGS BELOW</h1>
+            <p>Welcome to C_UR_PRODUCT</p>
+            <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
             <a href="#container">
               <button>
@@ -42,13 +45,13 @@ const Home = () => {
             </a>
           </div>
 
-          <h2 className="homeHeading">Featured Blogs</h2>
-          <button onClick={handleRefresh}>Refresh Blogs</button>
+          <h2 className="homeHeading">Featured Products</h2>
+          <button onClick={handleRefresh}>Refresh Products</button>
           <div className="container" id="container">
-            <div className="container" id="container">
-              {blogs &&
-                blogs.map((blog) => <BlogCard key={blog._id} blog={blog} />)}
-            </div>
+            {products &&
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
           </div>
         </Fragment>
       )}

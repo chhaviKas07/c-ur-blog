@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import Store from "./Store.jsx";
+import Store from "./store.jsx";
 
 // import { positions, transitions, Provider as AlertProvider } from "react-alert";
 // import AlertTemplate from "react-alert-template-basic";

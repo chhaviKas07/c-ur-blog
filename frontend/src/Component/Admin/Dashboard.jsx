@@ -15,10 +15,10 @@ import {
   Legend,
 } from "chart.js";
 import { useSelector, useDispatch } from "react-redux";
-import { getAdminBlog } from "../../Slices/ProductSlice.jsx";
-import { getAllUserBlogPayment } from "../../Slices/OrderSlice.jsx";
-import { getAllUsers } from "../../Slices/UserSlice.jsx";
-import MetaData from "../Layout/MetaData";
+import { getProducts } from "../../productSlice.jsx";
+import { getAllOrders } from "../../OrderSlice.jsx";
+import { getAllUsers } from "../../userSlice.jsx";
+import MetaData from "../layout/MetaData";
 Chart.register(
   ArcElement,
   LineElement,
@@ -32,24 +32,48 @@ Chart.register(
 const Dashboard = () => {
   const dispatch = useDispatch();
 
-  const { blogs = [] } = useSelector((state) => state.adminBlogs) || {}; // Default to empty array
-  const { orders = [] } = useSelector((state) => state.orders) || {}; // Default to empty array
+  const { products = [] } = useSelector((state) => state.products) || {}; // Default to empty array
+  // const { orders = [] } = useSelector((state) => state.orders) || {}; // Default to empty array
+  const { orders, loading, error } = useSelector((state) => state.orders);
+  console.log("Orders State:", orders, "Loading:", loading, "Error:", error);
+  
   const { users = [] } = useSelector((state) => state.userAdmin) || {};
 
-  let outOfStock = 0;
+  // let outOfStock = 0;
+  // orders.forEach((item) => {
+  //   if (item.Stock === 0) {
+  //     outOfStock += 1;
+  //   }
+  // });
 
-  orders.forEach((item) => {
-    if (item.Stock === 0) {
-      outOfStock += 1;
-    }
-  });
+  let outOfStock = 0;
+products.forEach((item) => {
+  if (item.Stock === 0) {
+    outOfStock += 1;
+  }
+});
+
 
   useEffect(() => {
-    dispatch(getAdminBlog());
-    dispatch(getAllUserBlogPayment());
+    dispatch(getProducts());
+    dispatch(getAllOrders());
     dispatch(getAllUsers());
   }, [dispatch]);
+  
+  useEffect(() => {
+    console.log("Products:", products);
+    console.log("Orders:", orders);
+    console.log("Users:", users);
+  }, [products, orders, users]);
+  
+  useEffect(() => {
+    dispatch(getProducts({}));
+  }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getAllOrders({}));
+  }, [dispatch]);
+  
   let totalAmount = 0;
   orders.forEach((item) => {
     totalAmount += item.totalPrice;
@@ -73,7 +97,7 @@ const Dashboard = () => {
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [outOfStock, blogs.length - outOfStock],
+        data: [outOfStock, products.length - outOfStock],
       },
     ],
   };
@@ -93,21 +117,20 @@ const Dashboard = () => {
             </p>
           </div>
           <div className="dashboardSummaryBox2">
-            <Link to="/admin/blogs">
-              <p>Blogs</p>
-              <p>{blogs.length}</p>
+            <Link to="/admin/products">
+              <p>Product</p>
+              <p>{products && products.length}</p>
             </Link>
-            <Link to="/admin/blogpayments">
+            <Link to="/admin/orders">
               <p>Orders</p>
-              <p>{orders.length}</p>
+              <p>{orders && orders.length}</p>
             </Link>
             <Link to="/admin/users">
               <p>Users</p>
-              <p>{users.length}</p>
+              <p>{users && users.length}</p>
             </Link>
           </div>
         </div>
-
         <div className="lineChart">
           <Line data={lineState} />
         </div>

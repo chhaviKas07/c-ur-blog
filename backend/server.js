@@ -3,6 +3,9 @@ const dotenv = require("dotenv");
 const cloudinary = require("cloudinary");
 const connectDatabase = require("./config/db");
 
+
+
+
 // // Handling Uncaught Exception
 process.on("uncaughtException", (err) => {
     console.log(`Error: ${err.message}`);

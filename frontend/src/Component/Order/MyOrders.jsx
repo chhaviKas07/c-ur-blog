@@ -2,18 +2,18 @@ import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./myOrders.css";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, myBlogPayment } from "../../Slices/OrderSlice";
-import Loader from "../../Component/Layout/Loader/Loader";
+import { clearErrors, myOrders } from "../../OrderSlice";
+import Loader from "../layout/Loader/Loader";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import MetaData from "../../Component/Layout/MetaData";
+import MetaData from "../layout/MetaData";
 import LaunchIcon from "@mui/icons-material/Launch";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const MyOrders = () => {
   const dispatch = useDispatch();
-  const { loading, error, userBlogPayments } = useSelector(
+  const { loading, error, orders } = useSelector(
     (state) => state.orders
   );
   const { user } = useSelector((state) => state.user);
@@ -23,7 +23,7 @@ const MyOrders = () => {
       toast.error(error);
       dispatch(clearErrors());
     }
-    dispatch(myBlogPayment());
+    dispatch(myOrders());
   }, [dispatch, error]);
 
   const columns = [
@@ -60,7 +60,7 @@ const MyOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`/blogpayment/${params.row.id}`}>
+          <Link to={`/order/${params.row.id}`}>
             <LaunchIcon />
           </Link>
         );
@@ -80,12 +80,14 @@ const MyOrders = () => {
   //     });
   //   });
 
-  const rows = userBlogPayments.map((item) => ({
-    itemsQty: item.orderItems.length,
-    id: item._id,
-    status: item.userBlogPaymentStatus,
-    amount: item.totalPrice,
-  }));
+  const rows = orders && Array.isArray(orders)
+  ? orders.map((item) => ({
+      itemsQty: item.orderItems.length,
+      id: item._id,
+      status: item.orderStatus,
+      amount: item.totalPrice,
+    }))
+  : [];
 
   return (
     <Fragment>

@@ -1,16 +1,16 @@
 import React, { Fragment, useState, useEffect } from "react";
 import "./UpdatePassword.css";
-import Loader from "../Layout/Loader/Loader";
+import Loader from "../layout/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearProfileErrors,
   updatePassword,
   updatePasswordReset,
-} from "../../Slices/UserSlice";
+} from "../../userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import MetaData from "../Layout/MetaData";
+import MetaData from "../layout/MetaData";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockIcon from "@mui/icons-material/Lock";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
@@ -20,7 +20,7 @@ const UpdatePassword = () => {
   const navigate = useNavigate();
 
   const { error, isPasswordUpdated, loading } = useSelector(
-    (state) => state.updateProfile
+    (state) => state.user
   );
 
   const [oldPassword, setOldPassword] = useState("");

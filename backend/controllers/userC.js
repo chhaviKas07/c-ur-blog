@@ -10,7 +10,7 @@ const cloudinary = require("cloudinary");
 exports.registerUser = catchAsyncError(async (req, res, next) => {
     const myCloud = req.body.avatar
         ? await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: "blogsUserImages",
+            folder: "ecommerce",
             width: 300,
             crop: "scale",
         })
@@ -285,7 +285,51 @@ exports.updatePassword = catchAsyncError(async (req, res, next) => {
 //         user,
 //     });
 // });
+
+// new one eco-f
+// exports.updateProfile = catchAsyncError(async (req, res, next) => {
+//     const newUserData = {
+//         name: req.body.name,
+//         email: req.body.email,
+//     };
+
+//     if (req.file) {
+//         const user = await User.findById(req.user.id);
+//         const imageId = user.avatar.public_id;
+
+//         // Delete previous avatar from Cloudinary
+//         if (imageId) {
+//             await cloudinary.uploader.destroy(imageId);
+//         }
+
+//         // Upload new avatar to Cloudinary
+//         const result = await cloudinary.uploader.upload(req.file.buffer, {
+//             folder: "ecommerce",
+//             width: 150,
+//             crop: "scale",
+//         });
+
+//         newUserData.avatar = {
+//             public_id: result.public_id,
+//             url: result.secure_url,
+//         };
+//     }
+
+//     const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+//         new: true,
+//         runValidators: true,
+//         useFindAndModify: false,
+//     });
+
+//     res.status(200).json({
+//         success: true,
+//     });
+// });
+
 exports.updateProfile = catchAsyncError(async (req, res, next) => {
+    console.log("Received update request:", req.body);
+    console.log("Received file:", req.file);
+
     const newUserData = {
         name: req.body.name,
         email: req.body.email,
@@ -293,27 +337,41 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
 
     if (req.file) {
         const user = await User.findById(req.user.id);
-        const imageId = user.avatar.public_id;
 
-        // Delete previous avatar from Cloudinary
-        if (imageId) {
-            await cloudinary.uploader.destroy(imageId);
+        if (user.avatar && user.avatar.public_id) {
+            await cloudinary.uploader.destroy(user.avatar.public_id);
         }
 
-        // Upload new avatar to Cloudinary
-        const result = await cloudinary.uploader.upload(req.file.buffer, {
-            folder: "blogsUserImages",
-            width: 150,
-            crop: "scale",
+        // Upload to Cloudinary
+        const result = await cloudinary.uploader.upload_stream(
+            { folder: "ecommerce", width: 150, crop: "scale" },
+            (error, result) => {
+                if (error) {
+                    console.error("Cloudinary Upload Error:", error);
+                    return next(new ErrorHandler(error.message, 500));
+                }
+                newUserData.avatar = {
+                    public_id: result.public_id,
+                    url: result.secure_url,
+                };
+            }
+        );
+
+        // Convert buffer to stream and send to Cloudinary
+        const stream = cloudinary.uploader.upload_stream((error, result) => {
+            if (error) {
+                return next(new ErrorHandler(error.message, 500));
+            }
+            newUserData.avatar = {
+                public_id: result.public_id,
+                url: result.secure_url,
+            };
         });
 
-        newUserData.avatar = {
-            public_id: result.public_id,
-            url: result.secure_url,
-        };
+        stream.end(req.file.buffer);
     }
 
-    const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    await User.findByIdAndUpdate(req.user.id, newUserData, {
         new: true,
         runValidators: true,
         useFindAndModify: false,
@@ -323,7 +381,6 @@ exports.updateProfile = catchAsyncError(async (req, res, next) => {
         success: true,
     });
 });
-
 
 
 
@@ -354,23 +411,55 @@ exports.getSingleUser = catchAsyncError(async (req, res, next) => {
 });
 
 // update User Role -- Admin
-exports.updateUserRole = catchAsyncError(async (req, res, next) => {
-    const newUserData = {
-        name: req.body.name,
-        email: req.body.email,
-        role: req.body.role,
-    };
+// exports.updateUserRole = catchAsyncError(async (req, res, next) => {
+//     const newUserData = {
+//         name: req.body.name,
+//         email: req.body.email,
+//         role: req.body.role,
+//     };
 
-    await User.findByIdAndUpdate(req.params.id, newUserData, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
-    });
+//     await User.findByIdAndUpdate(req.params.id, newUserData, {
+//         new: true,
+//         runValidators: true,
+//         useFindAndModify: false,
+//     });
 
-    res.status(200).json({
-        success: true,
-    });
-});
+//     res.status(200).json({
+//         success: true,
+//     });
+// });
+// adminController.js
+exports.updateUserRole = async (req, res) => {
+    try {
+        const newUserData = {
+          role: req.body.role,
+        };
+    
+        const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
+          new: true,
+          runValidators: true,
+          useFindAndModify: false,
+        });
+    
+        if (!user) {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+          });
+        }
+    
+        res.status(200).json({
+          success: true,
+          message: "User updated successfully",
+        });
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          message: error.message,
+        });
+      }
+};
+
 
 // Delete User --Admin
 exports.deleteUser = catchAsyncError(async (req, res, next) => {

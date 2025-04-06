@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@mui/material";
-import MetaData from "../Layout/MetaData";
+import MetaData from "../layout/MetaData";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import Person2Icon from "@mui/icons-material/Person2";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import SideBar from "./Sidebar";
-import Loader from "../Layout/Loader/Loader";
+import Loader from "../layout/Loader/Loader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -14,7 +14,8 @@ import {
   updateUser,
   clearProfileErrors,
   updateUserReset,
-} from "../../Slices/UserSlice";
+  deleteUserReset,
+} from "../../userSlice";
 import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateUser = () => {
@@ -44,31 +45,40 @@ const UpdateUser = () => {
     } else if (user) {
       setRole(user.role);
     }
-
+  
     if (error) {
       toast.error(error);
       dispatch(clearProfileErrors());
     }
-
+  
     if (updateError) {
       toast.error(updateError);
       dispatch(clearProfileErrors());
     }
-
+  
     if (isUpdated) {
+      console.log("isUpdated:", isUpdated);
+
       toast.success("User Updated Successfully");
-      navigate("/admin/users");
-      dispatch(updateUserReset());
+        dispatch(updateUserReset());
+        navigate("/admin/users");// give time for toast to show
     }
-  }, [dispatch, toast, error, navigate, isUpdated, updateError, user, userId]);
+
+
+    if (isDeleted) {
+      toast.success("User Deleted Successfully");
+        navigate("/admin/users");
+        dispatch(deleteUserReset());
+    }
+  }, [dispatch, error, updateError, isUpdated,isDeleted, user, userId, navigate]);
+  
 
   const updateUserSubmitHandler = (e) => {
     e.preventDefault();
 
     const myForm = new FormData();
     myForm.set("role", role);
-
-    dispatch(updateUser({ id: userId, userData: myForm }));
+    dispatch(updateUser({ id: userId, userData: { role } }));
   };
 
   return (
@@ -116,12 +126,13 @@ const UpdateUser = () => {
               </div>
 
               <Button
-                id="createProductBtn"
-                type="submit"
-                disabled={updateLoading || role === ""}
-              >
-                Update
-              </Button>
+  id="createProductBtn"
+  type="submit"
+  disabled={updateLoading || role === ""}
+>
+  {updateLoading ? "Updating..." : "Update"}
+</Button>
+
             </form>
           )}
         </div>
