@@ -16,15 +16,15 @@ app.use(
     );
     
     
-    const multer = require('multer');
-    const upload = multer({ storage: multer.diskStorage({
-      destination: (req, file, cb) => {
-          cb(null, "ecommerce/");  // ✅ Use a proper folder
-      },
-      filename: (req, file, cb) => {
-          cb(null, `${Date.now()}-${file.originalname}`);
-      }
-  }) });
+  //   const multer = require('multer');
+  //   const upload = multer({ storage: multer.diskStorage({
+  //     destination: (req, file, cb) => {
+  //         cb(null, "ecommerce/");  // ✅ Use a proper folder
+  //     },
+  //     filename: (req, file, cb) => {
+  //         cb(null, `${Date.now()}-${file.originalname}`);
+  //     }
+  // }) });
 
 // Config
 dotenv.config({ path: "backend/config/config.env" });
@@ -34,9 +34,9 @@ app.use(express.json());
 app.use(express.json({ limit: "100mb" }));
 app.use(express.urlencoded({ limit: "100mb", extended: true }));
 app.use(cookieParser());
-app.use(fileUpload());
+// app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload({ limits: { fileSize: 100 * 1024 * 1024 } }));
+// app.use(fileUpload({ limits: { fileSize: 100 * 1024 * 1024 } }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 

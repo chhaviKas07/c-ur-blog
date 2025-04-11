@@ -28,40 +28,101 @@ const UpdateProfile = () => {
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState();
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
-  const updateProfileDataChange = (e) => {
-    const reader = new FileReader();
+  // const updateProfileDataChange = (e) => {
+  //   const reader = new FileReader();
 
+  //   reader.onload = () => {
+  //     if (reader.readyState === 2) {
+  //       console.log("Avatar Preview: ", reader.result);
+  //       setAvatarPreview(reader.result);
+  //       setAvatar(e.target.files[0]);
+  //     }
+  //   };
+
+  //   console.log("Selected File: ", e.target.files[0]);
+  //   reader.readAsDataURL(e.target.files[0]);
+  // };
+
+  // const updateProfileSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   const formData = new FormData();
+  //   formData.append("name", name);
+  //   formData.append("email", email);
+  
+  //   if (avatar) {
+  //     formData.append("avatar", avatar); // Make sure `avatar` is a File object
+  //   }
+  
+  //   console.log("FormData Entries:");
+  //   for (let [key, value] of formData.entries()) {
+  //     console.log(key, value);  // Debugging
+  //   }
+  
+  //   dispatch(updateProfile(formData));
+  // };
+
+
+  const updateProfileDataChange = (e) => {
+    const file = e.target.files[0];
+
+    const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
-        console.log("Avatar Preview: ", reader.result);
         setAvatarPreview(reader.result);
-        setAvatar(e.target.files[0]);
+        setAvatar(file);
       }
     };
-
-    console.log("Selected File: ", e.target.files[0]);
-    reader.readAsDataURL(e.target.files[0]);
+    reader.readAsDataURL(file);
   };
 
-  const updateProfileSubmit = (e) => {
+ 
+  const updateProfileSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
+  
+    let avatarData = null;
   
     if (avatar) {
-      formData.append("avatar", avatar); // Make sure `avatar` is a File object
+      try {
+        const formData = new FormData();
+        formData.append("file", avatar);
+        formData.append("upload_preset", "unsigned_upload"); // 🔁 Replace with your Cloudinary preset
+        formData.append("folder", "ecommerce");
+  
+        const res = await fetch("https://api.cloudinary.com/v1_1/dkusbu9rg/image/upload", {
+          method: "POST",
+          body: formData,
+        });
+  
+        const data = await res.json();
+        console.log("Cloudinary upload response:", data);
+  
+        if (!res.ok || !data.secure_url || !data.public_id) {
+          throw new Error("Cloudinary upload failed");
+        }
+  
+        avatarData = {
+          public_id: data.public_id,
+          url: data.secure_url,
+        };
+      } catch (err) {
+        console.error("Cloudinary upload error:", err);
+        toast.error("Image upload failed");
+        return; // ❌ Don't continue if upload fails
+      }
     }
   
-    console.log("FormData Entries:");
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);  // Debugging
+    // ✅ Build payload safely
+    let payload = { name, email };
+    if (avatarData && avatarData.public_id && avatarData.url) {
+      payload.avatar = avatarData;
     }
   
-    dispatch(updateProfile(formData));
+    console.log("Payload being sent:", payload);
+    dispatch(updateProfile(payload));
   };
 
+  
   useEffect(() => {
     if (user) {
       setName(user.name);

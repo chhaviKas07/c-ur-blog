@@ -7,33 +7,50 @@ const crypto = require("crypto");
 const cloudinary = require("cloudinary");
 
 // Register a User
+// exports.registerUser = catchAsyncError(async (req, res, next) => {
+//     const myCloud = req.body.avatar
+//         ? await cloudinary.v2.uploader.upload(req.body.avatar, {
+//             folder: "ecommerce",
+//             width: 300,
+//             crop: "scale",
+//         })
+//         : {
+//             public_id: myCloud.public_id,
+//             url: myCloud.secure_url,
+//         };
+
+//     const { name, email, password } = req.body;
+
+//     const user = await User.create({
+//         name,
+//         email,
+//         password,
+//         avatar: {
+//             public_id: myCloud.public_id,
+//             url: myCloud.secure_url,
+//         },
+//     });
+
+//     sendToken(user, 201, res);
+// });
+
+// Register a User
 exports.registerUser = catchAsyncError(async (req, res, next) => {
-    const myCloud = req.body.avatar
-        ? await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: "ecommerce",
-            width: 300,
-            crop: "scale",
-        })
-        : {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-        };
-
-    const { name, email, password } = req.body;
-
+    const { name, email, password, avatar } = req.body;
+  
     const user = await User.create({
-        name,
-        email,
-        password,
-        avatar: {
-            public_id: myCloud.public_id,
-            url: myCloud.secure_url,
-        },
+      name,
+      email,
+      password,
+      avatar: {
+        public_id: avatar?.public_id || "",
+        url: avatar?.url || "",
+      },
     });
-
+  
     sendToken(user, 201, res);
-});
-
+  });
+  
 // Login User
 exports.loginUser = catchAsyncError(async (req, res, next) => {
     const { email, password } = req.body;
@@ -326,61 +343,98 @@ exports.updatePassword = catchAsyncError(async (req, res, next) => {
 //     });
 // });
 
+// exports.updateProfile = catchAsyncError(async (req, res, next) => {
+//     console.log("Received update request:", req.body);
+//     console.log("Received file:", req.file);
+
+//     const newUserData = {
+//         name: req.body.name,
+//         email: req.body.email,
+//     };
+
+//     if (req.file) {
+//         const user = await User.findById(req.user.id);
+
+//         if (user.avatar && user.avatar.public_id) {
+//             await cloudinary.uploader.destroy(user.avatar.public_id);
+//         }
+
+//         // Upload to Cloudinary
+//         const result = await cloudinary.uploader.upload_stream(
+//             { folder: "ecommerce", width: 150, crop: "scale" },
+//             (error, result) => {
+//                 if (error) {
+//                     console.error("Cloudinary Upload Error:", error);
+//                     return next(new ErrorHandler(error.message, 500));
+//                 }
+//                 newUserData.avatar = {
+//                     public_id: result.public_id,
+//                     url: result.secure_url,
+//                 };
+//             }
+//         );
+
+//         // Convert buffer to stream and send to Cloudinary
+//         const stream = cloudinary.uploader.upload_stream((error, result) => {
+//             if (error) {
+//                 return next(new ErrorHandler(error.message, 500));
+//             }
+//             newUserData.avatar = {
+//                 public_id: result.public_id,
+//                 url: result.secure_url,
+//             };
+//         });
+
+//         stream.end(req.file.buffer);
+//     }
+
+//     await User.findByIdAndUpdate(req.user.id, newUserData, {
+//         new: true,
+//         runValidators: true,
+//         useFindAndModify: false,
+//     });
+
+//     res.status(200).json({
+//         success: true,
+//     });
+// });
+
 exports.updateProfile = catchAsyncError(async (req, res, next) => {
-    console.log("Received update request:", req.body);
-    console.log("Received file:", req.file);
-
+    const { name, email, avatar } = req.body;
+  
     const newUserData = {
-        name: req.body.name,
-        email: req.body.email,
+      name,
+      email,
     };
-
-    if (req.file) {
-        const user = await User.findById(req.user.id);
-
-        if (user.avatar && user.avatar.public_id) {
-            await cloudinary.uploader.destroy(user.avatar.public_id);
-        }
-
-        // Upload to Cloudinary
-        const result = await cloudinary.uploader.upload_stream(
-            { folder: "ecommerce", width: 150, crop: "scale" },
-            (error, result) => {
-                if (error) {
-                    console.error("Cloudinary Upload Error:", error);
-                    return next(new ErrorHandler(error.message, 500));
-                }
-                newUserData.avatar = {
-                    public_id: result.public_id,
-                    url: result.secure_url,
-                };
-            }
-        );
-
-        // Convert buffer to stream and send to Cloudinary
-        const stream = cloudinary.uploader.upload_stream((error, result) => {
-            if (error) {
-                return next(new ErrorHandler(error.message, 500));
-            }
-            newUserData.avatar = {
-                public_id: result.public_id,
-                url: result.secure_url,
-            };
+  
+    if (avatar) {
+      // Validate avatar object
+      if (!avatar.public_id || !avatar.url) {
+        return res.status(400).json({
+          success: false,
+          message: "Avatar must include public_id and url",
         });
-
-        stream.end(req.file.buffer);
+      }
+  
+      // Delete old avatar from Cloudinary
+      const user = await User.findById(req.user.id);
+      if (user.avatar && user.avatar.public_id) {
+        await cloudinary.uploader.destroy(user.avatar.public_id);
+      }
+  
+      newUserData.avatar = avatar;
     }
-
+  
     await User.findByIdAndUpdate(req.user.id, newUserData, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
     });
-
+  
     res.status(200).json({
-        success: true,
+      success: true,
     });
-});
+  });
 
 
 

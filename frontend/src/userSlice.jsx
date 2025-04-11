@@ -27,31 +27,45 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 
-export const register = createAsyncThunk("user/register", async (userData, { rejectWithValue }) => {
+export const register = createAsyncThunk("user/register", async (userData, thunkAPI) => {
   try {
-      const { data } = await axios.post(`/api/v1/register`, userData,{
-        headers: { "Content-Type": "multipart/form-data" },    });
-      return data.user;  // ✅ Return user data
+    const config = {
+      headers: { "Content-Type": "application/json" },
+    };
+    const { data } = await axios.post("/api/v1/register", userData, config);
+    return data;
   } catch (error) {
-      return rejectWithValue(error.response.data.message);
+    return thunkAPI.rejectWithValue(error.response.data.message);
   }
 });
 
-
 //  Load User
-export const loadUser = createAsyncThunk(
-  "user/loadUser",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.get("/api/v1/me");
-      return response.data.user;
-    } catch (error) {
-      return rejectWithValue(
-        error.response ? error.response.data.message : error.message
-      );
+// export const loadUser = createAsyncThunk(
+//   "user/loadUser",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get("/api/v1/me");
+//       return response.data.user;
+//     } catch (error) {
+//       return rejectWithValue(
+//         error.response ? error.response.data.message : error.message
+//       );
+//     }
+//   }
+// );
+export const loadUser = createAsyncThunk("user/loadUser", async (_, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.get("/api/v1/me");
+    return data.user;
+  } catch (error) {
+    if (error.response && error.response.status === 401) {
+      // Don't show toast here, just return
+      return rejectWithValue(null);
     }
+    return rejectWithValue(error.response.data.message);
   }
-);
+});
+
 
 // logout user
 export const logout = () => async (dispatch) => {

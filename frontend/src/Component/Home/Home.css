@@ -1,5 +1,5 @@
 .banner {
-  background-image: url("../../assets/cover.jfif");
+  background-image: url("../../assets/homeimg.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -135,4 +135,22 @@
     margin: 0 0.5vmax;
     font: 300 1vmax "Roboto";
   }
+}
+
+
+.banner > p {
+  font: 300 1.4vmax "Lucida Sans";
+  margin-top: -430px;
+  color: black;
+  font-size: 18px;
+}
+
+.banner > h1 {
+  color: black;
+  font-size: 23px;
+}.productCard > img {
+  width: 14vmax;
+  height: 14vmax;
+  object-fit: cover;
+  border-radius: 5px;
 }

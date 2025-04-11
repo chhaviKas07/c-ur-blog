@@ -30,25 +30,48 @@ const Shipping = () => {
 
   const { shippingInfo } = useSelector((state) => state.cart);
 
-  const [address, setAddress] = useState(shippingInfo.address);
-  const [city, setCity] = useState(shippingInfo.city);
-  const [state, setState] = useState(shippingInfo.state);
-  const [country, setCountry] = useState(shippingInfo.country);
-  const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
-  const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
+  // const [address, setAddress] = useState(shippingInfo.address);
+  // const [city, setCity] = useState(shippingInfo.city);
+  // const [state, setState] = useState(shippingInfo.state);
+  // const [country, setCountry] = useState(shippingInfo.country);
+  // const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
+  // const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
+  const [address, setAddress] = useState(shippingInfo.address || "");
+const [city, setCity] = useState(shippingInfo.city || "");
+const [state, setState] = useState(shippingInfo.state || "");
+const [country, setCountry] = useState(shippingInfo.country || "");
+const [pinCode, setPinCode] = useState(shippingInfo.pinCode || "");
+const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo || "");
 
+
+  // const shippingSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   if (phoneNo.length < 10 || phoneNo.length > 10) {
+  //     toast.error("Phone Number should be 10 digits Long");
+  //     return;
+  //   }
+  //   dispatch(
+  //     saveShippingInfo({ address, city, state, country, pinCode, phoneNo })
+  //   );
+  //   navigate("/order/confirm");
+  // };
   const shippingSubmit = (e) => {
     e.preventDefault();
-
+  
     if (phoneNo.length < 10 || phoneNo.length > 10) {
       toast.error("Phone Number should be 10 digits Long");
       return;
     }
+  
+    console.log("Shipping Info Saved, navigating to confirm page...");
+  
     dispatch(
       saveShippingInfo({ address, city, state, country, pinCode, phoneNo })
     );
     navigate("/order/confirm");
   };
+  
 
   return (
     <Fragment>

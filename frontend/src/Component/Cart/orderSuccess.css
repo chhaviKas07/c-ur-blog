@@ -26,6 +26,10 @@
   margin: 2vmax;
 }
 
+.orderSuccess > a:hover {
+  background-color:#ba7543; 
+}
+
 @media screen and (max-width: 600px) {
   .orderSuccess > a {
     padding: 3vw 6vw;

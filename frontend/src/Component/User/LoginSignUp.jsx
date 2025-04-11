@@ -59,30 +59,81 @@ const LoginSignUp = () => {
   // };
 
 
-  const registerSubmit = async (e) => {
-    e.preventDefault();
+//   const registerSubmit = async (e) => {
+//     e.preventDefault();
 
-    const myForm = new FormData();
-    myForm.set("name", name);
-    myForm.set("email", email);
-    myForm.set("password", password);
-    myForm.set("avatar", avatar);
+//     const myForm = new FormData();
+//     myForm.set("name", name);
+//     myForm.set("email", email);
+//     myForm.set("password", password);
+//     myForm.set("avatar", avatar);
 
-    console.log("Registering user...");
-    const response = await dispatch(register(myForm));
+//     console.log("Registering user...");
+//     const response = await dispatch(register(myForm));
 
-    console.log("Response:", response); // Debugging response
+//     console.log("Response:", response); // Debugging response
 
-    if (response?.payload?.email) {  // ✅ Check if user data exists instead
-        console.log("Registration successful, dispatching loadUser...");
-        await dispatch(loadUser()); 
-        console.log("Navigating to dashboard...");
-        navigate("/account");
-    } else {
-        console.log("Registration failed or no success response:", response);
-    }
+//     if (response?.payload?.email) {  // ✅ Check if user data exists instead
+//         console.log("Registration successful, dispatching loadUser...");
+//         await dispatch(loadUser()); 
+//         console.log("Navigating to dashboard...");
+//         navigate("/account");
+//     } else {
+//         console.log("Registration failed or no success response:", response);
+//     }
+// };
+
+const uploadToCloudinary = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "unsigned_upload"); // your actual preset
+  formData.append("cloud_name", "dkusbu9rg");
+
+  const res = await fetch("https://api.cloudinary.com/v1_1/dkusbu9rg/image/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  const data = await res.json();
+  return {
+    public_id: data.public_id,
+    url: data.secure_url,
+  };
 };
 
+const registerSubmit = async (e) => {
+  e.preventDefault();
+
+  let avatarData = {
+    public_id: "default_avatar",
+    url: "https://res.cloudinary.com/dkusbu9rg/image/upload/v1744035770/Profile_gfcuj2.png",
+  };
+  // let avatarData = { public_id: "", url: "" };
+
+  if (avatar && avatar !== "/Profile.png") {
+    try {
+      avatarData = await uploadToCloudinary(avatar);
+    } catch (err) {
+      toast.error("Avatar upload failed");
+      return;
+    }
+  }
+
+  const userData = {
+    name,
+    email,
+    password,
+    avatar: avatarData,
+  };
+
+  const response = await dispatch(register(userData));
+
+  if (response?.payload?.success) {
+    await dispatch(loadUser());
+    navigate(redirect);
+
+  }
+};
 
   
   
@@ -107,7 +158,8 @@ const LoginSignUp = () => {
   // const redirect = location.search ? location.search.split("=")[1] : "/account";
   
   const redirect =
-    new URLSearchParams(window.location.search).get("redirect") || "/account";
+  new URLSearchParams(window.location.search).get("redirect") || "/account";
+
 
   useEffect(() => {
     if (error) {
@@ -115,10 +167,12 @@ const LoginSignUp = () => {
       dispatch(clearErrors());
     }
 
+    console.log("isAuthenticated", isAuthenticated);
     if (isAuthenticated) {
-      navigate("/account");
+      navigate(redirect);
+
     }
-  }, [dispatch, error, history, isAuthenticated, navigate]);
+  }, [dispatch, error, isAuthenticated, navigate]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {

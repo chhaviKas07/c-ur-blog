@@ -15,7 +15,7 @@ import {
   Legend,
 } from "chart.js";
 import { useSelector, useDispatch } from "react-redux";
-import { getProducts } from "../../productSlice.jsx";
+import { getProducts, getAllProductsAdmin } from "../../productSlice.jsx";
 import { getAllOrders } from "../../OrderSlice.jsx";
 import { getAllUsers } from "../../userSlice.jsx";
 import MetaData from "../layout/MetaData";
@@ -32,7 +32,7 @@ Chart.register(
 const Dashboard = () => {
   const dispatch = useDispatch();
 
-  const { products = [] } = useSelector((state) => state.products) || {}; // Default to empty array
+  const { adminProducts = [] } = useSelector((state) => state.products) || {}; // Default to empty array
   // const { orders = [] } = useSelector((state) => state.orders) || {}; // Default to empty array
   const { orders, loading, error } = useSelector((state) => state.orders);
   console.log("Orders State:", orders, "Loading:", loading, "Error:", error);
@@ -47,7 +47,7 @@ const Dashboard = () => {
   // });
 
   let outOfStock = 0;
-products.forEach((item) => {
+  adminProducts.forEach((item) => {
   if (item.Stock === 0) {
     outOfStock += 1;
   }
@@ -55,19 +55,20 @@ products.forEach((item) => {
 
 
   useEffect(() => {
-    dispatch(getProducts());
+    // dispatch(getProducts());
+    dispatch(getAllProductsAdmin());
     dispatch(getAllOrders());
     dispatch(getAllUsers());
   }, [dispatch]);
   
   useEffect(() => {
-    console.log("Products:", products);
+    console.log("Products:", adminProducts);
     console.log("Orders:", orders);
     console.log("Users:", users);
-  }, [products, orders, users]);
+  }, [adminProducts, orders, users]);
   
   useEffect(() => {
-    dispatch(getProducts({}));
+    dispatch(getAllProductsAdmin({}));
   }, [dispatch]);
 
   useEffect(() => {
@@ -97,7 +98,7 @@ products.forEach((item) => {
       {
         backgroundColor: ["#00A6B4", "#6800B4"],
         hoverBackgroundColor: ["#4B5000", "#35014F"],
-        data: [outOfStock, products.length - outOfStock],
+        data: [outOfStock, adminProducts.length - outOfStock],
       },
     ],
   };
@@ -119,7 +120,7 @@ products.forEach((item) => {
           <div className="dashboardSummaryBox2">
             <Link to="/admin/products">
               <p>Product</p>
-              <p>{products && products.length}</p>
+              <p>{adminProducts && adminProducts.length}</p>
             </Link>
             <Link to="/admin/orders">
               <p>Orders</p>

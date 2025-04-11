@@ -9,6 +9,7 @@ import {
 import Typography from "@mui/material/Typography";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -21,26 +22,26 @@ const Cart = () => {
     0
   );
 
-  // const increaseQuantity = (id, quantity, stock) => {
-  //   const newQty = quantity + 1;
-  //   if (stock <= quantity) return;
-  //   dispatch(addItemsToCartThunk({ id, quantity: newQty }));
+  const increaseQuantity = (id, currentQty, stock) => {
+    const available = stock - currentQty;
+    const addQty = Math.min(1, available); // Never exceeds stock
+    
+    if (addQty > 0) {
+      dispatch(addItemsToCartThunk({ id, quantity: addQty }));
+    } else {
+      toast.error("Maximum available quantity reached");
+    }
+  };
+
+  // const decreaseQuantity = (id, currentQty) => {
+  //   const removeQty = Math.min(1, currentQty); // Never goes below 0
+  //   dispatch(addItemsToCartThunk({ id, quantity: -removeQty }));
   // };
 
-  const increaseQuantity = (id, quantity, stock) => {
-    const newQty = quantity + 1;
-    console.log("🔼 Increasing:", { id, quantity, newQty, stock });
-  
-    if (stock <= quantity) return;
-  
-    dispatch(addItemsToCartThunk({ id, quantity: newQty }));
-  };
-  
-  const decreaseQuantity = (id, quantity) => {
-    const newQty = quantity - 1;
-    if (newQty < 1) return;
-    dispatch(addItemsToCartThunk({ id, quantity: newQty }));
-  };
+  const decreaseQuantity = (id, currentQty) => {
+    if (currentQty <= 1) return;
+    dispatch(removeItemsFromCartThunk({ id, quantity: 1 })); // Always decrement by 1
+};
 
   const deleteCartItems = (id) => {
     if (!id) return;
@@ -74,17 +75,20 @@ const Cart = () => {
                 <div className="cartContainer" key={itemId}>
                   <CartItemCard item={item} deleteCartItems={deleteCartItems} />
                   <div className="cartInput">
-                    <button onClick={() => decreaseQuantity(itemId, item.quantity)}>
+                  <button
+                      onClick={() => decreaseQuantity(itemId, item.quantity)}
+                      disabled={item.quantity <= 1}
+                    >
                       -
                     </button>
                     <input type="number" value={item.quantity} readOnly />
+                    
                     <button
-                      onClick={() =>
-                        increaseQuantity(itemId, item.quantity, item.stock)
-                      }
-                    >
-                      +
-                    </button>
+    onClick={() => increaseQuantity(itemId, item.quantity, item.stock)}
+    disabled={item.quantity >= item.stock}
+  >
+    +
+  </button>
                   </div>
                   <p>₹{(item.price * item.quantity).toFixed(2)}</p>
                 </div>

@@ -87,26 +87,24 @@ const UpdateProduct = () => {
     updateError,
   ]);
 
-  const updateProductSubmitHandler = (e) => {
-    e.preventDefault();
+  // const updateProductSubmitHandler = (e) => {
+  //   e.preventDefault();
 
-    const myForm = new FormData();
+  //   const myForm = new FormData();
 
-    myForm.set("name", name);
-    myForm.set("price", price);
-    myForm.set("description", description);
-    myForm.set("category", category);
-    myForm.set("Stock", Stock);
+  //   myForm.set("name", name);
+  //   myForm.set("price", price);
+  //   myForm.set("description", description);
+  //   myForm.set("category", category);
+  //   myForm.set("Stock", Stock);
 
-    images.forEach((image) => {
-      myForm.append("images", image);
-    });
-    // dispatch(updateProduct(id, myForm));
-    dispatch(updateProduct({ id: id, productData: myForm }));
-    console.log("Updating Product:", { id: id, productData: myForm });
-
-
-  };
+  //   images.forEach((image) => {
+  //     myForm.append("images", image);
+  //   });
+  //   // dispatch(updateProduct(id, myForm));
+  //   dispatch(updateProduct({ id: id, productData: myForm }));
+  //   console.log("Updating Product:", { id: id, productData: myForm });
+  // };
 
   const updateProductImagesChange = (e) => {
     const files = Array.from(e.target.files);
@@ -129,6 +127,48 @@ const UpdateProduct = () => {
     });
   };
 
+
+  const updateProductSubmitHandler = (e) => {
+    e.preventDefault();
+  
+    const myForm = {
+      name,
+      price,
+      description,
+      category,
+      Stock,
+      images, // Use the image URLs from Cloudinary
+    };
+  
+    dispatch(updateProduct({ id: id, productData: myForm }));
+  };
+  
+  const handleImageUpload = async (files) => {
+    const imageUrls = [];
+    const previews = [];
+  
+    for (let i = 0; i < files.length; i++) {
+      const formData = new FormData();
+      formData.append("file", files[i]);
+      formData.append("upload_preset", "unsigned_upload");
+  
+      const res = await fetch("https://api.cloudinary.com/v1_1/dkusbu9rg/image/upload", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await res.json();
+      imageUrls.push({ public_id: data.public_id, url: data.secure_url });
+      previews.push(data.secure_url);
+    }
+  
+    setImages(imageUrls);         // For backend submission
+    setImagesPreview(previews);   // For preview display
+  };
+  
+  
+  
+
   return (
     <Fragment>
       <MetaData title="Create Product" />
@@ -140,7 +180,7 @@ const UpdateProduct = () => {
             encType="multipart/form-data"
             onSubmit={updateProductSubmitHandler}
           >
-            <h1>Create Product</h1>
+            <h1>Update Product</h1>
 
             <div>
               <SpellcheckIcon />
@@ -148,7 +188,7 @@ const UpdateProduct = () => {
                 type="text"
                 placeholder="Product Name"
                 required
-                value={name}
+                value={name || ""} // fallback to empty string
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -206,7 +246,7 @@ const UpdateProduct = () => {
                 type="file"
                 name="avatar"
                 accept="image/*"
-                onChange={updateProductImagesChange}
+                onChange={(e) => handleImageUpload(e.target.files)}
                 multiple
               />
             </div>

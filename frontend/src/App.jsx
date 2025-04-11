@@ -1,50 +1,53 @@
 import "./App.css";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-// import WebFont from "webfontloader";
 import React from "react";
-import Footer from "./component/layout/Footer/Footer.jsx";
-import Header from "./component/layout/Header/Header.jsx";
-import Home from "./component/Home/Home.jsx";
-import ProductDetails from "./component/Product/ProductDetails.jsx";
-import Products from "./component/Product/Products.jsx";
-import Search from "./component/Product/Search.jsx";
-import LoginSignUp from "./component/User/LoginSignUp.jsx";
-import store from "./store.jsx";
 import { loadUser } from "./userSlice.jsx";
-import { useSelector } from "react-redux";
-import UserOptions from "./component/layout/Header/UserOptions.jsx";
-import Profile from "./component/User/Profile.jsx";
-import ProtectedRoute from "./component/Route/ProtectedRoute.jsx";
-import UpdateProfile from "./component/User/UpdateProfile.jsx";
-import UpdatePassword from "./component/User/UpdatePassword.jsx";
-import ForgotPassword from "./component/User/ForgotPassword.jsx";
-import ResetPassword from "./component/User/ResetPassword.jsx";
-import Cart from "./component/Cart/Cart.jsx";
-import Shipping from "./component/Cart/Shipping.jsx";
-import ConfirmOrder from "./component/Cart/ConfirmOrder.jsx";
-import axios from "axios";
-import Payment from "./component/Cart/Payment.jsx";
 import { Elements } from "@stripe/react-stripe-js";
+import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
-import OrderSuccess from "./component/Cart/OrderSuccess.jsx";
-import MyOrders from "./component/Order/MyOrders.jsx";
-import OrderDetails from "./component/Order/OrderDetails.jsx";
-import Dashboard from "./component/Admin/Dashboard.jsx"; 
-import ProductList from "./component/Admin/ProductList.jsx";
-import NewProduct from "./component/Admin/NewProduct.jsx"; //N
-import UpdateProduct from "./component/Admin/UpdateProduct.jsx";
-import OrderList from "./component/Admin/OrderList.jsx";
-import ProcessOrder from "./component/Admin/ProcessOrder.jsx";
-import UsersList from "./component/Admin/UsersList.jsx"; 
-import UpdateUser from "./component/Admin/UpdateUser.jsx"; 
-import ProductReviews from "./component/Admin/ProductReviews.jsx";  //N
-import Contact from "./component/layout/Contact/Contact.jsx";
-import About from "./component/layout/About/About.jsx";
-import NotFound from "./component/layout/Not Found/NotFound.jsx";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
+// #f0ccb2   #ba7543
+import store from "./store.jsx";
+import Payment from "./component/Cart/Payment.jsx";  
+import Footer from "./component/layout/Footer/Footer.jsx";  //N
+import Header from "./component/layout/Header/Header.jsx";  //N
+
+import Home from "./component/Home/Home.jsx"; 
+import ProductDetails from "./component/Product/ProductDetails.jsx"; //N
+import Products from "./component/Product/Products.jsx";  //N
+import Search from "./component/Product/Search.jsx";   
+import LoginSignUp from "./component/User/LoginSignUp.jsx";  
+import UserOptions from "./component/layout/Header/UserOptions.jsx";
+import Profile from "./component/User/Profile.jsx";  
+import ProtectedRoute from "./component/Route/ProtectedRoute.jsx";
+import UpdateProfile from "./component/User/UpdateProfile.jsx"; 
+import UpdatePassword from "./component/User/UpdatePassword.jsx";   //E
+import ForgotPassword from "./component/User/ForgotPassword.jsx"; 
+import ResetPassword from "./component/User/ResetPassword.jsx";    //E
+import Cart from "./component/Cart/Cart.jsx";  
+import Shipping from "./component/Cart/Shipping.jsx";  
+import ConfirmOrder from "./component/Cart/ConfirmOrder.jsx";  
+import OrderSuccess from "./component/Cart/OrderSuccess.jsx";  
+import MyOrders from "./component/Order/MyOrders.jsx";   
+import OrderDetails from "./component/Order/OrderDetails.jsx";  
+import Dashboard from "./component/Admin/Dashboard.jsx";  
+import ProductList from "./component/Admin/ProductList.jsx";  
+import NewProduct from "./component/Admin/NewProduct.jsx";  
+import UpdateProduct from "./component/Admin/UpdateProduct.jsx";  
+import OrderList from "./component/Admin/OrderList.jsx";   
+import ProcessOrder from "./component/Admin/ProcessOrder.jsx";  
+import UsersList from "./component/Admin/UsersList.jsx";   
+import UpdateUser from "./component/Admin/UpdateUser.jsx";  //N
+import ProductReviews from "./component/Admin/ProductReviews.jsx";  
+
+import Contact from "./component/layout/Contact/Contact.jsx";  
+import About from "./component/layout/About/About.jsx";    
+import NotFound from "./component/layout/Not Found/NotFound.jsx"; 
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -52,22 +55,41 @@ function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
 
   async function getStripeApiKey() {
-    const { data } = await axios.get("/api/v1/stripeapikey");
+    try {
+      const token = localStorage.getItem("token"); // or get it from Redux
 
-    setStripeApiKey(data.stripeApiKey);
+      const { data } = await axios.get("/api/v1/stripeapikey", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setStripeApiKey(data.stripeApiKey);
+    } catch (error) {
+      console.error("Failed to get Stripe API Key:", error);
+    }
   }
 
+  // useEffect(() => {
+  //   store.dispatch(loadUser());
+
+  //   getStripeApiKey();
+  // }, []);
   useEffect(() => {
     store.dispatch(loadUser());
-
-    getStripeApiKey();
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      getStripeApiKey();
+    }
+  }, [isAuthenticated]);
 
   window.addEventListener("contextmenu", (e) => e.preventDefault());
 
   return (
     <>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
       <Routes>
@@ -167,7 +189,7 @@ function App() {
           isAdmin={true}
           element={<UpdateProduct />}
         />
-        
+
         <Route
           exact
           path="/admin/order/:id"
@@ -176,10 +198,12 @@ function App() {
         />
 
         <Route
-          component={
-            window.location.pathname === "/process/payment" ? null : NotFound
+          path="*"
+          element={
+            window.location.pathname === "/process/payment" ? null : <NotFound />
           }
         />
+
       </Routes>
 
       <Footer />

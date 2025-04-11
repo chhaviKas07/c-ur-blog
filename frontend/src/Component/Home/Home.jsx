@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from "react";
-import { CgMouse } from "react-icons/cg";
 import "./Home.css";
 import ProductCard from "./ProductCard.jsx";
 import MetaData from "../layout/MetaData.jsx";
@@ -20,10 +19,10 @@ const Home = () => {
     dispatch(getProducts({}));
   }, [dispatch, error]);
   
-  console.log("Products from Redux:", products);
-  const handleRefresh = () => {
-    window.location.reload(); // Example functionality
-  };
+  // console.log("Products from Redux:", products);
+  // const handleRefresh = () => {
+  //   window.location.reload(); // Example functionality
+  // };
   
   
   return (
@@ -35,18 +34,13 @@ const Home = () => {
           <MetaData title="C_UR_PRODUCT" />
 
           <div className="banner">
-            <p>Welcome to C_UR_PRODUCT</p>
+            <p>Welcome to Eco-Friendly Marketplace</p>
             <h1>FIND AMAZING PRODUCTS BELOW</h1>
 
-            <a href="#container">
-              <button>
-                Scroll <CgMouse />
-              </button>
-            </a>
           </div>
 
           <h2 className="homeHeading">Featured Products</h2>
-          <button onClick={handleRefresh}>Refresh Products</button>
+          {/* <button onClick={handleRefresh}>Refresh Products</button> */}
           <div className="container" id="container">
             {products &&
               products.map((product) => (

@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import StorageIcon from "@mui/icons-material/Storage";
+import axios from 'axios';
 
 const NewProduct = () => {
   const dispatch = useDispatch();
@@ -56,61 +57,111 @@ const NewProduct = () => {
     }
   }, [dispatch, error, navigate, success]);
 
-  const uploadImageToCloudinary = async (imageFile) => {
+  const uploadImageToCloudinary = async (file) => {
     const formData = new FormData();
-    formData.append("file", imageFile);
-    formData.append("upload_preset", "ecommerce_upload"); // Use your unsigned preset name
+    formData.append("file", file);
+    formData.append("upload_preset", "unsigned_upload"); // replace with actual Cloudinary preset
+    formData.append("cloud_name", "dkusbu9rg"); // your Cloudinary cloud name
+    
+    try {
+    const res = await fetch("https://api.cloudinary.com/v1_1/dkusbu9rg/image/upload", {
+      method: "POST",
+      body: formData,
+    });
 
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/dkusbu9rg/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
     const data = await res.json();
+
     return {
       public_id: data.public_id,
       url: data.secure_url,
     };
-  };
+  } catch (error) {
+    console.error("Cloudinary Upload Error:", error);
+    return null;
+  }
+};
+  
 
-  const createProductSubmitHandler = (e) => {
+  // const createProductSubmitHandler = (e) => {
+  //   e.preventDefault();
+  
+  //   const formData = new FormData();
+  //   formData.set("name", name);
+  //   formData.set("price", price);
+  //   formData.set("description", description);
+  //   formData.set("category", category);
+  //   formData.set("stock", Stock);
+  
+  //   images.forEach((image) => {
+  //     formData.append("images", image); // send raw file directly
+  //   });
+  
+  //   dispatch(createProduct(formData));
+  // };
+  const createProductSubmitHandler = async (e) => {
     e.preventDefault();
   
-    const formData = new FormData();
-    formData.set("name", name);
-    formData.set("price", price);
-    formData.set("description", description);
-    formData.set("category", category);
-    formData.set("stock", Stock);
+    const uploadedImages = [];
   
-    images.forEach((image) => {
-      formData.append("images", image); // send raw file directly
-    });
+    for (const image of images) {
+      const cloudinaryData = await uploadImageToCloudinary(image);
+      if (cloudinaryData && cloudinaryData.public_id && cloudinaryData.url) {
+        uploadedImages.push(cloudinaryData);
+      } else {
+        toast.error("Image upload failed. Please try again.");
+        return; // stop submitting if any upload fails
+      }
+    }
+  
+    const formData = {
+      name,
+      price,
+      description,
+      category,
+      stock: Stock,
+      images: uploadedImages,
+    };
+  
+    console.log("📦 Final Product Payload:", formData); // optional for debugging
   
     dispatch(createProduct(formData));
   };
   
-
   const createProductImagesChange = (e) => {
     const files = Array.from(e.target.files);
-    setImages([]);
     setImagesPreview([]);
   
     files.forEach((file) => {
       const reader = new FileReader();
-  
       reader.onload = () => {
         if (reader.readyState === 2) {
           setImagesPreview((old) => [...old, reader.result]);
-          setImages((old) => [...old, file]);
         }
       };
-  
       reader.readAsDataURL(file);
     });
+    setImages(files); // Store files for Cloudinary upload
   };
+    
+
+  // const createProductImagesChange = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   setImages([]);
+  //   setImagesPreview([]);
+  
+  //   files.forEach((file) => {
+  //     const reader = new FileReader();
+  
+  //     reader.onload = () => {
+  //       if (reader.readyState === 2) {
+  //         setImagesPreview((old) => [...old, reader.result]);
+  //         setImages((old) => [...old, file]);
+  //       }
+  //     };
+  
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
   
 
   return (

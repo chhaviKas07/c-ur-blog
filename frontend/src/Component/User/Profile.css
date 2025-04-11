@@ -3,7 +3,6 @@
   height: 100vh;
   width: 100vw;
   position: fixed;
-  top: 0%;
   left: 0%;
   max-width: 100%;
   background-color: white;
@@ -37,7 +36,7 @@
 
 .profileContainer > div:first-child > a {
   border: none;
-  background-color: tomato;
+  background-color: black;
   font: 400 1vmax "Roboto";
   color: white;
   text-decoration: none;
@@ -49,7 +48,7 @@
 }
 
 .profileContainer > div:first-child > a:hover {
-  background-color: rgb(204, 78, 56);
+  background-color:#ba7543;
 }
 
 .profileContainer > div:last-child {
@@ -89,7 +88,7 @@
 }
 
 .profileContainer > div:last-child > div:last-child > a:hover {
-  background-color: rgb(31, 31, 31);
+  background-color: #ba7543;
 }
 
 @media screen and (max-width: 600px) {

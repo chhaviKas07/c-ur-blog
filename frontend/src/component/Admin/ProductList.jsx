@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +20,11 @@ const ProductList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const alert = useAlert();
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 10,
+    page: 0,
+  });
+
 
   const { error, products } = useSelector((state) => state.products);
 
@@ -84,10 +89,11 @@ const ProductList = () => {
       type: "number",
       sortable: false,
       renderCell: (params) => {
+        const productId = params.row.id;
         return (
           <Fragment>
             {/* <Link to={`/admin/product/${params.getValue(params.id, "id")}`}> */}
-            <Link to={`/admin/product/${params.row.id}`}>
+            <Link to={`/admin/product/${productId}`}>
               <EditIcon />
             </Link>
 
@@ -96,9 +102,9 @@ const ProductList = () => {
                 deleteProductHandler(params.getValue(params.id, "id"))
               }
             > */}
-              <Button onClick={() => deleteProductHandler(params.row.id)}>
+                   <Button onClick={() => deleteProductHandler(productId)}>
               <DeleteIcon />
-            </Button>
+              </Button>
           </Fragment>
         );
       },
@@ -116,13 +122,16 @@ const ProductList = () => {
   //       name: item.name,
   //     });
   //   });
-
-  const rows = products?.map((item) => ({
-    id: item._id,
-    stock: item.Stock,
-    price: item.price,
-    name: item.name,
-  }));
+  const rows = products?.map((product) => {
+    if (!product || !product._id) return null; // Skip products without _id
+    return {
+      id: product._id.toString(),
+      name: product.name,
+      price: product.price,
+      stock: product.stock,
+      category: product.category,
+    };
+  }).filter(Boolean); // Remove null values
 
   return (
     <Fragment>
@@ -133,14 +142,26 @@ const ProductList = () => {
         <div className="productListContainer">
           <h1 id="productListHeading">ALL PRODUCTS</h1>
 
-          <DataGrid
+          {/* <DataGrid
             rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick
             className="productListTable"
             autoHeight
-          />
+          /> */}
+          
+          <DataGrid
+  rows={rows}
+  columns={columns}
+  pagination
+  paginationModel={paginationModel}
+  onPaginationModelChange={(model) => setPaginationModel(model)}
+  pageSizeOptions={[5, 10, 20, 50]}
+  disableSelectionOnClick
+  className="productListTable"
+  autoHeight
+/>
         </div>
       </div>
     </Fragment>

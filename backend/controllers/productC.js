@@ -8,171 +8,180 @@ const cloudinary = require("cloudinary");
 const mongoose = require('mongoose');
 
 // Create Product -- Admin
-// Create Product -- Admin
 
-
-
+// exports.createProduct = catchAsyncErrors(async (req, res, next) => {
+//     console.log("REQ.BODY:", req.body);
+  
+//     let images = [];
+  
+//     // If images come as string (JSON from frontend), parse it
+//     if (typeof req.body.images === "string") {
+//       try {
+//         images = JSON.parse(req.body.images);
+//       } catch (error) {
+//         return res.status(400).json({ success: false, message: "Invalid images format" });
+//       }
+//     } else if (Array.isArray(req.body.images)) {
+//       images = req.body.images;
+//     }
+  
+//     // Validate each image object
+//     const isValidImages = images.every(
+//       (img) => img.public_id && img.url
+//     );
+  
+//     if (!isValidImages) {
+//       return res.status(400).json({ success: false, message: "Each image must have public_id and url" });
+//     }
+  
+//     const product = await Product.create({
+//       name: req.body.name,
+//       description: req.body.description,
+//       price: req.body.price,
+//       category: req.body.category,
+//       stock: req.body.stock,
+//       images,
+//       user: req.user._id,
+//     });
+  
+//     res.status(201).json({
+//       success: true,
+//       product,
+//     });
+//   });
+  
 
 exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-    console.log("REQ.BODY:", req.body);
-  
-    let images = [];
-  
-    // If images come as string (JSON from frontend), parse it
-    if (typeof req.body.images === "string") {
-      try {
-        images = JSON.parse(req.body.images);
-      } catch (error) {
-        return res.status(400).json({ success: false, message: "Invalid images format" });
-      }
-    } else if (Array.isArray(req.body.images)) {
-      images = req.body.images;
-    }
-  
-    // Validate each image object
-    const isValidImages = images.every(
-      (img) => img.public_id && img.url
-    );
-  
-    if (!isValidImages) {
-      return res.status(400).json({ success: false, message: "Each image must have public_id and url" });
-    }
-  
-    const product = await Product.create({
-      name: req.body.name,
-      description: req.body.description,
-      price: req.body.price,
-      category: req.body.category,
-      stock: req.body.stock,
-      images,
-      user: req.user._id,
-    });
-  
-    res.status(201).json({
-      success: true,
-      product,
-    });
+  const { name, description, price, category, stock, images } = req.body;
+
+  // Check if images is an array and each image has public_id and url
+  if (!Array.isArray(images)) {
+    return res.status(400).json({ success: false, message: "Images must be an array." });
+  }
+
+  const isValidImages = images.every((img) => img.public_id && img.url);
+  if (!isValidImages) {
+    return res.status(400).json({ success: false, message: "Each image must have public_id and url." });
+  }
+
+  const product = await Product.create({
+    name,
+    description,
+    price,
+    category,
+    stock,
+    images, // Array of { public_id, url }
+    user: req.user._id,
   });
-  
+
+  res.status(201).json({
+    success: true,
+    product,
+  });
+});
 
 
+// exports.getAllProducts = async (req, res) => {
+//   try {
+//     const resultPerPage = 10;
+//     const currentPage = Number(req.query.page) || 1;
 
+//     const skip = resultPerPage * (currentPage - 1);
 
-// exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-//     let images = [];
-
-//     if (typeof req.body.images === "string") {
-//         images.push(req.body.images);
-//     } else {
-//         images = req.body.images;
-//     }
-
-//     const imagesLinks = [];
-//     for (let i = 0; i < images.length; i++) {
-//         try {
-//             const result = await cloudinary.uploader.upload(images[i], {
-//                 folder: 'ecommerce',
-//             });
-//             console.log('Cloudinary Upload Result:', result);  // Log result for debugging
-//             imagesLinks.push({
-//                 public_id: result.public_id,
-//                 url: result.secure_url,
-//             });
-//         } catch (uploadError) {
-//             console.error('Error uploading image to Cloudinary:', uploadError);
-//             return res.status(500).json({ success: false, message: 'Error uploading images' });
+//     const keyword = req.query.keyword
+//       ? {
+//           name: {
+//             $regex: req.query.keyword,
+//             $options: "i",
+//           },
 //         }
-//     }
+//       : {};
 
-//     req.body.images = imagesLinks;
-//     req.body.user = req.user.id;
+//     let queryObj = {
+//       ...keyword,
+//       // Add other filters like category, price, rating if you want
+//     };
 
-//     const product = await Product.create(req.body);
+//     let productsQuery = Product.find(queryObj)
+//       .limit(resultPerPage)
+//       .skip(skip);
 
-//     res.status(201).json({
-//         success: true,
-//         product,
-//     });
-// });
+//     const products = await productsQuery;
 
-
-// exports.createProduct = catchAsyncErrors(async (req, res, next) => {
-//     let images = [];
-
-//     if (typeof req.body.images === "string") {
-//         images.push(req.body.images);
-//     } else {
-//         images = req.body.images || [];  // Ensure it's an array
-//     }
-
-//     // Store image URLs directly
-//     const imagesLinks = images.map((img) => ({
-//         public_id: null,  // No Cloudinary, so no public_id
-//         url: img,         // Direct URL from request
-//     }));
-
-//     req.body.images = imagesLinks;
-//     req.body.user = req.user.id;
-
-//     const product = await Product.create(req.body);
-
-//     res.status(201).json({
-//         success: true,
-//         product,
-//     });
-// });
-
-
-// Get All Product
-// exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
-//     const resultPerPage = 8;
-//     const productsCount = await Product.countDocuments();
-
-//     const apiFeature = new ApiFeatures(Product.find(), req.query)
-//         .search()
-//         .filter()
-
-//     let products = await apiFeature.query;
-
-//     let filteredProductsCount = products.length;
-
-//     apiFeature.pagination(resultPerPage);
-
-//     // products = await apiFeature.query;
+//     const productsCount = await Product.countDocuments(queryObj);
 
 //     res.status(200).json({
-//         success: true,
-//         products,
-//         productsCount,
-//         resultPerPage,
-//         filteredProductsCount,
+//       success: true,
+//       products,
+//       productsCount,
+//       resultPerPage,
 //     });
-// });
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
 
-
-exports.getAllProducts = catchAsyncErrors(async (req, res, next) => {
-    const resultPerPage = 10; // Items per page
-    const productsCount = await Product.countDocuments(); // Total products count
-
-    const apiFeature = new ApiFeatures(Product.find(), req.query)
-        .search()
-        .filter();
-
-    // Set pagination
+exports.getAllProducts = async (req, res) => {
+  try {
+    const resultPerPage = 10;
     const currentPage = Number(req.query.page) || 1;
     const skip = resultPerPage * (currentPage - 1);
-    apiFeature.query = apiFeature.query.limit(resultPerPage).skip(skip);
 
-    // Execute query
-    let products = await apiFeature.query;
+    const keyword = req.query.keyword
+    ? { name: { $regex: req.query.keyword, $options: "i" } }
+    : {};
+  
+  const category = req.query.category
+    ? { category: { $regex: req.query.category, $options: "i" } }
+    : {};
+  
+  const price = req.query.price
+    ? {
+        price: {
+          $gte: Number(req.query.price.gte) || 0,
+          $lte: Number(req.query.price.lte) || 25000,
+        },
+      }
+    : {};
+  
+  const ratings = req.query.ratings && !isNaN(req.query.ratings)
+    ? {
+        ratings: {
+          $gte: Number(req.query.ratings),
+        },
+      }
+    : {};
+  
+  const queryObj = {
+    ...keyword,
+    ...category,
+    ...price,
+    ...ratings,
+  };
+  
+
+    const productsCount = await Product.countDocuments(queryObj);
+
+    const products = await Product.find(queryObj)
+      .limit(resultPerPage)
+      .skip(skip);
 
     res.status(200).json({
-        success: true,
-        products,
-        productsCount,
-        resultPerPage,
+      success: true,
+      products,
+      productsCount,
+      resultPerPage,
+      filteredProductsCount: productsCount, // add this to match frontend logic
     });
-});
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+
+
+
 
 
 
@@ -253,68 +262,115 @@ exports.getProductDetails = catchAsyncErrors(async (req, res, next) => {
 //     });
 // });
 
-exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
-    // Check if the ID is a valid MongoDB ObjectID
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        return next(new ErrorHander("Invalid Product ID", 400));
+// exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
+//     // Check if the ID is a valid MongoDB ObjectID
+//     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+//         return next(new ErrorHander("Invalid Product ID", 400));
 
-    }
+//     }
 
-    // Find the product by ID
-    let product = await Product.findById(req.params.id);
+//     // Find the product by ID
+//     let product = await Product.findById(req.params.id);
 
     
-    if (!product) {
-        return next(new ErrorHander("Product not found", 404));
-    }
+//     if (!product) {
+//         return next(new ErrorHander("Product not found", 404));
+//     }
 
-    // Images handling
-    let images = [];
+//     // Images handling
+//     let images = [];
 
-    if (req.body.images) {
-        if (typeof req.body.images === "string") {
-            images.push(req.body.images);
-        } else {
-            images = req.body.images;
-        }
+//     if (req.body.images) {
+//         if (typeof req.body.images === "string") {
+//             images.push(req.body.images);
+//         } else {
+//             images = req.body.images;
+//         }
 
-        // If images are provided, delete the old ones and upload the new ones
-        if (images.length > 0) {
-            for (let i = 0; i < product.images.length; i++) {
-                await cloudinary.v2.uploader.destroy(product.images[i].public_id);
+//         // If images are provided, delete the old ones and upload the new ones
+//         if (images.length > 0) {
+//             for (let i = 0; i < product.images.length; i++) {
+//                 await cloudinary.v2.uploader.destroy(product.images[i].public_id);
                 
-            }
+//             }
 
-            const imagesLinks = [];
+//             const imagesLinks = [];
 
-            for (let i = 0; i < images.length; i++) {
-                const result = await cloudinary.v2.uploader.upload(images[i], {
-                    folder: "ecommerce",
-                });
+//             for (let i = 0; i < images.length; i++) {
+//                 const result = await cloudinary.v2.uploader.upload(images[i], {
+//                     folder: "ecommerce",
+//                 });
 
-                imagesLinks.push({
-                    public_id: result.public_id,
-                    url: result.secure_url,
-                });
-            }
+//                 imagesLinks.push({
+//                     public_id: result.public_id,
+//                     url: result.secure_url,
+//                 });
+//             }
 
-            req.body.images = imagesLinks;
-        }
-    }
+//             req.body.images = imagesLinks;
+//         }
+//     }
 
-    // Update the product with the new data
-    product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true,
-        useFindAndModify: false,
+//     // Update the product with the new data
+//     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+//         new: true,
+//         runValidators: true,
+//         useFindAndModify: false,
         
-    });
+//     });
 
-    res.status(200).json({
-        success: true,
-        product,
+//     res.status(200).json({
+//         success: true,
+//         product,
         
-    });
+//     });
+// });
+
+exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
+  // Check if the ID is valid
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return next(new ErrorHander("Invalid Product ID", 400));
+  }
+
+  // Find the product
+  let product = await Product.findById(req.params.id);
+
+  if (!product) {
+    return next(new ErrorHander("Product not found", 404));
+  }
+
+  const { name, description, price, category, stock, images } = req.body;
+
+  // Check if images is an array and valid
+  if (!Array.isArray(images)) {
+    return res.status(400).json({ success: false, message: "Images must be an array." });
+  }
+
+  const isValidImages = images.every((img) => img.public_id && img.url);
+  if (!isValidImages) {
+    return res.status(400).json({ success: false, message: "Each image must have public_id and url." });
+  }
+
+  // Update product data
+  const updatedData = {
+    name,
+    description,
+    price,
+    category,
+    stock,
+    images, // use the array with public_id and url directly
+  };
+
+  product = await Product.findByIdAndUpdate(req.params.id, updatedData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+    product,
+  });
 });
 
 

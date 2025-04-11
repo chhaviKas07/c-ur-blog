@@ -16,13 +16,13 @@ router
 router.route("/product/new").post(
     isAuthenticatedUser,
     authorizeRoles("admin"),
-    upload.array("images", 5), // ✅ Ensure images are uploaded
+    // upload.array("images", 5), // ✅ Ensure images are uploaded
     createProduct
 );
 
 router.post(
     "/admin/product/new",
-    upload.array("images", 5),  // 👈 very important!
+    // upload.array("images", 5),  // 👈 very important!
     isAuthenticatedUser,
     authorizeRoles("admin"),
     createProduct

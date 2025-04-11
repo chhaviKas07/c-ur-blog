@@ -1,25 +1,46 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 // Get products
+// export const getProducts = createAsyncThunk(
+//     "products/getProducts",
+//     async ({ keyword = "", page = 1, price = [0, 25000], category = "", ratings = 0 }) => {
+//       try {
+//         let query = `/api/v1/products?keyword=${keyword}&page=${page}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+//         if (category) {
+//           query += `&category=${category}`;
+//         }
+  
+//         console.log("Fetching from API:", query); // Debugging
+  
+//         const { data } = await axios.get(query);
+//         return data;
+//       } catch (error) {
+//         throw new Error(error.response?.data?.message || "Failed to fetch products");
+//       }
+//     }
+//   );
+
 export const getProducts = createAsyncThunk(
-    "products/getProducts",
-    async ({ keyword = "", page = 1, price = [0, 25000], category = "", ratings = 0 }) => {
-      try {
-        let query = `/api/v1/products?keyword=${keyword}&page=${page}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
-        if (category) {
-          query += `&category=${category}`;
-        }
-  
-        console.log("Fetching from API:", query); // Debugging
-  
-        const { data } = await axios.get(query);
-        return data;
-      } catch (error) {
-        throw new Error(error.response?.data?.message || "Failed to fetch products");
+  "products/getProducts",
+  async ({ keyword = "", currentPage = 1, price = [0, 25000], category = "", ratings = 0 }, thunkAPI) => {
+    try {
+      let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+
+      if (category) {
+        link += `&category=${category}`;
       }
+
+      const { data } = await axios.get(link);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
     }
-  );
+  }
+);
+
+
 
 // Get product details
 export const getProductDetails = createAsyncThunk(
@@ -33,6 +54,19 @@ export const getProductDetails = createAsyncThunk(
     }
   }
 );
+
+export const getAllProductsAdmin = createAsyncThunk(
+  "products/getAllAdmin",
+  async (_, thunkAPI) => {
+    try {
+      const { data } = await axios.get("/api/v1/admin/products");
+      return data.products; // assuming you return only the array
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
+
 
 // Create new product
 // export const createProduct = createAsyncThunk(
@@ -78,22 +112,15 @@ export const createProduct = createAsyncThunk(
   async (productData, thunkAPI) => {
     try {
       const config = {
-        headers: {
-          // DO NOT manually set 'Content-Type' for FormData
-          // Let the browser set it including the boundary
-        },
-        withCredentials: true, // if you need cookies/session
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       };
 
-      const { data } = await axios.post(
-        `/api/v1/admin/product/new`,
-        productData,
-        config
-      );
+      const { data } = await axios.post(`/api/v1/admin/product/new`, productData, config);
 
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response?.data?.message || "Something went wrong");
     }
   }
 );
@@ -192,6 +219,7 @@ export const deleteReview = createAsyncThunk(
 const productSlice = createSlice({
     name: "products",
   initialState: {
+    products: [],
     loading: false,
     error: null,
     products: [],
@@ -200,6 +228,9 @@ const productSlice = createSlice({
     reviews: [], // ✅ Stores reviews
     isDeleted: false, // ✅ Tracks deletion
     isUpdated: false, // ✅ Tracks updates
+    productsCount: 0,
+    resultPerPage: 0,
+    filteredProductsCount: 0,
   },
     reducers: {
       clearErrors: (state) => {
@@ -239,7 +270,11 @@ const productSlice = createSlice({
       // })
       .addCase(getProducts.fulfilled, (state, action) => {
         state.loading = false;
+        console.log("Redux Payload:", action.payload); 
         state.products = action.payload.products || [];
+  state.productsCount = action.payload.productsCount;
+  state.resultPerPage = action.payload.resultPerPage;
+  state.filteredProductsCount = action.payload.filteredProductsCount || 0;
       })      
       .addCase(getProducts.rejected, (state, action) => {
         state.loading = false;
@@ -258,6 +293,17 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      .addCase(getAllProductsAdmin.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllProductsAdmin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.adminProducts = action.payload;
+      })
+      .addCase(getAllProductsAdmin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
       // Create new product
       .addCase(createProduct.pending, (state) => {
@@ -267,10 +313,12 @@ const productSlice = createSlice({
         state.loading = false;
         state.success = true;
         state.products.push(action.payload); // Add new product to state
+        toast.success("Product Created Successfully");
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        toast.error(action.payload || "Something went wrong");
       })
 
       // Create new review
