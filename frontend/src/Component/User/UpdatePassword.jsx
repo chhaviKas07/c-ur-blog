@@ -20,7 +20,7 @@ const UpdatePassword = () => {
   const navigate = useNavigate();
 
   const { error, isPasswordUpdated, loading } = useSelector(
-    (state) => state.user
+    (state) => state.updateProfile
   );
 
   const [oldPassword, setOldPassword] = useState("");

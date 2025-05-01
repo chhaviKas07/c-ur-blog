@@ -542,13 +542,13 @@ legend {
 }
 
 .pagination li.active {
-  background-color: #3498db;
+  background-color: #ba7543;
   color: white;
   font-weight: 600;
 }
 
 .pagination li:hover {
-  background-color: #ecf5ff;
+  background-color: #ba7543;
 }
 
 /* Responsive Design */

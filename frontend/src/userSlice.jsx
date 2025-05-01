@@ -113,6 +113,7 @@ export const updatePassword = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       };
       const { data } = await axios.put(
         "/api/v1/password/update",

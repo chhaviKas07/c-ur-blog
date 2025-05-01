@@ -11,11 +11,11 @@ import axios from "axios";
 // #f0ccb2   #ba7543
 import store from "./store.jsx";
 import Payment from "./component/Cart/Payment.jsx";  
-import Footer from "./component/layout/Footer/Footer.jsx";  //N
-import Header from "./component/layout/Header/Header.jsx";  //N
+import Footer from "./component/layout/Footer/Footer.jsx";  
+import Header from "./component/layout/Header/Header.jsx";  
 
 import Home from "./component/Home/Home.jsx"; 
-import ProductDetails from "./component/Product/ProductDetails.jsx"; //N
+import ProductDetails from "./component/Product/ProductDetails.jsx"; 
 import Products from "./component/Product/Products.jsx";  //N
 import Search from "./component/Product/Search.jsx";   
 import LoginSignUp from "./component/User/LoginSignUp.jsx";  
@@ -23,9 +23,9 @@ import UserOptions from "./component/layout/Header/UserOptions.jsx";
 import Profile from "./component/User/Profile.jsx";  
 import ProtectedRoute from "./component/Route/ProtectedRoute.jsx";
 import UpdateProfile from "./component/User/UpdateProfile.jsx"; 
-import UpdatePassword from "./component/User/UpdatePassword.jsx";   //E
+import UpdatePassword from "./component/User/UpdatePassword.jsx";  
 import ForgotPassword from "./component/User/ForgotPassword.jsx"; 
-import ResetPassword from "./component/User/ResetPassword.jsx";    //E
+import ResetPassword from "./component/User/ResetPassword.jsx";  
 import Cart from "./component/Cart/Cart.jsx";  
 import Shipping from "./component/Cart/Shipping.jsx";  
 import ConfirmOrder from "./component/Cart/ConfirmOrder.jsx";  
@@ -39,7 +39,7 @@ import UpdateProduct from "./component/Admin/UpdateProduct.jsx";
 import OrderList from "./component/Admin/OrderList.jsx";   
 import ProcessOrder from "./component/Admin/ProcessOrder.jsx";  
 import UsersList from "./component/Admin/UsersList.jsx";   
-import UpdateUser from "./component/Admin/UpdateUser.jsx";  //N
+import UpdateUser from "./component/Admin/UpdateUser.jsx"; 
 import ProductReviews from "./component/Admin/ProductReviews.jsx";  
 
 import Contact from "./component/layout/Contact/Contact.jsx";  

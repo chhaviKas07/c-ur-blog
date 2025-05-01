@@ -25,10 +25,12 @@ const UpdateUser = () => {
   const userId = id;
 
   const { loading, error, user } = useSelector((state) => state.userAdmin);
+  // const { isDeleted } = useSelector((state) => state.userAdmin);
   const {
     loading: updateLoading,
     error: updateError,
     isUpdated,
+    isDeleted,
   } = useSelector((state) => state.userAdmin);
 
   const [role, setRole] = useState("");
@@ -65,10 +67,15 @@ const UpdateUser = () => {
     }
 
 
+    // if (isDeleted) {
+    //   toast.success("User Deleted Successfully");
+    //     navigate("/admin/users");
+    //     dispatch(deleteUserReset());
+    // }
     if (isDeleted) {
       toast.success("User Deleted Successfully");
-        navigate("/admin/users");
-        dispatch(deleteUserReset());
+      navigate("/admin/users");
+      dispatch(deleteUserReset());
     }
   }, [dispatch, error, updateError, isUpdated,isDeleted, user, userId, navigate]);
   
