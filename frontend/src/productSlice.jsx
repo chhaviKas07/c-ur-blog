@@ -22,14 +22,53 @@ import { toast } from "react-toastify";
 //     }
 //   );
 
+// export const getProducts = createAsyncThunk(
+//   "products/getProducts",
+//   async ({ keyword = "", currentPage = 1, price = [0, 25000], category = "", ratings = 0 }, thunkAPI) => {
+//     try {
+//       // let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+// let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ecoScore[gte]=60`;
+//       if (category) {
+//         link += `&category=${category}`;
+//       }
+//       if (ratings > 0) {
+//   link += `&ratings[gte]=${ratings}`;
+// }
+
+
+//       const { data } = await axios.get(link);
+//       return data;
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.response.data.message);
+//     }
+//   }
+// );
 export const getProducts = createAsyncThunk(
   "products/getProducts",
-  async ({ keyword = "", currentPage = 1, price = [0, 25000], category = "", ratings = 0 }, thunkAPI) => {
+  async (
+    {
+      keyword = "",
+      currentPage = 1,
+      price = [0, 25000],
+      category = "",
+      ratings = 0,
+      ecoScore = null,
+    },
+    thunkAPI
+  ) => {
     try {
-      let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+      let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
 
       if (category) {
         link += `&category=${category}`;
+      }
+
+      if (ratings > 0) {
+        link += `&ratings[gte]=${ratings}`;
+      }
+
+      if (ecoScore !== null && ecoScore > 0) {
+        link += `&ecoScore[gte]=${ecoScore}`;
       }
 
       const { data } = await axios.get(link);
@@ -39,7 +78,6 @@ export const getProducts = createAsyncThunk(
     }
   }
 );
-
 
 
 // Get product details
@@ -213,6 +251,21 @@ export const deleteReview = createAsyncThunk(
   }
 );
 
+export const fetchEcoSummary = createAsyncThunk("eco/fetchSummary", async () => {
+  const { data } = await axios.get("/api/v1/admin/eco/summary");
+  return data;
+});
+
+export const fetchTopEcoProducts = createAsyncThunk("eco/fetchTop", async () => {
+  const { data } = await axios.get("/api/v1/admin/eco/top-products");
+  return data;
+});
+export const fetchMonthlyCarbon = createAsyncThunk("eco/fetchMonthly", async () => {
+  const { data } = await axios.get("/api/v1/admin/eco/monthly-carbon");
+  return data.carbonSaved;
+});
+
+
 
 
 // Product slice
@@ -220,6 +273,7 @@ const productSlice = createSlice({
     name: "products",
   initialState: {
     products: [],
+    adminProducts: [],
     loading: false,
     error: null,
     products: [],
@@ -231,6 +285,13 @@ const productSlice = createSlice({
     productsCount: 0,
     resultPerPage: 0,
     filteredProductsCount: 0,
+    totalCarbonSaved: 0,
+    ecoCount: 0,
+    nonEcoCount: 0,
+    topProducts: [],
+    monthlyCarbon: [],
+    loading: false,
+    reviews: [], // ✅ store separately
   },
     reducers: {
       clearErrors: (state) => {
@@ -299,6 +360,7 @@ const productSlice = createSlice({
       .addCase(getAllProductsAdmin.fulfilled, (state, action) => {
         state.loading = false;
         state.adminProducts = action.payload;
+          // state.products = action.payload; 
       })
       .addCase(getAllProductsAdmin.rejected, (state, action) => {
         state.loading = false;
@@ -387,7 +449,18 @@ const productSlice = createSlice({
       .addCase(deleteReview.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(fetchEcoSummary.fulfilled, (state, action) => {
+        state.totalCarbonSaved = action.payload.totalCarbonSaved;
+        state.ecoCount = action.payload.ecoCount;
+        state.nonEcoCount = action.payload.nonEcoCount;
+      })
+      .addCase(fetchTopEcoProducts.fulfilled, (state, action) => {
+        state.topProducts = action.payload.products;
+      })
+      .addCase(fetchMonthlyCarbon.fulfilled, (state, action) => {
+      state.monthlyCarbon = action.payload;
+    });
   },
 });
 

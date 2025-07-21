@@ -4,7 +4,7 @@ import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
 import {
   clearErrors,
-  getProducts,
+  getAllProductsAdmin,
   deleteProduct,
   resetDeleteState,
 } from "../../productSlice";
@@ -26,11 +26,11 @@ const ProductList = () => {
   });
 
 
-  const { error, products } = useSelector((state) => state.products);
-
-  const { error: deleteError, isDeleted } = useSelector(
-    (state) => state.products
-  );
+  // const { error, products } = useSelector((state) => state.products);
+// const { error: deleteError, isDeleted } = useSelector(
+  //   (state) => state.products
+  // );
+  const { error,deleteError, adminProducts, isDeleted } = useSelector((state) => state.products);
 
   const deleteProductHandler = (id) => {
     dispatch(deleteProduct(id));
@@ -49,11 +49,11 @@ const ProductList = () => {
 
     if (isDeleted) {
       toast.success("Product Deleted Successfully");
-      navigate("/admin/dashboard");
+      navigate("/admin/products");
       dispatch(resetDeleteState());
     }
 
-    dispatch(getProducts());
+    dispatch(getAllProductsAdmin());
   }, [dispatch, alert, error, deleteError, navigate, isDeleted]);
 
   const columns = [
@@ -122,7 +122,9 @@ const ProductList = () => {
   //       name: item.name,
   //     });
   //   });
-  const rows = products?.map((product) => {
+  // const rows = products?.map((product) => {
+    const rows = adminProducts?.map((product) => {
+
     if (!product || !product._id) return null; // Skip products without _id
     return {
       id: product._id.toString(),
@@ -135,8 +137,8 @@ const ProductList = () => {
 
   return (
     <Fragment>
+        <ToastContainer />
       <MetaData title={`ALL PRODUCTS - Admin`} />
-
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">

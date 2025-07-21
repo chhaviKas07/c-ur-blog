@@ -20,6 +20,12 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import StorageIcon from "@mui/icons-material/Storage";
 import axios from 'axios';
 
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import ScaleIcon from "@mui/icons-material/Scale";
+// import EcoIcon from "@mui/icons-material/Eco";
+import EnergySavingsLeafIcon from "@mui/icons-material/EnergySavingsLeaf";
+
 const NewProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,6 +39,12 @@ const NewProduct = () => {
   const [Stock, setStock] = useState(0);
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+
+  const [isEcoCertified, setIsEcoCertified] = useState(false);
+  const [materialType, setMaterialType] = useState("");
+  const [weightInGrams, setWeightInGrams] = useState(0);
+  const [shippingDistanceKm, setShippingDistanceKm] = useState(0);
+  const materialTypes = ["plastic", "paper", "glass", "metal", "bamboo"];
 
   const categories = [
     "Home Decor",
@@ -62,57 +74,69 @@ const NewProduct = () => {
     formData.append("file", file);
     formData.append("upload_preset", "unsigned_upload"); // replace with actual Cloudinary preset
     formData.append("cloud_name", "dkusbu9rg"); // your Cloudinary cloud name
-    
+
     try {
-    const res = await fetch("https://api.cloudinary.com/v1_1/dkusbu9rg/image/upload", {
-      method: "POST",
-      body: formData,
-    });
+      const res = await fetch("https://api.cloudinary.com/v1_1/dkusbu9rg/image/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    return {
-      public_id: data.public_id,
-      url: data.secure_url,
-    };
-  } catch (error) {
-    console.error("Cloudinary Upload Error:", error);
-    return null;
-  }
-};
-  
+      return {
+        public_id: data.public_id,
+        url: data.secure_url,
+      };
+    } catch (error) {
+      console.error("Cloudinary Upload Error:", error);
+      return null;
+    }
+  };
 
-  // const createProductSubmitHandler = (e) => {
+  // const createProductSubmitHandler = async (e) => {
   //   e.preventDefault();
-  
-  //   const formData = new FormData();
-  //   formData.set("name", name);
-  //   formData.set("price", price);
-  //   formData.set("description", description);
-  //   formData.set("category", category);
-  //   formData.set("stock", Stock);
-  
-  //   images.forEach((image) => {
-  //     formData.append("images", image); // send raw file directly
-  //   });
-  
+
+  //   const uploadedImages = [];
+
+  //   for (const image of images) {
+  //     const cloudinaryData = await uploadImageToCloudinary(image);
+  //     if (cloudinaryData && cloudinaryData.public_id && cloudinaryData.url) {
+  //       uploadedImages.push(cloudinaryData);
+  //     } else {
+  //       toast.error("Image upload failed. Please try again.");
+  //       return; // stop submitting if any upload fails
+  //     }
+  //   }
+
+  //   const formData = {
+  //     name,
+  //     price,
+  //     description,
+  //     category,
+  //     stock: Stock,
+  //     images: uploadedImages,
+  //   };
+
+  //   console.log("📦 Final Product Payload:", formData); // optional for debugging
+
   //   dispatch(createProduct(formData));
   // };
+
   const createProductSubmitHandler = async (e) => {
     e.preventDefault();
-  
+
     const uploadedImages = [];
-  
+
     for (const image of images) {
       const cloudinaryData = await uploadImageToCloudinary(image);
       if (cloudinaryData && cloudinaryData.public_id && cloudinaryData.url) {
         uploadedImages.push(cloudinaryData);
       } else {
         toast.error("Image upload failed. Please try again.");
-        return; // stop submitting if any upload fails
+        return;
       }
     }
-  
+
     const formData = {
       name,
       price,
@@ -120,17 +144,19 @@ const NewProduct = () => {
       category,
       stock: Stock,
       images: uploadedImages,
+      isEcoCertified,
+      materialType,
+      weightInGrams,
+      shippingDistanceKm,
     };
-  
-    console.log("📦 Final Product Payload:", formData); // optional for debugging
-  
+
     dispatch(createProduct(formData));
   };
-  
+
   const createProductImagesChange = (e) => {
     const files = Array.from(e.target.files);
     setImagesPreview([]);
-  
+
     files.forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
@@ -142,27 +168,27 @@ const NewProduct = () => {
     });
     setImages(files); // Store files for Cloudinary upload
   };
-    
+
 
   // const createProductImagesChange = (e) => {
   //   const files = Array.from(e.target.files);
   //   setImages([]);
   //   setImagesPreview([]);
-  
+
   //   files.forEach((file) => {
   //     const reader = new FileReader();
-  
+
   //     reader.onload = () => {
   //       if (reader.readyState === 2) {
   //         setImagesPreview((old) => [...old, reader.result]);
   //         setImages((old) => [...old, file]);
   //       }
   //     };
-  
+
   //     reader.readAsDataURL(file);
   //   });
   // };
-  
+
 
   return (
     <Fragment>
@@ -223,6 +249,56 @@ const NewProduct = () => {
                   </option>
                 ))}
               </select>
+            </div>
+
+            {/* --- NEW ECO INPUTS BELOW --- */}
+            {/* --- NEW ECO INPUTS BELOW --- */}
+            <div>
+              <CheckBoxIcon />
+              <label style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  type="checkbox"
+                  checked={isEcoCertified}
+                  onChange={(e) => setIsEcoCertified(e.target.checked)}
+                  style={{ marginRight: "8px", transform: "scale(1.2)" }}
+                />
+                Eco Certified?
+              </label>
+            </div>
+
+            <div>
+              <EnergySavingsLeafIcon /> {/* use this instead of EcoIcon */}
+              <select
+                value={materialType}
+                onChange={(e) => setMaterialType(e.target.value)}
+              >
+                <option value="">Choose Material Type</option>
+                {materialTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <ScaleIcon />
+              <input
+                type="number"
+                placeholder="Weight (grams)"
+                value={weightInGrams}
+                onChange={(e) => setWeightInGrams(Number(e.target.value))}
+              />
+            </div>
+
+            <div>
+              <LocalShippingIcon />
+              <input
+                type="number"
+                placeholder="Shipping Distance (km)"
+                value={shippingDistanceKm}
+                onChange={(e) => setShippingDistanceKm(Number(e.target.value))}
+              />
             </div>
 
             <div>

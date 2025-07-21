@@ -58,11 +58,23 @@ const UserOptions = ({ user }) => {
   function cart() {
     navigate("/cart");
   }
+  // function logoutUser() {
+  //   dispatch(logout());
+  //   toast.success("Logout Successfully");
+  //   navigate("/login"); // ✅ Redirect after logout
+  // }
+
   function logoutUser() {
-    dispatch(logout());
-    toast.success("Logout Successfully");
-    navigate("/login"); // ✅ Redirect after logout
+  // Remove user-specific shipping info before logout
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  if (storedUser && storedUser._id) {
+    localStorage.removeItem(`shippingInfo_${storedUser._id}`);
   }
+
+  dispatch(logout());
+  toast.success("Logout Successfully");
+  navigate("/login"); // ✅ Redirect after logout
+}
 
   return (
     <Fragment>

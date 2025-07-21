@@ -96,6 +96,8 @@ export const updateOrder = createAsyncThunk("order/update", async ({ id, myForm 
   }
 });
 
+export const updateOrderReset = () => ({ type: "UPDATE_ORDER_RESET" });
+
 export const deleteOrder = createAsyncThunk(
   "order/deleteOrder",
   async (id, { rejectWithValue }) => {
@@ -119,6 +121,8 @@ const orderSlice = createSlice({
     loading: false,
     error: null,
     success: false,
+    isUpdated: false,    
+     isDeleted: false,   
   },
   reducers: {
     clearErrors: (state) => {
@@ -197,7 +201,7 @@ const orderSlice = createSlice({
     })
     .addCase(updateOrder.fulfilled, (state, action) => {
       state.loading = false;
-      state.isUpdated = action.payload;
+       state.isUpdated = true;
     })
     .addCase(updateOrder.rejected, (state, action) => {
       state.loading = false;

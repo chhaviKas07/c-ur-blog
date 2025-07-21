@@ -28,6 +28,10 @@ const OrderDetails = () => {
     dispatch(getOrderDetails(id));
   }, [dispatch, error, id]);
 
+  const downloadInvoice = (orderId) => {
+  window.open(`/api/v1/order/${orderId}/invoice`, "_blank");
+};
+
   return (
     <Fragment>
       <ToastContainer />
@@ -119,6 +123,9 @@ const OrderDetails = () => {
                   ))}
               </div>
             </div>
+            <button onClick={() => downloadInvoice(order._id)} className="downloadBtn">
+  📄 Download Invoice
+</button>
           </div>
         </Fragment>
       )}

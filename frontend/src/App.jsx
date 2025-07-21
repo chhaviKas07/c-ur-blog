@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React from "react";
 import { loadUser } from "./userSlice.jsx";
+import { loadShippingInfo, loadShippingInfoForUser } from "./CartSlice.jsx"; 
 import { Elements } from "@stripe/react-stripe-js";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
@@ -13,7 +14,9 @@ import store from "./store.jsx";
 import Payment from "./component/Cart/Payment.jsx";  
 import Footer from "./component/layout/Footer/Footer.jsx";  
 import Header from "./component/layout/Header/Header.jsx";  
-
+// https://template-kit.ancorathemes.com/veggie/template-kit/home-1/?storefront=envato-elements
+// https://sustainable-jenn.cmsmasters.net/main/#cmsmasters-scroll-top
+// https://ibeydesign.com/organica/?storefront=envato-elements
 import Home from "./component/Home/Home.jsx"; 
 import ProductDetails from "./component/Product/ProductDetails.jsx"; 
 import Products from "./component/Product/Products.jsx";  //N
@@ -45,11 +48,12 @@ import ProductReviews from "./component/Admin/ProductReviews.jsx";
 import Contact from "./component/layout/Contact/Contact.jsx";  
 import About from "./component/layout/About/About.jsx";    
 import NotFound from "./component/layout/Not Found/NotFound.jsx"; 
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
+    const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -78,18 +82,34 @@ function App() {
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
+  
 
   useEffect(() => {
     if (isAuthenticated) {
       getStripeApiKey();
     }
   }, [isAuthenticated]);
+  
+useEffect(() => {
+  if (user && user._id) {
+    dispatch(loadShippingInfo());
+  }
+}, [user]);
+
+useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user && user._id) {
+    console.log("📦 App init: loading shipping info for user", user._id);
+    dispatch(loadShippingInfoForUser(user._id));
+  }
+}, [dispatch]);
 
   window.addEventListener("contextmenu", (e) => e.preventDefault());
 
   return (
     <>
       {/* <ToastContainer /> */}
+      <ToastContainer position="bottom-center" autoClose={3000} newestOnTop />
       <Header />
       {isAuthenticated && <UserOptions user={user} />}
       <Routes>

@@ -95,3 +95,159 @@
     font: 300 0.9rem "Roboto";
   }
 }
+
+
+.dashboard .sidebar > a > img {
+    width: 0;
+    transition: all 0.5s;
+}
+.dashboard .sidebar {
+    width: 250px;
+    padding: 1rem !important;
+    height: 100%;
+}
+.dashboard .sidebar a {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.493);
+    font: 200 1rem "Roboto";
+    padding: 2rem;
+    transition: all 0.5s;
+    padding-top: 50px;
+}
+.dashboard .menuBurger {
+    width: 3vmax;
+    height: 2.5vmax;
+    position: fixed;
+    top: 0vmax;
+    left: 0vmax;}
+
+
+    .ecoSummaryBox {
+  padding: 1rem;
+  margin: 1rem 0;
+  background: #e8f5e9;
+  border-left: 4px solid #388e3c;
+}
+.barChart {
+  width: 100%;
+  margin-top: 20px;
+}
+
+/*  */
+.dashboardContainer {
+  flex: 1;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  background: #f9f9f9;
+}
+
+.dashboardSummary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dashboardSummaryCard {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.totalAmountCard {
+  background-color: #4a7bd0;
+  grid-column: span 2;
+}
+
+.productCard {
+  background-color: #ff6b6b;
+}
+
+.ordersCard {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+}
+
+.usersCard {
+  background-color: #2d3436;
+}
+
+/* CHART STYLES */
+.lineChart,
+.doughnutChart,
+.barChart,
+.ecoSummaryBox {
+  background: #fff;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+
+.dashboardContainer {
+  flex: 1;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  background: #f9f9f9;
+}
+
+.dashboardSummary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dashboardSummaryCard {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.totalAmountCard {
+  background-color: #4a7bd0;
+  grid-column: span 2;
+}
+
+.productCard {
+  background-color: #ff6b6b;
+}
+
+.ordersCard {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+}
+
+.usersCard {
+  background-color: #2d3436;
+}
+
+
+
+
+/* CHART STYLES */
+.lineChart,
+.doughnutChart,
+.barChart,
+.ecoSummaryBox {
+  background: #fff;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  overflow-x: auto;
+}
+

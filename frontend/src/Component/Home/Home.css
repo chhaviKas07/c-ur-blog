@@ -140,9 +140,10 @@
 
 .banner > p {
   font: 300 1.4vmax "Lucida Sans";
-  margin-top: -430px;
+  margin-top: -460px;
   color: black;
   font-size: 18px;
+  font-size: 35px;
 }
 
 .banner > h1 {
@@ -153,4 +154,229 @@
   height: 14vmax;
   object-fit: cover;
   border-radius: 5px;
+}
+
+
+.ecoBadge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #d4edda;
+  color: #155724;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Mission Section */
+.ecoMission {
+  text-align: center;
+  padding: 4vmax 2vmax;
+  background-color: #f0fff4;
+  color: #2f855a;
+}
+
+.ecoMission h2 {
+  font-size: 2vmax;
+  margin-bottom: 1vmax;
+}
+
+.ecoMission p {
+  font-size: 1.2vmax;
+  max-width: 800px;
+  margin: auto;
+}
+
+/* Eco Benefits Section */
+.ecoBenefits {
+  background-color: #e6fffa;
+  padding: 3vmax 2vmax;
+  text-align: center;
+  color: #276749;
+}
+
+.benefitCards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5vmax;
+  margin-top: 2vmax;
+}
+
+.benefitCards .card {
+  background: white;
+  padding: 1.5vmax 2vmax;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  font-size: 1vmax;
+  min-width: 220px;
+}
+
+/* Testimonials */
+.testimonials {
+  background-color: #fefcbf;
+  padding: 4vmax 2vmax;
+  text-align: center;
+}
+
+.testimonials h2 {
+  color: #744210;
+  font-size: 2vmax;
+}
+
+.testimonialCards {
+  display: flex;
+  justify-content: center;
+  gap: 2vmax;
+  flex-wrap: wrap;
+  margin-top: 2vmax;
+}
+
+.testimonialCards blockquote {
+  max-width: 300px;
+  background: white;
+  padding: 2vmax;
+  border-left: 5px solid #ecc94b;
+  font-style: italic;
+  font-size: 1.1vmax;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.testimonialCards span {
+  display: block;
+  margin-top: 1vmax;
+  font-weight: bold;
+  color: #744210;
+}
+
+/* Newsletter */
+.newsletter {
+  background-color: #f0fff4;
+  padding: 4vmax 2vmax;
+  text-align: center;
+}
+
+.newsletter h2 {
+  font-size: 2vmax;
+  color: #276749;
+}
+
+.newsletter input {
+  padding: 0.8vmax 1.2vmax;
+  margin: 1vmax;
+  border: 1px solid #c6f6d5;
+  border-radius: 25px;
+  width: 250px;
+  font-size: 1vmax;
+}
+
+.newsletter button {
+  padding: 0.8vmax 1.5vmax;
+  border: none;
+  border-radius: 25px;
+  background-color: #38a169;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.newsletter button:hover {
+  background-color: #2f855a;
+}
+
+/* Feature row */
+.features {
+  display: flex;
+  justify-content: space-around;
+  background: #f0fff4;
+  padding: 2vmax 1vmax;
+}
+.features .feature {
+  text-align: center;
+  flex: 1;
+  font-size: 1.1vmax;
+}
+.ecoHighlights {
+  background-color: #f9fff9;
+  padding: 4vmax 2vmax;
+  text-align: center;
+  color: #2f855a;
+}
+
+.sectionTitle {
+  font-size: 2.5vmax;
+  margin-bottom: 0.5vmax;
+}
+
+.sectionSubtext {
+  font-size: 1.2vmax;
+  color: #4a5568;
+  margin-bottom: 3vmax;
+}
+
+.ecoFeatureGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 3vmax;
+}
+
+.featureBox ul {
+  list-style: none;
+  padding: 0;
+}
+
+.featureBox li {
+  font-size: 1.1vmax;
+  margin: 1vmax 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 1vmax;
+}
+
+.featureBox.left,
+.featureBox.right {
+  flex: 1;
+  max-width: 250px;
+}
+
+.featureImage img {
+  width: 250px;
+  max-width: 100%;
+}
+
+.trustBadges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2vmax;
+  margin-top: 4vmax;
+  color: #2d3748;
+}
+
+.trustBadges div {
+  text-align: center;
+  background: #e6fffa;
+  padding: 1.5vmax;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  width: 180px;
+}
+
+.trustBadges h4 {
+  margin: 1vmax 0 0.5vmax;
+  font-size: 1.2vmax;
+}
+
+.trustBadges p {
+  font-size: 0.9vmax;
+}
+
+.trustBadges span {
+  font-size: 2vmax;
 }

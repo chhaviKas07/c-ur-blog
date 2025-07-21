@@ -194,3 +194,10 @@
       justify-content: center;
       align-items: center;
 }
+
+
+.stockDisclaimer {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}

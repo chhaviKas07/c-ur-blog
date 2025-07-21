@@ -19,6 +19,12 @@ import Button from "@mui/material/Button";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import StorageIcon from "@mui/icons-material/Storage";
 
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import ScaleIcon from "@mui/icons-material/Scale";
+// import EcoIcon from "@mui/icons-material/Eco";
+import EnergySavingsLeafIcon from "@mui/icons-material/EnergySavingsLeaf";
+
 const UpdateProduct = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,6 +46,14 @@ const UpdateProduct = () => {
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
+const [isEcoCertified, setIsEcoCertified] = useState(false);
+const [materialType, setMaterialType] = useState("");
+const [weightInGrams, setWeightInGrams] = useState(0);
+const [shippingDistanceKm, setShippingDistanceKm] = useState(0);
+
+const materialTypes = ["plastic", "paper", "glass", "metal", "bamboo"];
+
+
   const categories = [
     "Home Decor",
     "Fashion and Accessories",
@@ -58,9 +72,22 @@ const UpdateProduct = () => {
       setDescription(product.description);
       setPrice(product.price);
       setCategory(product.category);
-      setStock(product.Stock);
+      setStock(product.stock);
       setOldImages(product.images);
+      setIsEcoCertified(product.isEcoCertified || false);
+setMaterialType(product.materialType || "");
+setWeightInGrams(product.weightInGrams || 0);
+setShippingDistanceKm(product.shippingDistanceKm || 0);
+
     }
+//     if (product && product._id === id) {
+//   setName(product.name || "");
+//   setDescription(product.description || "");
+//   setPrice(product.price || 0);
+//   setCategory(product.category || "");
+//   setStock(product.stock || 0);
+//   setOldImages(product.images || []);
+// }
     if (error) {
       toast.error(error);
       dispatch(clearErrors());
@@ -71,11 +98,14 @@ const UpdateProduct = () => {
       dispatch(clearErrors());
     }
 
-    if (isUpdated) {
-      toast.success("Product Updated Successfully");
+      if (isUpdated) {
+    toast.success("Product Updated Successfully");
+    
+    setTimeout(() => {
       navigate("/admin/products");
       dispatch(UPDATE_PRODUCT_RESET());
-    }
+    }, 1500); // wait 1.5s so toast is visible
+  }
   }, [
     dispatch,
     alert,
@@ -131,15 +161,29 @@ const UpdateProduct = () => {
   const updateProductSubmitHandler = (e) => {
     e.preventDefault();
   
-    const myForm = {
-      name,
-      price,
-      description,
-      category,
-      Stock,
-      images, // Use the image URLs from Cloudinary
-    };
+    // const myForm = {
+    //   name,
+    //   price,
+    //   description,
+    //   category,
+    //   // Stock,
+    //   stock: Stock,
+    //   images, // Use the image URLs from Cloudinary
+    // };
   
+    const myForm = {
+  name,
+  price,
+  description,
+  category,
+  stock: Stock,
+  images,
+  isEcoCertified,
+  materialType,
+  weightInGrams,
+  shippingDistanceKm,
+};
+
     dispatch(updateProduct({ id: id, productData: myForm }));
   };
   
@@ -171,6 +215,7 @@ const UpdateProduct = () => {
 
   return (
     <Fragment>
+        <ToastContainer />
       <MetaData title="Create Product" />
       <div className="dashboard">
         <SideBar />
@@ -229,7 +274,53 @@ const UpdateProduct = () => {
                 ))}
               </select>
             </div>
+<div>
+  <CheckBoxIcon />
+  <label style={{ display: "flex", alignItems: "center" }}>
+    <input
+      type="checkbox"
+      checked={isEcoCertified}
+      onChange={(e) => setIsEcoCertified(e.target.checked)}
+      style={{ marginRight: "8px", transform: "scale(1.2)" }}
+    />
+    Eco Certified?
+  </label>
+</div>
 
+<div>
+  <EnergySavingsLeafIcon />
+  <select
+    value={materialType}
+    onChange={(e) => setMaterialType(e.target.value)}
+  >
+    <option value="">Choose Material Type</option>
+    {materialTypes.map((type) => (
+      <option key={type} value={type}>
+        {type}
+      </option>
+    ))}
+  </select>
+</div>
+
+<div>
+  <ScaleIcon />
+  <input
+    type="number"
+    placeholder="Weight (grams)"
+    value={weightInGrams}
+    onChange={(e) => setWeightInGrams(Number(e.target.value))}
+  />
+</div>
+
+<div>
+  <LocalShippingIcon />
+  <input
+    type="number"
+    placeholder="Shipping Distance (km)"
+    value={shippingDistanceKm}
+    onChange={(e) => setShippingDistanceKm(Number(e.target.value))}
+  />
+</div>
             <div>
               <StorageIcon />
               <input
@@ -269,7 +360,7 @@ const UpdateProduct = () => {
               type="submit"
               disabled={loading ? true : false}
             >
-              Create
+              Update Product
             </Button>
           </form>
         </div>

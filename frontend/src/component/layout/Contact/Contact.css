@@ -26,3 +26,129 @@
     transform: translateX(0);
   }
 }
+.css-5lbw0b-MuiTypography-root {
+    margin-bottom: 20px !important;}
+.contactForm h2 {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.contactForm input,
+.contactForm textarea {
+  padding: 12px;
+  font-size: 16px;
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.contactForm input:focus,
+.contactForm textarea:focus {
+  border: 1px solid #1976d2;
+}
+
+.contactForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.contactForm button {
+  padding: 12px;
+  font-size: 16px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.contactForm button:hover {
+  background-color: #125ea7;
+}
+
+.contactContainer {
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 2rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.contactForm {
+  width: 100%;
+  max-width: 500px;
+  background: #f0ccb2;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.contactForm .MuiTypography-root {
+    background-color: #f0ccb2 !important;
+}
+.formTitle {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.submitBtn {
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+
+
+.contactForm input,
+.contactForm textarea {
+  color: #000; /* Set input text color to black */
+  background-color: #fff; /* Optional: ensure background is white */
+}
+
+
+.contactForm input,
+.contactForm textarea {
+  padding: 1vmax;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.267);
+  border-radius: 4px;
+  font: 300 0.9vmax cursive;
+  outline: none;
+  color: black;
+  background-color: white;
+  resize: none;
+  margin: 10px 0;
+}
+
+.contactForm textarea {
+  min-height: 120px;
+}
+
+.contactForm button {
+  border: none;
+  background-color: black;
+  color: white;
+  font: 300 0.9vmax "Roboto";
+  padding: 0.8vmax;
+  cursor: pointer;
+  transition: all 0.5s;
+  border-radius: 4px;
+  outline: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
+  margin-top: 20px;
+  padding: 10px 30px;
+}
+
+.contactForm button:hover {
+  background-color: #ba7543;
+}

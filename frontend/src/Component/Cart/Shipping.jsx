@@ -1,7 +1,7 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import "./Shipping.css";
 import { useSelector, useDispatch } from "react-redux";
-import { saveShippingInfo } from "../../CartSlice.jsx";
+import { saveShippingInfoThunk } from "../../CartSlice.jsx";
 import MetaData from "../layout/MetaData";
 import PinDropIcon from "@mui/icons-material/PinDrop";
 import HomeIcon from "@mui/icons-material/Home";
@@ -36,12 +36,18 @@ const Shipping = () => {
   // const [country, setCountry] = useState(shippingInfo.country);
   // const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
   // const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
-  const [address, setAddress] = useState(shippingInfo.address || "");
-const [city, setCity] = useState(shippingInfo.city || "");
-const [state, setState] = useState(shippingInfo.state || "");
-const [country, setCountry] = useState(shippingInfo.country || "");
-const [pinCode, setPinCode] = useState(shippingInfo.pinCode || "");
-const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo || "");
+//   const [address, setAddress] = useState(shippingInfo.address || "");
+// const [city, setCity] = useState(shippingInfo.city || "");
+// const [state, setState] = useState(shippingInfo.state || "");
+// const [country, setCountry] = useState(shippingInfo.country || "");
+// const [pinCode, setPinCode] = useState(shippingInfo.pinCode || "");
+// const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo || "");
+const [address, setAddress] = useState("");
+const [city, setCity] = useState("");
+const [state, setState] = useState("");
+const [country, setCountry] = useState("");
+const [pinCode, setPinCode] = useState("");
+const [phoneNo, setPhoneNo] = useState("");
 
 
   // const shippingSubmit = (e) => {
@@ -66,11 +72,27 @@ const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo || "");
   
     console.log("Shipping Info Saved, navigating to confirm page...");
   
-    dispatch(
-      saveShippingInfo({ address, city, state, country, pinCode, phoneNo })
-    );
-    navigate("/order/confirm");
+    // dispatch(
+    //   saveShippingInfoThunk({ address, city, state, country, pinCode, phoneNo })
+    // );
+    // navigate("/order/confirm");
+      const shippingData = { address, city, state, country, pinCode, phoneNo };
+  dispatch(saveShippingInfoThunk(shippingData));
+  navigate("/order/confirm");
   };
+useEffect(() => {
+  if (shippingInfo) {
+    setAddress(shippingInfo.address || "");
+    setCity(shippingInfo.city || "");
+    setState(shippingInfo.state || "");
+    setCountry(shippingInfo.country || "");
+    setPinCode(shippingInfo.pinCode || "");
+    setPhoneNo(shippingInfo.phoneNo || "");
+  }
+}, [shippingInfo]);
+    useEffect(() => {
+  console.log("🚚 shippingInfo in form:", shippingInfo);
+}, [shippingInfo]);
   
 
   return (

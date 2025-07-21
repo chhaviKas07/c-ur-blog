@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect } from "react"; 
 import { DataGrid } from "@mui/x-data-grid";
 import "./myOrders.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import MetaData from "../layout/MetaData";
 import LaunchIcon from "@mui/icons-material/Launch";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import IconButton from "@mui/material/IconButton";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,6 +20,9 @@ const MyOrders = () => {
   );
   const { user } = useSelector((state) => state.user);
 
+  const handleDownloadInvoice = (orderId) => {
+    window.open(`/api/v1/order/${orderId}/invoice`, "_blank");
+  };
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -60,25 +65,26 @@ const MyOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`/order/${params.row.id}`}>
-            <LaunchIcon />
-          </Link>
+          // <Link to={`/order/${params.row.id}`}>
+          //   <LaunchIcon />
+          // </Link>
+            <div style={{ display: "flex", gap: "10px" }}>
+            <Link to={`/order/${params.row.id}`}>
+              <LaunchIcon />
+            </Link>
+            <IconButton
+              color="primary"
+              title="Download Invoice"
+              onClick={() => handleDownloadInvoice(params.row.id)}
+            >
+              <PictureAsPdfIcon />
+            </IconButton>
+          </div>
         );
       },
     },
   ];
 
-  // const rows = [];
-
-  // order &&
-  //   order.forEach((item) => {
-  //     rows.push({
-  //       itemsQty: item.orderItems.length,
-  //       id: item._id,
-  //       status: item.orderStatus,
-  //       amount: item.totalPrice,
-  //     });
-  //   });
 
   const rows = orders && Array.isArray(orders)
   ? orders.map((item) => ({
@@ -90,26 +96,46 @@ const MyOrders = () => {
   : [];
 
   return (
-    <Fragment>
-      <ToastContainer />
-      <MetaData title={`${user.name} - Orders`} />
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="myOrdersPage">
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            pageSize={10}
-            disableSelectionOnClick
-            className="myOrdersTable"
-            autoHeight
-          />
-          <Typography id="myOrdersHeading">{user.name}'s Orders</Typography>
-        </div>
-      )}
-    </Fragment>
-  );
+  <Fragment>
+    <ToastContainer />
+    <MetaData title={`${user?.name || "User"} - Orders`} />
+    {loading ? (
+      <Loader />
+    ) : (
+      <div className="myOrdersPage">
+        {rows.length > 0 ? (
+          <>
+              <Typography
+                id="myOrdersHeading"
+                variant="h5"
+                style={{ textAlign: "center", margin: "20px 0", fontWeight: "600" }}
+              >
+                🧾 Download Invoices
+              </Typography>
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSize={10}
+              disableSelectionOnClick
+              className="myOrdersTable"
+              autoHeight
+            />
+            <Typography id="myOrdersHeading">
+              {user?.name || "User"}'s Orders
+            </Typography>
+          </>
+        ) : (
+          <div className="noOrdersMessage">
+            <div className="emptyCart">
+              <Typography>No Orders yet 🛒</Typography>
+              <Link to="/products">View Products</Link>
+            </div>
+          </div>
+        )}
+      </div>
+    )}
+  </Fragment>
+);
 };
 
 export default MyOrders;

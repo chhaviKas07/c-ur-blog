@@ -36,6 +36,17 @@
   margin-right: 0.5rem;
 }
 
-.MuiTypography-root {
+.sidebar .MuiTypography-root {
   background-color: #fff !important;
 }
+
+
+.sidebar {
+    width: 250px;
+    padding: 1rem !important;}
+
+    .sidebar-section p{
+padding-left: 62px;
+font-size: 18px;
+margin-top: 10px;
+    }

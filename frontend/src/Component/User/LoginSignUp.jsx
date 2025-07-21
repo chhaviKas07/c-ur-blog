@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { clearErrors, login, register, loadUser } from "../../UserSlice";
+import { loadShippingInfoForUser } from "../../CartSlice";
 // import { useDispatch, useSelector } from "react-redux";
 
 // import { useAlert } from "react-alert";
@@ -22,6 +23,10 @@ const LoginSignUp = () => {
   const { error, loading, isAuthenticated } = useSelector(
     (state) => state.user
   );
+const {user: loggedInUser } = useSelector(
+  (state) => state.user
+);
+
 
   const loginTab = useRef(null);
   const registerTab = useRef(null);
@@ -159,20 +164,45 @@ const registerSubmit = async (e) => {
   
   const redirect =
   new URLSearchParams(window.location.search).get("redirect") || "/account";
+  
+useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user && user._id) {
+    dispatch(loadShippingInfoForUser(user._id));
+  }
+}, []);
 
+  // useEffect(() => {
+  //   if (error) {
+  //     toast.error(error);
+  //     dispatch(clearErrors());
+  //   }
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearErrors());
-    }
+  //   console.log("isAuthenticated", isAuthenticated);
+  //   if (isAuthenticated) {
+      
+  //     navigate(redirect);
 
-    console.log("isAuthenticated", isAuthenticated);
-    if (isAuthenticated) {
+  //   }
+  // }, [dispatch, error, isAuthenticated, navigate]);
+ useEffect(() => {
+  if (error) {
+    toast.error(error);
+    dispatch(clearErrors());
+  }
+
+  if (isAuthenticated && loggedInUser?._id) {
+    console.log("✅ Authenticated, trying to load shipping info for:", loggedInUser._id);
+
+    dispatch(loadShippingInfoForUser(loggedInUser._id));
+
+    // Delay navigation to ensure shipping info is loaded
+    Promise.resolve().then(() => {
       navigate(redirect);
+    });
+  }
+}, [dispatch, error, isAuthenticated, navigate, redirect, loggedInUser?._id]);
 
-    }
-  }, [dispatch, error, isAuthenticated, navigate]);
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {

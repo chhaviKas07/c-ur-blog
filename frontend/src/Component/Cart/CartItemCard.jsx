@@ -10,7 +10,7 @@ const CartItemCard = ({ item, deleteCartItems }) => {
     <div className="CartItemCard">
       <img src={item.image} alt="Product" />
       <div>
-        <Link to={`/products/${item.product || item._id || item.id}`}>{item.title}</Link>
+        <Link to={`/products/${item.product || item._id || item.id}`}>{item.name}</Link>
         <span>{`Description: ${item.description}`}</span>
         
         {/* Remove Button */}

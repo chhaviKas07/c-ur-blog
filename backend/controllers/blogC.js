@@ -5,6 +5,7 @@ const ApiFeatures = require("../utils/apifeatures");
 const cloudinary = require("cloudinary");
 const ErrorHandler = require("../utils/errorhandler");
 
+
 // // Create Product -- Admin
 // exports.createBlog = catchAsyncErrors(async (req, res, next) => {
 //     let images = [];
@@ -153,7 +154,7 @@ exports.createBlog = catchAsyncErrors(async (req, res, next) => {
 // // Get All Product
 exports.getAllBlogs = catchAsyncErrors(async (req, res, next) => {
     const resultPerPage = 8;
-    const blogsCount = await Blog.countDocuments();
+    const blogsCount = await Blog.countDocuments().populate('user').select('name');
 
     const apiFeature = new ApiFeatures(Blog.find(), req.query)
         .search()

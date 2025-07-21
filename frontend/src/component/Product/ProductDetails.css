@@ -296,3 +296,75 @@
   object-fit: cover;
   display: block;
 }
+
+
+.stockDisclaimer {
+  color: crimson;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+
+
+.redColor {
+  color: red;
+  font-weight: bold;
+}
+.greenColor {
+  color: green;
+  font-weight: bold;
+}
+
+.stock-warning {
+  color: #e63946; /* red warning */
+  font-size: 0.9rem;
+  margin-top: 5px;
+  margin-left: 10px;
+  display: block;
+}
+
+.product-image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+.CarouselImage {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+
+
+
+
+.eco-recommendations {
+  margin-top: 2rem;
+}
+.recommendation-list {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.eco-card {
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+  width: 200px;
+  text-align: center;
+  border-radius: 5px;
+}
+.buy-now-btn {
+  background-color: #2e7d32;
+  color: white;
+  padding: 5px 10px;
+  margin-top: 10px;
+  display: inline-block;
+  border-radius: 4px;
+  text-decoration: none;
+}

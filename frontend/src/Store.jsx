@@ -7,14 +7,6 @@ import userReducer, {
 import userSlice from "./userSlice";
 import  cartReducer  from "./CartSlice";
 import orderReducer from "./orderSlice";
-// import {
-//   allOrdersReducer,
-//   myOrdersReducer,
-//   newOrderReducer,
-//   orderDetailsReducer,
-//   orderReducer,
-// } from "./reducers/orderReducer";
-
 
 const reducer = combineReducers({
   products: productSlice,
@@ -23,18 +15,6 @@ const reducer = combineReducers({
   updateProfile: updateProfileReducer,
   userAdmin: userAdminReducer, 
   orders: orderReducer,
-  // product: productReducer,
-  // productDetails: productDetailsReducer,
-  // newReview: newReviewReducer,
-  // newProduct: newProductReducer,
-  // productReviews: productReviewsReducer,
-  // review: reviewReducer,
-  // newOrder: newOrderReducer,
-  // myOrders: myOrdersReducer,
-  // orderDetails: orderDetailsReducer,
-  // allOrders: allOrdersReducer,
-  // order: orderReducer,
-  // allUsers: allUsersReducer,
 });
 
 let initialState = {

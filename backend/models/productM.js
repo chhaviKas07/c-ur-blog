@@ -66,6 +66,40 @@ const productSchema = mongoose.Schema({
     ref: "User",
     required: true,
   },
+  // ✅ NEW FIELDS FOR CARBON FOOTPRINT
+  isEcoCertified: {
+    type: Boolean,
+    default: false,
+  },
+  materialType: {
+    type: String, // e.g., "plastic", "bamboo"
+    required: [true, "Please enter material type"],
+  },
+  weightInGrams: {
+    type: Number,
+    required: [true, "Please enter weight in grams"],
+  },
+  shippingDistanceKm: {
+    type: Number,
+    required: [true, "Please enter shipping distance in km"],
+  },
+  traditionalFootprint: {
+    type: Number, // in grams of CO₂
+    default: 0,
+  },
+  ecoFootprint: {
+    type: Number, // in grams of CO₂
+    default: 0,
+  },
+  carbonSaved: {
+    type: Number, // in grams of CO₂
+    default: 0,
+  },
+ecoScore: {
+  type: Number,
+  required: true,
+  default: 0,
+},
   createdAt: {
     type: Date,
     default: Date.now,

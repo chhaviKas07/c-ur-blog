@@ -312,7 +312,7 @@ fieldset legend {
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   padding: 1rem;
-  background-color: #fff;
+  background-color: #fff !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
 }
@@ -565,4 +565,146 @@ legend {
   .productGrid {
     order: 1;
   }
+}
+
+
+/*  */
+.productsPage .css-ahj2mt-MuiTypography-root {
+    display: flex !important;
+justify-content: center !important;
+}
+
+.priceRangeBox {
+  border: none;
+  margin-bottom: 1.5rem;
+  padding: 0.2rem;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  width: 80%;
+}
+
+.priceRangeBox legend {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #2c3e50;
+  margin-bottom: 0.8rem;
+}
+
+.priceLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Slider Styling */
+.MuiSlider-root {
+  color: #2ecc71 !important;
+  width: 100%;
+}
+
+.MuiSlider-track {
+  background-color: #27ae60 !important;
+}
+
+.MuiSlider-rail {
+  background-color: #bdc3c7 !important;
+  height: 4px;
+}
+
+.MuiSlider-thumb {
+  border: 2px solid #27ae60 !important;
+  background-color: white !important;
+  width: 18px;
+  height: 18px;
+} 
+
+.sidebar {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0px !important;
+}
+
+.categoryBox {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1.5rem 0rem;
+} 
+
+/* search css */
+.productSearchBox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem 0;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-left: 20px;
+}
+
+.productSearchBox .searchBox {
+  position: static;
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.productSearchBox .searchBox input[type="text"] {
+  width: 250px;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+.productSearchBox .searchBox input[type="submit"] {
+  padding: 0.6rem 1.2rem;
+  width: 25%;
+  background-color: #f0ccb2;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.productSearchBox .searchBox input[type="submit"]:hover {
+  background-color: #ba7543;
+}
+
+@media screen and (max-width: 600px) {
+  .productSearchBox {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .productSearchBox .searchBox {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .productSearchBox .searchBox input[type="text"],
+  .productSearchBox .searchBox input[type="submit"] {
+    width: 100%;
+  }
+}
+
+.ecoScoreBox {
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.ecoScoreLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 5px;
 }

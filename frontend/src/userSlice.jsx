@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { loadShippingInfoForUser, setShippingInfo } from './CartSlice'; 
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -15,6 +16,9 @@ export const login = (email, password) => async (dispatch) => {
       config
     );
     dispatch(loginSuccess(data.user));
+        localStorage.setItem("user", JSON.stringify(data.user)); // ✅ SAVE US
+    dispatch(loadShippingInfoForUser(data.user._id)); // ✅ this loads user-specific shipping info
+
   } catch (error) {
     console.error(
       "Login Error:",
@@ -33,6 +37,7 @@ export const register = createAsyncThunk("user/register", async (userData, thunk
       headers: { "Content-Type": "application/json" },
     };
     const { data } = await axios.post("/api/v1/register", userData, config);
+        localStorage.setItem("user", JSON.stringify(data.user)); // ✅ SAVE US
     return data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.message);
@@ -67,15 +72,56 @@ export const loadUser = createAsyncThunk("user/loadUser", async (_, { rejectWith
 });
 
 
+// // logout user
+// export const logout = () => async (dispatch) => {
+//   try {
+//     await axios.get(`/api/v1/logout`);
+//     dispatch(logoutSuccess());
+//   } catch (error) {
+//     // Handle error
+//   }
+// };
+
+
+
 // logout user
-export const logout = () => async (dispatch) => {
+// export const logout = () => async (dispatch, getState) => {
+//   try {
+//     const user = JSON.parse(localStorage.getItem("user"));
+    
+//     await axios.get(`/api/v1/logout`);
+
+//     dispatch(logoutSuccess());
+
+//   } catch (error) {
+//     console.error("Logout failed:", error);
+//   }
+// };
+export const logout = () => async (dispatch, getState) => {
   try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userId = user?._id;
+
+    // Backup user's shipping info before logout (optional safety)
+    const backupShipping = userId
+      ? localStorage.getItem(`shippingInfo_${userId}`)
+      : null;
+
     await axios.get(`/api/v1/logout`);
+
+    // ❌ Avoid localStorage.clear() or anything that deletes all
+
+    // ✅ Explicitly remove what you want
+    localStorage.removeItem("user");
+    localStorage.removeItem("cartItems");
+    // Leave `shippingInfo_<userId>` intact
+
     dispatch(logoutSuccess());
   } catch (error) {
-    // Handle error
+    console.error("Logout failed:", error);
   }
 };
+
 
 
 export const updateProfile = createAsyncThunk(
@@ -230,6 +276,7 @@ const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
+      
     },
     loginSuccess: (state, action) => {
       state.loading = false;
@@ -263,6 +310,8 @@ const userSlice = createSlice({
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload;
+  // ✅ Save again to localStorage
+  localStorage.setItem("user", JSON.stringify(action.payload));
         state.error = null;
       })
       .addCase(loadUser.rejected, (state, action) => {
