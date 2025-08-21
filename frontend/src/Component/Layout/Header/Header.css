@@ -9,3 +9,347 @@
   height: 56px;
   border-radius: 100%;
 }
+
+.speedDial {
+    position: fixed;
+    right: 3vmax;
+    top: 0.5vmax  !important;
+}
+
+/*  */
+/* Reset */
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  /* background-color: #000000; */
+  background-color: #edc9af;
+  padding: 14px 4vw;
+  box-shadow: 0 3px 20px rgba(59, 89, 73, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 5px 4vw;
+    box-shadow: 0 3px 20px rgba(59, 89, 73, 0.08);
+    position: sticky;
+    display: flex;
+    text-align: center;
+}
+
+.header__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Logo */
+.header__logo img {
+  width: 150px;
+  max-width: 100%;
+  cursor: pointer;
+  transition: transform 0.22s ease, filter 0.22s ease;
+      position: absolute;
+    left: 150px;
+    top: 10px;
+}
+
+.header__logo img:hover {
+  filter: drop-shadow(0 0 6px #eb4034);
+  transform: scale(1.06);
+}
+
+/* Hamburger Icon */
+.header__burger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #234927;
+}
+
+/* Nav styles */
+.header__nav ul {
+  display: flex;
+  gap: 2.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.header__nav ul li a {
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: rgba(35, 35, 35, 0.85);
+  letter-spacing: 0.02em;
+  transition: color 0.22s ease;
+  position: relative;
+  padding: 2px 0;
+}
+
+.header__nav ul li a:hover,
+.header__nav ul li a:focus {
+  color: #eb4034;
+}
+
+.header__nav ul li a:hover::after,
+.header__nav ul li a:focus::after {
+  width: 100%;
+}
+
+/* Icons container */
+.header__icons {
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+      position: absolute;
+    right: 170px;
+}
+
+.icon-link {
+  color: rgba(35, 35, 35, 0.85);
+  transition: color 0.25s ease;
+  position: relative;
+}
+
+.icon-link:hover,
+.icon-link:focus {
+  color: #eb4034;
+}
+
+.icon-link svg {
+  vertical-align: middle;
+}
+
+/* Responsive: mobile */
+@media (max-width: 900px) {
+  .header__burger {
+    display: block;
+  }
+
+  .header__nav {
+    position: fixed;
+    top: 64px;
+    right: 0;
+    background: #f6f8f7;
+    height: calc(100vh - 64px);
+    width: 240px;
+    transform: translateX(100%);
+    transition: transform 0.28s ease;
+    box-shadow: -3px 0 32px rgba(0, 0, 0, 0.1);
+    border-radius: 12px 0 0 12px;
+    padding-top: 28px;
+    z-index: 998;
+  }
+
+  .header__nav.active {
+    transform: translateX(0);
+  }
+
+  .header__nav ul {
+    flex-direction: column;
+    gap: 20px;
+    padding-left: 28px;
+  }
+
+  .header__nav ul li a {
+    font-size: 1.25rem;
+    padding: 6px 0;
+  }
+
+  .header__icons {
+    gap: 1.2rem;
+  }
+}
+
+
+/* useroptions */
+/* Position SpeedDial fixed on bottom-right */
+.speedDial {
+  position: fixed !important;
+  top: 100px;
+  bottom: 32px;
+  right: 32px;
+  z-index: 1300; /* above most content */
+}
+
+/* Profile icon styling */
+.speedDialIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2.5px solid #4caf508f; /* subtle green border */
+  box-shadow: 0 2px 10px rgba(76, 175, 80, 0.25);
+  object-fit: cover;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.speedDialIcon:hover,
+.speedDialIcon:focus {
+  box-shadow: 0 6px 26px rgba(76, 175, 80, 0.55);
+  transform: scale(1.06);
+  outline: none;
+}
+
+/* Backdrop dimming */
+.MuiBackdrop-root {
+  background-color: rgba(38, 115, 36, 0.42); /* forest green tinted overlay */
+  backdrop-filter: blur(3px);
+  transition: all 0.3s ease;
+}
+
+/* SpeedDialAction buttons */
+.MuiSpeedDialAction-fab {
+  background: linear-gradient(135deg, #6ad248 0%, #3e8c20 100%);
+  color: white;
+  box-shadow: 0 4px 20px rgba(61, 140, 31, 0.4);
+  transition: background 0.32s ease, transform 0.22s ease;
+  border-radius: 14px;
+  padding: 12px;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.MuiSpeedDialAction-fab:hover,
+.MuiSpeedDialAction-fab:focus {
+  background: linear-gradient(135deg, #9be86c 0%, #46b319 100%);
+  box-shadow: 0 8px 30px rgba(58, 177, 26, 0.75);
+  transform: scale(1.15);
+  outline: none;
+}
+
+/* Tooltip style */
+.MuiTooltip-tooltip {
+  background-color: #2f6e10;
+  color: #d6f2a6;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 12px rgba(67, 143, 29, 0.6);
+  letter-spacing: 0.02em;
+  padding: 6px 12px;
+  user-select: none;
+}
+
+/* Tooltip arrow */
+.MuiTooltip-arrow {
+  color: #2f6e10;
+}
+
+/* Responsive tweak: always show tooltip text on small screens */
+@media (max-width: 600px) {
+  .MuiSpeedDialAction-staticTooltipLabel {
+    font-size: 1.04rem;
+  }
+}
+
+
+
+/* new code */
+
+
+#navbar {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    Position: relative;
+    top: 0px;
+    font-family: 'Bree Serif', serif;
+}
+
+#navbar::before {
+    content: "";
+    /* background-color: black; */
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    opacity: 0.2;
+}
+
+#navbar ul {
+    display: flex;
+}
+
+#navbar ul li {
+    list-style: none;
+    font-size: 1.3rem;
+}
+
+#navbar ul li a {
+    color: white;
+    display: block;
+    font-weight: bold;
+    padding: 2px 20px;
+    margin: 20px 10px;
+    text-align: left;
+    text-decoration: none;
+}
+
+#navbar ul li a:hover {
+    color: rgb(246, 186, 96);
+}
+
+#logo {
+    margin: 7px 15px;
+    left: 150px;
+    cursor: pointer;
+}
+
+#logo img {
+    filter: invert(1);
+    height: 25px;
+    margin: 17px 15px;
+}
+
+#home {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 25px;
+    height: 745px;
+    justify-content: start;
+    align-items: start;
+    
+}
+
+#home::before {
+    content: "";
+    background: url('../../../assets/homeimg.jpg') no-repeat center center/cover;
+    height: 1000px;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    opacity: 1;
+}
+
+#home h1 {
+    font-family: 'Bree Serif', serif;
+    color: white;
+    font-size: 42px;
+    margin: 22px;
+  }
+  
+  #home h2 {
+    color: #8bc5ab;
+    text-align: justify;
+    margin-top: 20px;
+    font-size: 65px;
+    font-family: 'Parisienne', cursive;
+    font-style: italic;
+  }
+  
+  #home p {
+  width: 1000px;
+    font-family: 'Bree Serif', serif;
+    color: white;
+    font-size: 20px;
+}

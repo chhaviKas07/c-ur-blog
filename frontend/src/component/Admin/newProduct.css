@@ -1,137 +1,174 @@
 .newProductContainer {
   width: 100%;
-  box-sizing: border-box;
-  background-color: rgb(221, 221, 221);
-  border-left: 1px solid rgba(0, 0, 0, 0.158);
+  height: 140vh;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-}
-.newProductContainer h1 {
-  color: rgba(0, 0, 0, 0.733);
-  font: 300 2rem "Roboto";
-  text-align: center;
+  box-sizing: border-box;
+  /* background: linear-gradient(135deg, #ffecd2, #fcb69f); */
+  background-color: rgb(231, 231, 231);
+  border-left: none;
+  padding: 2rem 0;
+  justify-content: center;
+  align-items: center;
 }
 
+/* HEADER */
+.newProductContainer h1 {
+  color: #222;
+  font: 600 2.5rem "Poppins", sans-serif;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* FORM CARD WITH GLASSMORPHISM */
 .createProductForm {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto;
-  padding: 3vmax;
   justify-content: space-evenly;
-  height: 70%;
-  width: 40vh;
+  width: 450px;
+  padding: 2rem;
+  border-radius: 16px;
   background-color: #f0ccb2;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.267);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.createProductForm > div {
-  display: flex;
-  width: 100%;
-  align-items: center;
+.createProductForm:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
 }
-.createProductForm > div > input,
-.createProductForm > div > select,
-.createProductForm > div > textarea {
-  padding: 1vmax 4vmax;
-  padding-right: 1vmax;
+
+/* INPUT FIELDS */
+.createProductForm>div {
+  position: relative;
   width: 100%;
-  box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.267);
-  border-radius: 4px;
-  font: 300 0.9vmax cursive;
+  margin-bottom: 1.2rem;
+}
+
+.createProductForm>div>input,
+.createProductForm>div>select,
+.createProductForm>div>textarea {
+  width: 100%;
+  padding: 0.9rem 1rem 0.9rem 3rem;
+  border-radius: 10px;
+  border: none;
+  font: 400 1rem "Poppins", sans-serif;
+  /* background: rgba(255, 255, 255, 0.7); */
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.createProductForm>div>input:focus,
+.createProductForm>div>select:focus,
+.createProductForm>div>textarea:focus {
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.4);
   outline: none;
 }
 
-.createProductForm > div > svg {
+/* ICONS INSIDE INPUT */
+.createProductForm>div>svg {
   position: absolute;
-  transform: translateX(1vmax);
-  font-size: 1.6vmax;
-  color: rgba(0, 0, 0, 0.623);
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #ff6b6b;
+  pointer-events: none;
 }
 
-#createProductFormFile > input {
-  display: flex;
-  padding: 0%;
+/* FILE UPLOAD */
+#createProductFormFile>input {
+  padding: 0;
 }
 
-#createProductFormFile > input::file-selector-button {
+#createProductFormFile>input::file-selector-button {
   cursor: pointer;
   width: 100%;
-  z-index: 2;
-  height: 5vh;
+  height: 45px;
   border: none;
-  margin: 0%;
-  font: 400 0.8vmax cursive;
-  transition: all 0.5s;
-  padding: 0 1vmax;
-  color: rgba(0, 0, 0, 0.623);
-  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  margin-top: 0.5rem;
+
+  font: 500 0.95rem "Poppins", sans-serif;
+  color: #444;
+
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-#createProductFormFile > input::file-selector-button:hover {
-  background-color: rgb(235, 235, 235);
+#createProductFormFile>input::file-selector-button:hover {
+  background: linear-gradient(135deg, #ffe2dc, #ffd6d1);
+  color: #222;
+  transform: scale(1.02);
 }
 
+/* IMAGE PREVIEW */
 #createProductFormImage {
   width: 100%;
-  overflow: auto;
+  text-align: center;
+  margin-top: 1rem;
 }
 
-#createProductFormImage > img {
-  width: 3vmax;
-  margin: 0 0.5vmax;
+#createProductFormImage>img {
+  width: 3rem;
+  margin: 0 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
 }
+
+/* SUBMIT BUTTON */
 #createProductBtn {
   border: none;
-  background-color: tomato;
-  color: white;
-  font: 300 0.9vmax "Roboto";
   width: 100%;
-  padding: 0.8vmax;
+  padding: 1rem;
+  border-radius: 12px;
+
+  font: 600 1rem "Poppins", sans-serif;
+  color: white;
+  background-color: #f0ccb2;
   cursor: pointer;
-  transition: all 0.5s;
-  border-radius: 4px;
   outline: none;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
 }
 
 #createProductBtn:hover {
-  background-color: rgb(179, 66, 46);
+  background-color: #ba7543;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
 }
 
+/* RESPONSIVE */
 @media screen and (max-width: 600px) {
-  .newProductContainer {
-    background-color: rgb(255, 255, 255);
-  }
   .createProductForm {
-    padding: 5vmax;
+    width: 90%;
+    padding: 1.8rem;
   }
 
-  .createProductForm > div > input,
-  .createProductForm > div > select,
-  .createProductForm > div > textarea {
-    padding: 2.5vmax 5vmax;
-    font: 300 1.7vmax cursive;
-  }
-
-  .createProductForm > div > svg {
-    font-size: 2.8vmax;
-  }
-
-  #createProductFormFile > img {
-    width: 8vmax;
-    border-radius: 100%;
-  }
-
-  #createProductFormFile > input::file-selector-button {
-    height: 7vh;
-    font: 400 1.8vmax cursive;
+  .newProductContainer h1 {
+    font-size: 2rem;
   }
 
   #createProductBtn {
-    font: 300 1.9vmax "Roboto";
-    padding: 1.8vmax;
+    font-size: 1.1rem;
+    padding: 1rem;
   }
+}
+
+.createProductForm>div>input::placeholder {
+  color: black;
+  /* make it visible */
+  opacity: 1;
+  /* some browsers make it semi-transparent */
 }

@@ -1,154 +1,211 @@
-.contactContainer {
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%;
-  display: grid;
-  place-items: center;
-  background-color: white;
-  position: fixed;
+/* ----------- Page Container ----------- */
+.contactPageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  max-width: 1200px;
+  margin: 60px auto;
+  padding: 40px 20px;
+  font-family: "Inter", sans-serif;
+  color: #2e3d32;
 }
 
-.mailBtn {
-  text-decoration: none;
-  transform: translateX(-100vw);
-  animation: mailBtnAnimation 2s forwards;
+/* ----------- Left Section ----------- */
+.contactLeft {
+  flex: 1;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  position: relative;
 }
 
-.mailBtn > button {
-  text-decoration: none;
-  font: 200 2vmax "Roboto";
-  cursor: url("https://img.icons8.com/color/48/000000/edit--v2.png"), pointer;
-  padding: 2vmax;
-}
-
-@keyframes mailBtnAnimation {
-  to {
-    transform: translateX(0);
-  }
-}
-.css-5lbw0b-MuiTypography-root {
-    margin-bottom: 20px !important;}
-.contactForm h2 {
-  text-align: center;
-  font-size: 24px;
-  color: #333;
+.ecoBg {
   margin-bottom: 20px;
 }
 
+.companyInfo h2 {
+  font-size: 1.8rem;
+  color: #2e572f;
+  margin-bottom: 10px;
+}
+
+.companyInfo h3 {
+  margin-top: 20px;
+  font-size: 1.4rem;
+  color: #388e3c;
+  font-weight: 600;
+}
+
+.companyInfo p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.verifiedShop {
+  font-weight: 600;
+  color: #2e6930;
+  margin-top: 12px;
+}
+
+/* ----------- Contact Features ----------- */
+.contactFeatures {
+  list-style: none;
+  margin: 20px 0 25px;
+  padding: 0;
+}
+
+.contactFeatures li {
+  margin: 12px 0;
+  font-size: 0.95rem;
+  padding-left: 5px;
+  color: #333;
+  line-height: 1.5;
+}
+.contactFeatures strong {
+  color: #2f5132;
+}
+
+/* ----------- Contact Links ----------- */
+.contactLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.contactLinks a {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #388e3c;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #a8e063;
+  transition: all 0.3s ease;
+}
+.contactLinks a:hover {
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+  color: white;
+}
+
+/* ----------- Social Icons ----------- */
+.socialIcons {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.socialItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #f0f8f2;
+  color: #38794e;
+  transition: all 0.3s ease;
+}
+.socialItem:hover {
+  background: #38794e;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* ----------- Right Section (Form) ----------- */
+.contactForm {
+  flex: 1;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.formTitle {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #2e572f;
+  text-align: left;
+}
+
+.formSubtitle {
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+  line-height: 1.5;
+  color: #555;
+  text-align: left;
+}
+
+/* ----------- Form Inputs ----------- */
 .contactForm input,
 .contactForm textarea {
-  padding: 12px;
-  font-size: 16px;
-  color: #000;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  font-size: 1rem;
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 1px solid #c8e6c9;
+  margin-bottom: 16px;
+  background: #fdfdfd;
+  transition: border-color 0.3s, box-shadow 0.3s;
   outline: none;
-  transition: border 0.3s;
+  resize: none;
 }
 
 .contactForm input:focus,
 .contactForm textarea:focus {
-  border: 1px solid #1976d2;
+  border-color: #56ab2f;
+  box-shadow: 0 0 6px rgba(86, 171, 47, 0.4);
 }
 
-.contactForm textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.contactForm button {
-  padding: 12px;
-  font-size: 16px;
-  background-color: #1976d2;
-  color: #fff;
+/* ----------- Submit Button ----------- */
+.contactBtn {
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.contactForm button:hover {
-  background-color: #125ea7;
-}
-
-.contactContainer {
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  padding: 2rem;
-  box-sizing: border-box;
-  overflow-y: auto;
-}
-
-.contactForm {
-  width: 100%;
-  max-width: 500px;
-  background: #f0ccb2;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-.contactForm .MuiTypography-root {
-    background-color: #f0ccb2 !important;
-}
-.formTitle {
-  text-align: center;
-  margin-bottom: 1rem;
-  font-family: 'Roboto', sans-serif;
-}
-
-.submitBtn {
-  margin-top: 1rem;
-  font-size: 1rem;
-}
-
-
-.contactForm input,
-.contactForm textarea {
-  color: #000; /* Set input text color to black */
-  background-color: #fff; /* Optional: ensure background is white */
-}
-
-
-.contactForm input,
-.contactForm textarea {
-  padding: 1vmax;
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, 0.267);
-  border-radius: 4px;
-  font: 300 0.9vmax cursive;
-  outline: none;
-  color: black;
-  background-color: white;
-  resize: none;
-  margin: 10px 0;
-}
-
-.contactForm textarea {
-  min-height: 120px;
-}
-
-.contactForm button {
-  border: none;
-  background-color: black;
+  border-radius: 30px;
   color: white;
-  font: 300 0.9vmax "Roboto";
-  padding: 0.8vmax;
   cursor: pointer;
-  transition: all 0.5s;
-  border-radius: 4px;
-  outline: none;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
-  margin-top: 20px;
-  padding: 10px 30px;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  box-shadow: 0 8px 20px rgba(86, 171, 47, 0.35);
+}
+.contactBtn:hover {
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  transform: translateY(-3px);
 }
 
-.contactForm button:hover {
-  background-color: #ba7543;
+/* ----------- Support Note ----------- */
+.supportNote {
+  margin-top: 20px;
+  padding: 12px;
+  font-size: 0.9rem;
+  background: #f1f8f4;
+  border-radius: 10px;
+  text-align: center;
+  color: #2e3d32;
+}
+
+/* ----------- Responsive ----------- */
+@media (max-width: 900px) {
+  .contactPageContainer {
+    flex-direction: column;
+    gap: 30px;
+    padding: 20px;
+  }
+  .contactLeft,
+  .contactForm {
+    width: 100%;
+  }
+  .contactLinks {
+    justify-content: center;
+  }
+  .socialIcons {
+    justify-content: center;
+  }
 }

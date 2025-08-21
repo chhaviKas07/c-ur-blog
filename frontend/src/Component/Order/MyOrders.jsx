@@ -65,10 +65,7 @@ const MyOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          // <Link to={`/order/${params.row.id}`}>
-          //   <LaunchIcon />
-          // </Link>
-            <div style={{ display: "flex", gap: "10px" }}>
+            <div className="actions">
             <Link to={`/order/${params.row.id}`}>
               <LaunchIcon />
             </Link>
@@ -108,9 +105,9 @@ const MyOrders = () => {
               <Typography
                 id="myOrdersHeading"
                 variant="h5"
-                style={{ textAlign: "center", margin: "20px 0", fontWeight: "600" }}
+                style={{ textAlign: "center", fontWeight: "600" }}
               >
-                🧾 Download Invoices
+               YOUR ORDERS
               </Typography>
             <DataGrid
               rows={rows}
@@ -120,12 +117,9 @@ const MyOrders = () => {
               className="myOrdersTable"
               autoHeight
             />
-            <Typography id="myOrdersHeading">
-              {user?.name || "User"}'s Orders
-            </Typography>
           </>
         ) : (
-          <div className="noOrdersMessage">
+          <div className="noOrdersMessages">
             <div className="emptyCart">
               <Typography>No Orders yet 🛒</Typography>
               <Link to="/products">View Products</Link>

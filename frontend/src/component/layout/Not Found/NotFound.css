@@ -1,43 +1,55 @@
+/* ---------- NotFound Page ---------- */
 .PageNotFound {
-  margin: auto;
-  text-align: center;
-  padding: 10vmax;
-  height: 50vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  background: linear-gradient(135deg, #e8f5e9, #f1f8f4);
+  font-family: "Inter", sans-serif;
+  color: #2e3d32;
+  padding: 20px;
 }
-.PageNotFound > svg {
-  font-size: 7vmax;
-  color: tomato;
+
+/* Main heading */
+.PageNotFound h1, 
+.PageNotFound .MuiTypography-root {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #2e572f;
 }
-.PageNotFound > p {
-  font-size: 2vmax;
+
+/* Sub text */
+.PageNotFound p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: #555;
 }
-.PageNotFound > a {
-  background-color: rgb(51, 51, 51);
-  color: white;
-  border: none;
-  padding: 1vmax 3vmax;
-  cursor: pointer;
-  font: 400 1vmax "Roboto";
+
+/* Home link styled as button */
+.PageNotFound a {
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
   text-decoration: none;
-  margin: 2vmax;
+  color: #fff;
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(86, 171, 47, 0.3);
+}
+.PageNotFound a:hover {
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  transform: translateY(-3px);
 }
 
-@media screen and (max-width: 600px) {
-  .PageNotFound > a {
-    padding: 3vw 6vw;
-    font: 400 4vw "Roboto";
-    margin: 2vmax;
-  }
-
-  .PageNotFound > svg {
-    font-size: 20vw;
-  }
-  .PageNotFound > p {
-    margin: 2vmax;
-    font-size: 5vw;
-  }
+/* Fun eco icon */
+.PageNotFound::before {
+  content: "🌱";
+  font-size: 4rem;
+  margin-bottom: 10px;
+  display: block;
 }

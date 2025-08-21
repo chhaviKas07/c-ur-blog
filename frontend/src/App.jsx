@@ -1,59 +1,54 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import React from "react";
 import { loadUser } from "./userSlice.jsx";
-import { loadShippingInfo, loadShippingInfoForUser } from "./CartSlice.jsx"; 
+import { loadShippingInfo, loadShippingInfoForUser } from "./CartSlice.jsx";
 import { Elements } from "@stripe/react-stripe-js";
 import { useSelector, useDispatch } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-// #f0ccb2   #ba7543
 import store from "./store.jsx";
-import Payment from "./component/Cart/Payment.jsx";  
-import Footer from "./component/layout/Footer/Footer.jsx";  
-import Header from "./component/layout/Header/Header.jsx";  
-// https://template-kit.ancorathemes.com/veggie/template-kit/home-1/?storefront=envato-elements
-// https://sustainable-jenn.cmsmasters.net/main/#cmsmasters-scroll-top
-// https://ibeydesign.com/organica/?storefront=envato-elements
-import Home from "./component/Home/Home.jsx"; 
-import ProductDetails from "./component/Product/ProductDetails.jsx"; 
-import Products from "./component/Product/Products.jsx";  //N
-import Search from "./component/Product/Search.jsx";   
-import LoginSignUp from "./component/User/LoginSignUp.jsx";  
-import UserOptions from "./component/layout/Header/UserOptions.jsx";
-import Profile from "./component/User/Profile.jsx";  
-import ProtectedRoute from "./component/Route/ProtectedRoute.jsx";
-import UpdateProfile from "./component/User/UpdateProfile.jsx"; 
-import UpdatePassword from "./component/User/UpdatePassword.jsx";  
-import ForgotPassword from "./component/User/ForgotPassword.jsx"; 
-import ResetPassword from "./component/User/ResetPassword.jsx";  
-import Cart from "./component/Cart/Cart.jsx";  
-import Shipping from "./component/Cart/Shipping.jsx";  
-import ConfirmOrder from "./component/Cart/ConfirmOrder.jsx";  
-import OrderSuccess from "./component/Cart/OrderSuccess.jsx";  
-import MyOrders from "./component/Order/MyOrders.jsx";   
-import OrderDetails from "./component/Order/OrderDetails.jsx";  
-import Dashboard from "./component/Admin/Dashboard.jsx";  
-import ProductList from "./component/Admin/ProductList.jsx";  
-import NewProduct from "./component/Admin/NewProduct.jsx";  
-import UpdateProduct from "./component/Admin/UpdateProduct.jsx";  
-import OrderList from "./component/Admin/OrderList.jsx";   
-import ProcessOrder from "./component/Admin/ProcessOrder.jsx";  
-import UsersList from "./component/Admin/UsersList.jsx";   
-import UpdateUser from "./component/Admin/UpdateUser.jsx"; 
-import ProductReviews from "./component/Admin/ProductReviews.jsx";  
+import Footer from "./component/layout/Footer/Footer.jsx";            
+import Header from "./component/layout/Header/Header.jsx";            
+import Payment from "./component/Cart/Payment.jsx";                   //D
+import Home from "./component/Home/Home.jsx";
+import ProductDetails from "./component/Product/ProductDetails.jsx";
+import Products from "./component/Product/Products.jsx";
+import Search from "./component/Product/Search.jsx";                   //D  
+import LoginSignUp from "./component/User/LoginSignUp.jsx";            //D
+import UserOptions from "./component/layout/Header/UserOptions.jsx";   //D
+import Profile from "./component/User/Profile.jsx";                    //D
+import ProtectedRoute from "./component/Route/ProtectedRoute.jsx";     //D
+import UpdateProfile from "./component/User/UpdateProfile.jsx";        //D
+import UpdatePassword from "./component/User/UpdatePassword.jsx";      //D
+import ForgotPassword from "./component/User/ForgotPassword.jsx";      //D
+import ResetPassword from "./component/User/ResetPassword.jsx";        //D
+import Cart from "./component/Cart/Cart.jsx";                          //D         
+import Shipping from "./component/Cart/Shipping.jsx";                  //D
+import ConfirmOrder from "./component/Cart/ConfirmOrder.jsx";          //D
+import OrderSuccess from "./component/Cart/OrderSuccess.jsx";          //D 
+import MyOrders from "./component/Order/MyOrders.jsx";                 //D                   
+import OrderDetails from "./component/Order/OrderDetails.jsx";         //D   
+import Dashboard from "./component/Admin/Dashboard.jsx";               //D  
+import ProductList from "./component/Admin/ProductList.jsx";           //D 
+import NewProduct from "./component/Admin/NewProduct.jsx";             //D 
+import UpdateProduct from "./component/Admin/UpdateProduct.jsx";       //D
+import OrderList from "./component/Admin/OrderList.jsx";               //D 
+import ProcessOrder from "./component/Admin/ProcessOrder.jsx";         //D 
+import UsersList from "./component/Admin/UsersList.jsx";               //D   
+import UpdateUser from "./component/Admin/UpdateUser.jsx";             //D   
+import ProductReviews from "./component/Admin/ProductReviews.jsx";     //D   
 
-import Contact from "./component/layout/Contact/Contact.jsx";  
-import About from "./component/layout/About/About.jsx";    
-import NotFound from "./component/layout/Not Found/NotFound.jsx"; 
+import Contact from "./component/layout/Contact/Contact.jsx";          //D
+import About from "./component/layout/About/About.jsx";                //D
+import NotFound from "./component/layout/Not Found/NotFound.jsx";      //D
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -74,35 +69,30 @@ function App() {
     }
   }
 
-  // useEffect(() => {
-  //   store.dispatch(loadUser());
-
-  //   getStripeApiKey();
-  // }, []);
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
-  
+
 
   useEffect(() => {
     if (isAuthenticated) {
       getStripeApiKey();
     }
   }, [isAuthenticated]);
-  
-useEffect(() => {
-  if (user && user._id) {
-    dispatch(loadShippingInfo());
-  }
-}, [user]);
 
-useEffect(() => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (user && user._id) {
-    console.log("📦 App init: loading shipping info for user", user._id);
-    dispatch(loadShippingInfoForUser(user._id));
-  }
-}, [dispatch]);
+  useEffect(() => {
+    if (user && user._id) {
+      dispatch(loadShippingInfo());
+    }
+  }, [user]);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user._id) {
+      console.log("📦 App init: loading shipping info for user", user._id);
+      dispatch(loadShippingInfoForUser(user._id));
+    }
+  }, [dispatch]);
 
   window.addEventListener("contextmenu", (e) => e.preventDefault());
 
@@ -226,7 +216,7 @@ useEffect(() => {
 
       </Routes>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

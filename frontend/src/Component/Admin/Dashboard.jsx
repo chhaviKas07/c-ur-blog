@@ -162,7 +162,7 @@ totalAmount = parseFloat(totalAmount.toFixed(2));
       <Sidebar />
 
       <div className="dashboardContainer">
-        <Typography component="h1">Dashboard</Typography>
+        {/* <Typography component="h1">Dashboard</Typography> */}
 
         <div className="dashboardSummary">
           <div>

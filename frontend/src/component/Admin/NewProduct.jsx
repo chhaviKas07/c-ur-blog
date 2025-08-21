@@ -18,12 +18,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import StorageIcon from "@mui/icons-material/Storage";
-import axios from 'axios';
-
-import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import ScaleIcon from "@mui/icons-material/Scale";
-// import EcoIcon from "@mui/icons-material/Eco";
 import EnergySavingsLeafIcon from "@mui/icons-material/EnergySavingsLeaf";
 
 const NewProduct = () => {
@@ -36,14 +32,14 @@ const NewProduct = () => {
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [Stock, setStock] = useState(0);
+  const [Stock, setStock] = useState("");
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
   const [isEcoCertified, setIsEcoCertified] = useState(false);
   const [materialType, setMaterialType] = useState("");
-  const [weightInGrams, setWeightInGrams] = useState(0);
-  const [shippingDistanceKm, setShippingDistanceKm] = useState(0);
+  const [weightInGrams, setWeightInGrams] = useState("");
+  const [shippingDistanceKm, setShippingDistanceKm] = useState("");
   const materialTypes = ["plastic", "paper", "glass", "metal", "bamboo"];
 
   const categories = [
@@ -169,27 +165,6 @@ const NewProduct = () => {
     setImages(files); // Store files for Cloudinary upload
   };
 
-
-  // const createProductImagesChange = (e) => {
-  //   const files = Array.from(e.target.files);
-  //   setImages([]);
-  //   setImagesPreview([]);
-
-  //   files.forEach((file) => {
-  //     const reader = new FileReader();
-
-  //     reader.onload = () => {
-  //       if (reader.readyState === 2) {
-  //         setImagesPreview((old) => [...old, reader.result]);
-  //         setImages((old) => [...old, file]);
-  //       }
-  //     };
-
-  //     reader.readAsDataURL(file);
-  //   });
-  // };
-
-
   return (
     <Fragment>
       <ToastContainer />
@@ -231,11 +206,10 @@ const NewProduct = () => {
                 placeholder="Product Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                cols="30"
-                rows="1"
-              ></textarea>
+                rows={4}
+                style={{ width: '100%', resize: 'none' }}
+              />
             </div>
-
             <div>
               <AccountTreeIcon />
               <select
@@ -249,21 +223,6 @@ const NewProduct = () => {
                   </option>
                 ))}
               </select>
-            </div>
-
-            {/* --- NEW ECO INPUTS BELOW --- */}
-            {/* --- NEW ECO INPUTS BELOW --- */}
-            <div>
-              <CheckBoxIcon />
-              <label style={{ display: "flex", alignItems: "center" }}>
-                <input
-                  type="checkbox"
-                  checked={isEcoCertified}
-                  onChange={(e) => setIsEcoCertified(e.target.checked)}
-                  style={{ marginRight: "8px", transform: "scale(1.2)" }}
-                />
-                Eco Certified?
-              </label>
             </div>
 
             <div>
@@ -310,6 +269,19 @@ const NewProduct = () => {
                 value={Stock}
                 onChange={(e) => setStock(Number(e.target.value))}
               />
+            </div>
+
+            <div style={{ left: "10px" }}>
+              {/* <CheckBoxIcon /> */}
+              <label style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  type="checkbox"
+                  checked={isEcoCertified}
+                  onChange={(e) => setIsEcoCertified(e.target.checked)}
+                  style={{ marginRight: "25px", transform: "scale(1.2)" }}
+                />
+                Eco Certified?
+              </label>
             </div>
 
             <div id="createProductFormFile">

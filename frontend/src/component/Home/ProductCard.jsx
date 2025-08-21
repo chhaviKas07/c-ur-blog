@@ -16,7 +16,6 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    
     <Link className="productCard" to={`/product/${product._id}`}>
       <img src={imageUrl} alt={product.name} />
       <p>{product.name}</p>
@@ -26,10 +25,9 @@ const ProductCard = ({ product }) => {
         <span className="productCardSpan">
           ({product.numOfReviews || 0} Reviews)
         </span>
-     <span style={{ color: product.ecoScore >= 70 ? 'green' : product.ecoScore >= 40 ? 'orange' : 'red' }}>
-  ♻️ Eco Score: {product.ecoScore}/100
-</span>
-
+        <span style={{ color: product.ecoScore >= 70 ? 'green' : product.ecoScore >= 40 ? 'orange' : 'red' }}>
+          ♻️ Eco Score: {product.ecoScore}/100
+        </span>
       </div>
     </Link>
   );

@@ -19,7 +19,9 @@
   box-sizing: border-box;
   color: rgb(255, 255, 255);
   transition: all 0.5s;
-  background-color: rgb(44, 44, 44);
+  margin-top: 50px;
+  margin-bottom: 10px;
+  /* background-color: rgb(44, 44, 44); */
 }
 
 .myOrdersTable {
@@ -82,25 +84,240 @@
 }
 
 
+/*  */
+/* Container */
+.myOrdersPage {
+  max-width: 100%;
+  margin: 48px auto 72px;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c5631;
+  background: #f7fbf5;
+  border-radius: 22px;
+  box-shadow: 0 12px 38px rgba(57, 151, 48, 0.12);
+}
+
+/* Heading */
+#myOrdersHeading {
+  font-weight: 700 !important;
+  font-size: 1.75rem !important;
+  color: #3a7740 !important;
+  /* margin-bottom: 24px !important; */
+  user-select: none;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* DataGrid Overrides */
+.myOrdersTable {
+  border-radius: 16px !important;
+  --MuiDataGrid-row-hover-bgColor: #d5f6c9;
+  box-shadow: 0 6px 30px rgba(64, 142, 49, 0.1);
+  user-select: none;
+  font-size: 1rem;
+  color: #2e5630;
+}
+
+/* Header Row */
+.myOrdersTable .MuiDataGrid-columnHeaders {
+  background: linear-gradient(90deg, #7fde78 0%, #67c452 100%);
+  color: white;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  border-bottom: none !important;
+}
+
+/* Rows hover effect */
+.myOrdersTable .MuiDataGrid-row:hover {
+  background-color: rgba(94, 175, 43, 0.16);
+  cursor: pointer;
+}
+
+/* Cell padding and typography */
+.myOrdersTable .MuiDataGrid-cell {
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #2f7732;
+}
+
+/* Green and red status colors (from your `cellClassName`) */
+.greenColor {
+  color: #1a751a !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 3px #50b250aa;
+}
+
+.redColor {
+  color: #b53636 !important;
+  font-weight: 700 !important;
+  text-shadow: 0 0 3px #da6868aa;
+}
+
+/* Actions column icons container */
+.MuiDataGrid-cell .MuiIconButton-root {
+  color: #3c7a31;
+  transition: color 0.22s ease;
+}
+
+.MuiDataGrid-cell .MuiIconButton-root:hover,
+.MuiDataGrid-cell .MuiIconButton-root:focus {
+  color: #7fde78;
+  outline: none;
+}
+
+/* Empty orders message */
+.noOrdersMessage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 320px;
+  user-select: none;
+}
+/* ===================== EMPTY CART ===================== */
 .emptyCart {
+  height: 75vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 5rem;
+  font-family: "Inter", sans-serif;
+  text-align: center;
+  padding: 50px 30px;
+  border-radius: 24px;
+  background: linear-gradient(160deg, #f8fff8, #e9fbe9);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  max-width: 700px;
+  margin: 60px auto;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
 }
 
-.emptyCart > a {
-  margin-top: 1rem;
-  padding: 0.7rem 2rem;
-  background-color: #f0ccb2;
-  color: black;
+/* Decorative glowing background orbs */
+.emptyCart::before,
+.emptyCart::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.emptyCart::before {
+  width: 320px;
+  height: 320px;
+  background: #a8e063;
+  top: -120px;
+  left: -100px;
+}
+
+.emptyCart::after {
+  width: 360px;
+  height: 360px;
+  background: #56ab2f;
+  bottom: -150px;
+  right: -130px;
+}
+
+/* Shopping cart icon styling */
+.emptyCart svg, .emptyCart .MuiSvgIcon-root {
+  font-size: 6.5rem;
+  color: #56ab2f;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 50%;
+  box-shadow: 0 14px 40px rgba(86, 171, 47, 0.35);
+  animation: floatY 3s ease-in-out infinite;
+  z-index: 2;
+  user-select: none;
+}
+
+/* Animated floating icon */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-18px); }
+}
+
+/* Headline text style */
+.emptyCart p,
+.emptyCart .MuiTypography-root {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f3d2c;
+  margin: 24px 0 12px;
+  z-index: 2;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+
+/* Subtext (optional) */
+.emptyCart span {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #456b4f;
+  margin-bottom: 20px;
+  z-index: 2;
+  user-select: none;
+}
+
+/* CTA button styles */
+.emptyCart a {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 14px 38px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
   text-decoration: none;
-  font-weight: bold;
-  border-radius: 5px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 28px rgba(86, 171, 47, 0.35);
+  z-index: 2;
+  user-select: none;
 }
 
-.emptyCart > a:hover {
-  background-color: #ba7543;
-  color: white;
+.emptyCart a:hover {
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  transform: translateY(-5px) scale(1.04);
+  box-shadow: 0 14px 32px rgba(76, 175, 80, 0.4);
+}
+
+/* Optional bounce animation (if needed) */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0);}
+  50% { transform: translateY(-6px);}
+}
+
+/* Responsive tweaks */
+@media (max-width: 720px) {
+  .myOrdersPage {
+    padding: 0 14px;
+  }
+
+  #myOrdersHeading {
+    font-size: 1.4rem !important;
+    margin-bottom: 18px !important;
+  }
+
+  .myOrdersTable .MuiDataGrid-cell {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .emptyCart {
+    padding: 28px 36px;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
 }

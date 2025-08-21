@@ -1,10 +1,16 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./Home.css";
 import ProductCard from "./ProductCard.jsx";
 import MetaData from "../layout/MetaData.jsx";
 import { clearErrors, getProducts } from "../../productSlice.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import Loader from "../layout/Loader/Loader.jsx";
+import imgbg from "../../assets/imgbg.png";
+import homesec from "../../assets/home-sec.png";
+import SUSTAINABLEPRODUCTS from "../../assets/SUSTAINABLEPRODUCTS.jpg";
+import track from "../../assets/track.jpg";
+import carbon from "../../assets/carbon.jpg";
+
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -15,8 +21,39 @@ const Home = () => {
       dispatch(clearErrors());
     }
     dispatch(getProducts({}));
-  }, [dispatch, error]);  
-  
+  }, [dispatch, error]);
+
+  const testimonials = [
+    {
+      quote:
+        "The dinner table is a special place where everyone's family. It's where good food and company matter, where we gather to talk about things both big and small.",
+      name: "Samantha Willams",
+      location: "St. Louis, MO",
+    },
+    {
+      quote:
+        "EcoMarket has changed the way I shop. Their commitment to sustainability is real, and every product feels thoughtfully sourced.",
+      name: "Liam Johnson",
+      location: "Seattle, WA",
+    },
+    {
+      quote:
+        "Finally, a place where ethical choices don’t mean compromising on quality or style. Highly recommend to anyone looking to shop greener.",
+      name: "Aisha Patel",
+      location: "Austin, TX",
+    },
+  ];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Auto slide every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const { quote, name, location } = testimonials[currentIndex];
   return (
     <Fragment>
       {loading ? (
@@ -24,119 +61,144 @@ const Home = () => {
       ) : (
         <Fragment>
           <MetaData title="C_UR_PRODUCT" />
+          <section id="home" className="home-section">
+            <h1 className="heading">Welcome to <span style={{ color: "#000000ff" }}>Eco-Friendly Marketplace</span></h1>
+            <p className="subheading">
+              Your one-stop eco-friendly marketplace for sustainable, plastic-free living.
+            </p>
+            <p className="tagline">Shop consciously. Live mindfully.</p>
+          </section>
+          <section className="ecoCategories">
+            <h2 className="sectionTitle">Choose by Category</h2>
+            <p className="sectionSubtext">WHAT WE OFFER</p>
 
-         <div className="banner">
-            <p>Welcome to Eco-Friendly Marketplace</p>
-            <h1>Shop Sustainably. Live Responsibly.</h1>
-            <a href="#container">
-              <button>Shop Now</button>
-            </a>
-          </div>
+            <div className="categoryGrid">
+              {[
+                { name: "Home Decor", icon: "🪴" },
+                { name: "Fashion and Accessories", icon: "👗" },
+                { name: "Stationery", icon: "✏️" },
+                { name: "Personal Care", icon: "🧴" },
+                { name: "Household Essentials", icon: "🧼" },
+                { name: "Beauty", icon: "💄" },
+              ].map((cat) => (
+                <div className="categoryCard" key={cat.name}>
+                  <div className="categoryIcon">{cat.icon}</div>
+                  <p>{cat.name}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+          <section className="ecoHighlights">
+            <h2 className="sectionTitle">We Grow Sustainability</h2>
+            <p className="sectionSubtext">Empowering your lifestyle with conscious, planet-friendly choices.</p>
+            <div className="ecoFeatureGrid">
+              <div className="featureBox left">
+                <ul>
+                  <li><span>🌿</span> Sustainable</li>
+                  <li><span>🍃</span> Organic Materials</li>
+                  <li><span>🧼</span> Cruelty-Free</li>
+                  <li><span>♻️</span> Plastic-Free Packaging</li>
+                </ul>
+              </div>
 
-<section className="ecoHighlights">
-  <h2 className="sectionTitle">We Grow Sustainability</h2>
-  <p className="sectionSubtext">Empowering your lifestyle with conscious, planet-friendly choices.</p>
+              <div className="featureImage">
+                <img src={homesec} alt="Eco Products" />
+              </div>
 
-  <div className="ecoFeatureGrid">
-    <div className="featureBox left">
-      <ul>
-        <li><span>🌿</span> Sustainable</li>
-        <li><span>🍃</span> Organic Materials</li>
-        <li><span>🧼</span> Cruelty-Free</li>
-        <li><span>♻️</span> Plastic-Free Packaging</li>
-      </ul>
-    </div>
+              <div className="featureBox right">
+                <ul>
+                  <li><span>🌎</span> Carbon-Neutral</li>
+                  <li><span>🥬</span> Farm-to-Door</li>
+                  <li><span>🌸</span> Toxin-Free</li>
+                  <li><span>🛍️</span> Handmade Products</li>
+                </ul>
+              </div>
+            </div>
 
-    <div className="featureImage">
-      <img src="/assets/eco-basket.png" alt="Eco Products" />
-    </div>
-
-    <div className="featureBox right">
-      <ul>
-        <li><span>🌎</span> Carbon-Neutral</li>
-        <li><span>🥬</span> Farm-to-Door</li>
-        <li><span>🌸</span> Toxin-Free</li>
-        <li><span>🛍️</span> Handmade Products</li>
-      </ul>
-    </div>
+            <div className="trustBadges">
+              <div>
+                <span>🚚</span>
+                <h4>Fast Delivery</h4>
+                <p>Delivery within 48 hours</p>
+              </div>
+              <div>
+                <span>💬</span>
+                <h4>24/7 Support</h4>
+                <p>Chat or Email Anytime</p>
+              </div>
+              <div>
+                <span>🌱</span>
+                <h4>Eco Verified</h4>
+                <p>Backed by Green Certifications</p>
+              </div>
+              <div>
+                <span>❤️</span>
+                <h4>Made With Love</h4>
+                <p>By Local Artisans</p>
+              </div>
+            </div>
+          </section>
+<section className="eco-features">
+  {/* Card 1 */}
+  <div className="eco-card green">
+    <h3 className="eco-card-title">SUSTAINABLE PRODUCTS</h3>
+    <img src={SUSTAINABLEPRODUCTS} alt="Sustainable Products" className="eco-card-image" />
+    <p className="eco-card-text">
+      Choose from eco-conscious products made with biodegradable, recyclable, and ethically sourced materials.
+    </p>
+    <button className="eco-card-button">SHOP ECO</button>
   </div>
 
-  <div className="trustBadges">
-    <div>
-      <span>🚚</span>
-      <h4>Fast Delivery</h4>
-      <p>Delivery within 48 hours</p>
-    </div>
-    <div>
-      <span>💬</span>
-      <h4>24/7 Support</h4>
-      <p>Chat or Email Anytime</p>
-    </div>
-    <div>
-      <span>🌱</span>
-      <h4>Eco Verified</h4>
-      <p>Backed by Green Certifications</p>
-    </div>
-    <div>
-      <span>❤️</span>
-      <h4>Made With Love</h4>
-      <p>By Local Artisans</p>
-    </div>
+  {/* Card 2 */}
+  <div className="eco-card yellow">
+    <h3 className="eco-card-title">TRACK YOUR IMPACT</h3>
+    <img src={track}alt="Track Carbon Footprint" className="eco-card-image" />
+    <p className="eco-card-text">
+      With every purchase, see how much carbon you saved. Make smarter, greener choices with real data.
+    </p>
+    <button className="eco-card-button">LEARN MORE</button>
+  </div>
+
+  {/* Card 3 */}
+  <div className="eco-card lightgreen">
+    <h3 className="eco-card-title">CARBON OFFSETTING</h3>
+    <img src={carbon} alt="Carbon Offset" className="eco-card-image" />
+    <p className="eco-card-text">
+      Neutralize your carbon footprint by supporting certified climate action projects around the world.
+    </p>
+    <button className="eco-card-button">CALCULATE IMPACT</button>
   </div>
 </section>
 
-           <section className="ecoMission">
-            <h2>Why EcoCart?</h2>
-            <p>
-              We're committed to reducing carbon footprints by offering sustainable,
-              ethically sourced products. Every order you place helps plant trees,
-              offset CO₂, and support eco-conscious brands.
-            </p>
-          </section>
-
-         <section className="ecoBenefits">
-            <h2>Our Eco Promise</h2>
-            <div className="benefitCards">
-              <div className="card">
-                ♻️ Carbon Neutral Shipping
-              </div>
-              <div className="card">
-                🌱 Organic & Recycled Materials
-              </div>
-              <div className="card">
-                💚 You Save CO₂ With Every Order
+          <section className="testimonials" aria-label="Testimonials about us">
+            <div className="testimonials__overlay" />
+            <div className="testimonials__content">
+              <h2 className="testimonials__title">PEOPLE ABOUT US</h2>
+              <blockquote className="testimonials__quote">“ {quote} ”</blockquote>
+              <p className="testimonials__author">
+                {name}, <span className="testimonials__location">{location}</span>
+              </p>
+              <div className="testimonials__dots">
+                {testimonials.map((_, idx) => (
+                  <button
+                    key={idx}
+                    className={`dot ${idx === currentIndex ? "active" : ""}`}
+                    aria-label={`View testimonial ${idx + 1}`}
+                    onClick={() => setCurrentIndex(idx)}
+                  />
+                ))}
               </div>
             </div>
           </section>
-  <section className="testimonials">
-            <h2>Happy Customers</h2>
-            <div className="testimonialCards">
-              <blockquote>
-                “Amazing eco products and fast delivery! I love the mission.”
-                <span>- Aditi R.</span>
-              </blockquote>
-              <blockquote>
-                “I switched to EcoCart for everything – guilt-free shopping at last!”
-                <span>- Rahul M.</span>
-              </blockquote>
-            </div>
-          </section>
 
-          <section className="newsletter">
-            <h2>Join Our Green Community</h2>
-            <p>Get exclusive deals and sustainability tips in your inbox.</p>
-            <input type="email" placeholder="Enter your email" />
-            <button>Subscribe</button>
-          </section>
-
-
-          {/* <h2 className="homeHeading">Featured Products</h2>
+          <h2 className="homeHeading">Featured Products</h2>
           <div className="container" id="container">
             {products &&
-              products.map((product) => (
+              // products.map((product) => (
+                    products.slice(0, 8).map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
-          </div> */}
+          </div>
         </Fragment>
       )}
     </Fragment>

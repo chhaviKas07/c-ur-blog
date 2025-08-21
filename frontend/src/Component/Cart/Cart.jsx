@@ -23,40 +23,24 @@ const Cart = () => {
     0
   );
 
-  // const increaseQuantity = (id, currentQty, stock) => {
-  //   const available = stock - currentQty;
-  //   const addQty = Math.min(1, available); // Never exceeds stock
-    
-  //   if (addQty > 0) {
-  //     dispatch(addItemsToCartThunk({ id, quantity: addQty }));
-  //   } else {
-  //     toast.error("Maximum available quantity reached");
-  //   }
-  // };
-
   const increaseQuantity = (id, currentQty, stock) => {
-  console.log("Trying to add to cart:", { id, currentQty, stock });
-  const available = stock - currentQty;
-  const addQty = Math.min(1, available);
+    console.log("Trying to add to cart:", { id, currentQty, stock });
+    const available = stock - currentQty;
+    const addQty = Math.min(1, available);
 
-  if (addQty > 0) {
-    console.log("✅ Dispatching add to cart");
-    dispatch(addItemsToCartThunk({ id, quantity: addQty }));
-  } else {
-    console.warn("❌ Reached stock limit");
-    toast.error("Maximum available quantity reached");
-  }
-};
-  // const decreaseQuantity = (id, currentQty) => {
-  //   const removeQty = Math.min(1, currentQty); // Never goes below 0
-  //   dispatch(addItemsToCartThunk({ id, quantity: -removeQty }));
-  // };
+    if (addQty > 0) {
+      console.log("✅ Dispatching add to cart");
+      dispatch(addItemsToCartThunk({ id, quantity: addQty }));
+    } else {
+      console.warn("❌ Reached stock limit");
+      toast.error("Maximum available quantity reached");
+    }
+  };
 
   const decreaseQuantity = (id, currentQty) => {
     if (currentQty <= 1) return;
-dispatch(decrementItemQtyThunk({ id }));
-
-};
+    dispatch(decrementItemQtyThunk({ id }));
+  };
 
   const deleteCartItems = (id) => {
     if (!id) return;
@@ -90,31 +74,31 @@ dispatch(decrementItemQtyThunk({ id }));
                 <div className="cartContainer" key={itemId}>
                   <CartItemCard item={item} deleteCartItems={deleteCartItems} />
                   <div className="cartInput">
-                  <button
+                    <button
                       onClick={() => decreaseQuantity(itemId, item.quantity)}
                       disabled={item.quantity <= 1}
                     >
                       -
                     </button>
                     <input type="number" value={item.quantity} readOnly />
-                    
+
                     {/* <button
     onClick={() => increaseQuantity(itemId, item.quantity, item.stock)}
     disabled={item.quantity >= item.stock}
   >
     +
   </button> */}
-  <button
-  onClick={() =>
-    increaseQuantity(itemId, item.quantity, item.stock)
-  }
-  disabled={item.quantity >= item.stock}
->
-  +
-</button>
-{item.quantity >= item.stock && (
-  <p className="stockDisclaimer">Quantity is finished for this product</p>
-)}
+                    <button
+                      onClick={() =>
+                        increaseQuantity(itemId, item.quantity, item.stock)
+                      }
+                      disabled={item.quantity >= item.stock}
+                    >
+                      +
+                    </button>
+                    {item.quantity >= item.stock && (
+                      <p className="stockDisclaimer">Quantity is finished for this product</p>
+                    )}
                   </div>
                   <p>₹{(item.price * item.quantity).toFixed(2)}</p>
                 </div>

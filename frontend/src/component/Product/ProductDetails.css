@@ -368,3 +368,344 @@
   border-radius: 4px;
   text-decoration: none;
 }
+
+
+
+
+/* new cssss gpt */
+/* Container */
+.ProductDetails {
+  max-width: 1160px;
+  margin: 48px auto 72px;
+  padding: 0 24px;
+  display: flex;
+  gap: 48px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2f562e;
+  background: #f8fcf6;
+  border-radius: 24px;
+  box-shadow: 0 10px 36px rgba(57, 136, 62, 0.12);
+}
+
+/* Carousel */
+.carousel {
+  flex: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 5px 24px rgba(61, 144, 61, 0.15);
+}
+
+.CarouselImage {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  user-select: none;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.CarouselImage:hover {
+  transform: scale(1.05);
+}
+
+/* Product Info Block */
+.ProductDetails > div:nth-child(2) {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Product Title and ID */
+.detailsBlock-1 h2 {
+  font-size: 2.1rem;
+  font-weight: 900;
+  margin-bottom: 6px;
+  color: #27632a;
+}
+
+.detailsBlock-1 p {
+  font-size: 0.93rem;
+  color: #4a7a4d;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+/* Rating and Reviews */
+.detailsBlock-2 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 16px 0 30px;
+}
+
+.detailsBlock-2-span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #387e3e;
+}
+
+/* Price and Quantity */
+.detailsBlock-3 h1 {
+  font-size: 2.9rem;
+  font-weight: 900;
+  color: #2e6f30;
+  margin-bottom: 20px;
+  letter-spacing: -0.03em;
+}
+
+.detailsBlock-3-1 {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+/* Quantity controls */
+.detailsBlock-3-1-1 {
+  display: flex;
+  align-items: center;
+  background: #e6f2d9;
+  border-radius: 22px;
+  box-shadow: inset 0 2px 8px rgba(112, 163, 91, 0.15);
+  padding: 4px 12px;
+}
+
+.detailsBlock-3-1-1 button {
+  font-size: 1.9rem;
+  border: none;
+  background: transparent;
+  color: #3c6e28;
+  cursor: pointer;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  transition: background-color 0.22s, color 0.22s;
+  user-select: none;
+}
+
+.detailsBlock-3-1-1 button:hover:not(:disabled),
+.detailsBlock-3-1-1 button:focus:not(:disabled) {
+  background-color: #7dde75;
+  color: #1f3f17;
+  outline: none;
+}
+
+.detailsBlock-3-1-1 button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.detailsBlock-3-1-1 input {
+  width: 47px;
+  height: 38px;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #324a24;
+  background-color: transparent;
+  border: none;
+  pointer-events: none;
+  user-select: none;
+  margin: 0 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Add to Cart Button */
+.detailsBlock-3-1 > button {
+  cursor: pointer;
+  background: linear-gradient(100deg, #4daa35, #78de4a);
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 28px;
+  padding: 12px 32px;
+  font-size: 1.12rem;
+  box-shadow: 0 6px 18px rgba(120, 195, 106, 0.55);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.detailsBlock-3-1 > button:hover:not(:disabled),
+.detailsBlock-3-1 > button:focus:not(:disabled) {
+  background: linear-gradient(100deg, #71c746, #91e963);
+  box-shadow: 0 10px 30px rgba(113, 220, 70, 0.7);
+  outline: none;
+}
+
+.detailsBlock-3-1 > button:disabled {
+  background: #99b38c;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Stock status */
+.detailsBlock-3 p {
+  font-size: 1rem;
+  margin-top: 4px;
+  font-weight: 700;
+}
+.greenColor {
+  color: #3c7e29;
+  text-shadow: 0 1px 2px #a5d38d;
+}
+.redColor {
+  color: #c03131;
+  text-shadow: 0 1px 2px #ef8e8e;
+}
+
+/* Description */
+.detailsBlock-4 {
+  margin-top: 28px;
+  font-size: 1.11rem;
+  line-height: 1.47;
+  color: #2b4d20;
+  user-select: text;
+}
+
+.detailsBlock-4 p {
+  margin: 8px 0 0 0;
+  font-weight: normal;
+  color: #456a38;
+  font-size: 1rem;
+}
+
+/* Eco Score Badge */
+.ProductDetails > div:nth-child(2) > span {
+  display: inline-block;
+  margin-top: 20px;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 6px 14px;
+  border-radius: 18px;
+  box-shadow: 0 2px 10px rgba(88, 153, 66, 0.3);
+  user-select: none;
+}
+
+/* Submit Review Button */
+.submitReview {
+  margin-top: 32px;
+  background: #4fab36;
+  border: none;
+  color: white;
+  font-weight: 700;
+  padding: 14px 46px;
+  border-radius: 26px;
+  font-size: 1.15rem;
+  cursor: pointer;
+  box-shadow: 0 6px 22px #68c75aaa;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.submitReview:hover,
+.submitReview:focus {
+  background: #75d366;
+  box-shadow: 0 10px 32px #72d55fbb;
+  outline: none;
+}
+
+/* Reviews heading */
+.reviewsHeading {
+  max-width: 1160px;
+  margin: 0 auto 32px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #337333;
+  user-select: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Reviews container */
+.reviews {
+  max-width: 1160px;
+  margin: 0 auto 80px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+/* No reviews text */
+.noReviews {
+  max-width: 1160px;
+  margin: 0 auto 80px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #698b51;
+  font-style: italic;
+  text-align: center;
+  user-select: none;
+}
+
+/* Submit Review Dialog */
+.submitDialog textarea.submitDialogTextArea {
+  width: 100%;
+  border-radius: 13px;
+  border: 1.9px solid #c6e3a4;
+  padding: 12px;
+  font-size: 1.01rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  resize: vertical;
+  box-shadow: inset 0 2px 7px #b0e06e7d;
+  color: #3a6a1f;
+}
+
+/* Recommendations Section */
+.eco-recommendations {
+  max-width: 1160px;
+  margin: 0 auto 70px;
+}
+
+.eco-recommendations h3 {
+  font-weight: 800;
+  font-size: 1.7rem;
+  color: #357831;
+  margin-bottom: 24px;
+  user-select: none;
+}
+
+/* Recommendation list grid */
+.recommendation-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+}
+
+/* Responsive */
+@media (max-width: 1020px) {
+  .ProductDetails {
+    flex-direction: column;
+    padding: 0 16px 48px;
+  }
+  .carousel {
+    height: 320px;
+  }
+  .CarouselImage {
+    height: 320px;
+  }
+  .detailsBlock-3-1 {
+    flex-wrap: wrap;
+  }
+  .detailsBlock-3-1 > button {
+    width: 100%;
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .CarouselImage {
+    height: 240px;
+  }
+  .detailsBlock-1 h2 {
+    font-size: 1.7rem;
+  }
+  .detailsBlock-3 h1 {
+    font-size: 2rem;
+  }
+  .submitReview {
+    padding: 12px 28px;
+    font-size: 1.03rem;
+  }
+}

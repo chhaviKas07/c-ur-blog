@@ -1,132 +1,196 @@
+/* ---------- Global Section Styling ---------- */
 .aboutSection {
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%;
-  background-color: white;
-  display: grid;
-  grid-template-columns: 4fr 4fr;
-  position: fixed;
+  position: relative;
+  background: #fdfdfd;
+  padding: 80px 20px;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+  color: #2e3d32;
 }
 
 .aboutSectionGradient {
-  background-image: linear-gradient(
-    to bottom right,
-    rgb(78, 81, 255),
-    rgb(74, 137, 189)
-  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 260px;
+  background: linear-gradient(135deg, #a8e063, #56ab2f);
+  z-index: 0;
+  border-bottom-left-radius: 40% 15%;
+  border-bottom-right-radius: 40% 15%;
 }
 
 .aboutSectionContainer {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  background-color: rgb(255, 255, 255);
-  width: 80vw;
-  height: 80vh;
-  transform: translateX(-50%) translateY(-50%);
-  box-shadow: -10px 10px 10px rgba(0, 0, 0, 0.192);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.aboutSectionContainer > h1 {
-  font: 400 3vmax "Roboto";
-  color: tomato;
-  margin: 2vmax;
-}
-
-.aboutSectionContainer > div {
-  display: flex;
-  width: 100%;
-}
-
-.aboutSectionContainer > div > div {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2vmax;
-  box-sizing: border-box;
-}
-
-.aboutSectionContainer > div > div > p {
-  color: rgba(0, 0, 0, 0.623);
-  font: 100 1vmax "Roboto";
-}
-
-.aboutSectionContainer > div > div > button {
-  margin: 1vmax 0;
-}
-
-.aboutSectionContainer > div > div > span {
-  font: 100 1vmax "Roboto";
-  color: rgba(0, 0, 0, 0.616);
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  padding: 60px;
   text-align: center;
-  width: 80%;
 }
 
-.aboutSectionContainer2 {
-  border-left: 1px solid rgba(0, 0, 0, 0.116);
+/* ---------- Titles ---------- */
+.aboutTitle {
+  font-weight: 700 !important;
+  font-size: 2.5rem !important;
+  margin-bottom: 40px;
+  color: #2e572f;
+  letter-spacing: 1px;
 }
 
-.aboutSectionContainer2 > h2 {
-  color: rgba(0, 0, 0, 0.623);
-  font: 100 2vmax "Roboto";
-  margin: 2vmax;
+.aboutSubtitle {
+  font-weight: 600 !important;
+  font-size: 1.5rem !important;
+  margin: 25px 0 15px;
+  color: #388e3c;
 }
 
-.aboutSectionContainer2 > a > svg {
-  font-size: 4vmax;
+/* ---------- Body Text ---------- */
+.aboutBody {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 15px;
 }
 
-.youtubeSvgIcon {
-  color: tomato;
+/* ---------- Layout for Main Content ---------- */
+.aboutMainContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 50px;
 }
 
-.instagramSvgIcon {
-  color: rgb(144, 81, 202);
+.aboutTextContainer {
+  flex: 1;
+  min-width: 280px;
+  text-align: left;
 }
 
-@media screen and (max-width: 600px) {
-  .aboutSectionContainer > div {
-    display: block;
-  }
-
-  .aboutSectionContainer > h1 {
-    font: 400 5vmax "Roboto";
-    margin: 3vmax;
-  }
-
-  .aboutSectionContainer > div > div > p {
-    font: 100 2vmax "Roboto";
-  }
-
-  .aboutSectionContainer > div > div > span {
-    font: 100 1.4vmax "Roboto";
-    width: 70%;
-  }
-
-  .aboutSectionContainer2 {
-    border-left: none;
-  }
-
-  .aboutSectionContainer2 > h2 {
-    font: 100 3vmax "Roboto";
-    margin: 2vmax;
-  }
-
-  .aboutSectionContainer2 > a > svg {
-    font-size: 6vmax;
-    margin: 1vmax;
-  }
+.aboutImgWrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
-.aboutSectionContainer2 img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
+.aboutImg {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+.aboutImg:hover {
+  transform: scale(1.05);
+}
+
+/* ---------- Highlights List ---------- */
+.aboutHighlights {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+.aboutHighlights li {
+  margin: 8px 0;
+  padding-left: 28px;
+  position: relative;
+  font-size: 1rem;
+  color: #333;
+}
+.aboutHighlights li::before {
+  content: "🌱";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+/* ---------- Milestones Section ---------- */
+.aboutMilestones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin: 50px 0;
+  padding: 20px;
+  background: #f1f8f4;
+  border-radius: 12px;
+}
+.aboutMilestones div {
+  flex: 1 1 220px;
+  background: #ffffff;
+  padding: 18px;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-size: 1rem;
+  color: #2f4f2f;
+  font-weight: 500;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s;
+}
+.aboutMilestones div:hover {
+  transform: translateY(-5px);
+}
+
+/* ---------- Carousel ---------- */
+.aboutCarousel {
+  margin: 25px 0;
+  padding: 15px;
+  background: #f9fff9;
+  border-left: 4px solid #56ab2f;
+  border-radius: 8px;
+  text-align: left;
+}
+.aboutCarousel p {
+  margin: 10px 0;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* ---------- CTA ---------- */
+.aboutActions {
+  margin: 40px 0 20px;
+}
+.ctaButton {
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(135deg, #56ab2f, #a8e063);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 16px rgba(86, 171, 47, 0.4);
+}
+.ctaButton:hover {
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  transform: translateY(-3px);
+}
+
+/* ---------- Footer Note ---------- */
+.aboutFooterNote {
+  display: block;
+  margin-top: 30px;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  font-style: italic;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .aboutMainContent {
+    flex-direction: column;
+    text-align: center;
+  }
+  .aboutTextContainer {
+    text-align: center;
+  }
+  .aboutMilestones {
+    flex-direction: column;
+    align-items: center;
+  }
 }
