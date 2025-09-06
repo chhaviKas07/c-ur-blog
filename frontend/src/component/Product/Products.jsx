@@ -12,6 +12,7 @@ import Slider from "@mui/material/Slider";
 import { getProducts, clearErrors } from "../../productSlice.jsx";
 import { Pagination } from "@mui/material";
 import Search from "./Search.jsx";
+import { useLocation } from "react-router-dom";
 
 const categories = [
   "Home Decor",
@@ -23,12 +24,18 @@ const categories = [
 ];
 
 const Products = () => {
+  // for homepage
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const categoryFromUrl = queryParams.get("category");
+  const [category, setCategory] = useState(categoryFromUrl || "");
+
+
   const { keyword } = useParams();
   const dispatch = useDispatch();
-
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([0, 25000]);
-  const [category, setCategory] = useState("");
+  // const [category, setCategory] = useState("");
   const [ratings, setRatings] = useState(0);
   // const [ecoScore, setEcoScore] = useState(0);
   const [ecoScore, setEcoScore] = useState(null);
@@ -83,23 +90,22 @@ const Products = () => {
       ecoScore: ecoScore > 0 ? ecoScore : null, // 💡 send number only
     })).unwrap()
       .then((data) => {
-        console.log("Fetched Products:", data);
+        // console.log("Fetched Products:", data);
       })
       .catch((err) => console.error("Error Fetching Products:", err));
   }, [dispatch, keyword, currentPage, price, category, ratings, ecoScore, error]);
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {loading ? (
         <Loader />
       ) : (
         <Fragment>
           <MetaData title="PRODUCTS -- ECOMMERCE" />
-          <h2 className="productsHeading">Products</h2>
-          <div className="productsPage">
-            <div className="contentWrapper">
-              {/* Sidebar */}
+          {/* Sidebar */}
+          <div className="productcontent">
+            <div className="productsside">
               <aside className="sidebar">
                 <div className="productSearchBox">
                   <Search />
@@ -185,32 +191,38 @@ const Products = () => {
                   />
                 </fieldset>
               </aside>
+            </div>
+            <div className="leftcotentp">
+              <h2 className="productsHeading">Products</h2>
+              <div className="productsPage">
+                <div className="contentWrapper">
+                  {/* Product Grid */}
+                  <section className="productGrid">
+                    {products.length === 0 ? (
+                      <h3 className="noProducts">No products found</h3>
+                    ) : (
+                      <div className="productList">
+                        {products.map((product) => (
+                          <ProductCard key={product._id} product={product} />
+                        ))}
+                      </div>
+                    )}
 
-              {/* Product Grid */}
-              <section className="productGrid">
-                {products.length === 0 ? (
-                  <h3 className="noProducts">No products found</h3>
-                ) : (
-                  <div className="productList">
-                    {products.map((product) => (
-                      <ProductCard key={product._id} product={product} />
-                    ))}
-                  </div>
-                )}
-
-                {filteredProductsCount > resultPerPage && (
-                  <div className="paginationBox">
-                    <Pagination
-                      count={Math.ceil(filteredProductsCount / resultPerPage)}
-                      page={currentPage}
-                      onChange={(e, value) => handlePageChange(e, value)}
-                      color="primary"
-                      shape="rounded"
-                      size="large"
-                    />
-                  </div>
-                )}
-              </section>
+                    {filteredProductsCount > resultPerPage && (
+                      <div className="paginationBox">
+                        <Pagination
+                          count={Math.ceil(filteredProductsCount / resultPerPage)}
+                          page={currentPage}
+                          onChange={(e, value) => handlePageChange(e, value)}
+                          color="primary"
+                          shape="rounded"
+                          size="large"
+                        />
+                      </div>
+                    )}
+                  </section>
+                </div>
+              </div>
             </div>
           </div>
         </Fragment>

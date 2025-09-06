@@ -49,17 +49,8 @@ const ProductDetails = () => {
   const [open, setOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-
-
-
   const [ecoRecommendations, setEcoRecommendations] = useState([]);
 
-  useEffect(() => {
-    // This is your existing fetch product call
-    dispatch(getProductDetails(id));
-  }, [dispatch, id]);
-
-  // ✅ Add this just below the above useEffect
   useEffect(() => {
     if (product && product._id) {
       axios
@@ -69,45 +60,12 @@ const ProductDetails = () => {
     }
   }, [product]);
 
-
-  // const increaseQuantity = () => {
-  //   if (product.Stock <= quantity) return;
-  //   setQuantity(quantity + 1);
-  // };
-  // const increaseQuantity = () => {
-  //   console.log("🟢 Trying to increase quantity");
-  //   console.log("Current quantity:", quantity);
-  //   console.log("Available stock:", product?.stock);
-
-  //   if (product?.stock <= quantity) {
-  //     console.warn("❌ Can't increase, stock limit reached");
-  //     return;
-  //   }
-  //   setQuantity(quantity + 1);
-  // };
-  //   const increaseQuantity = () => {
-  //   console.log("🟢 Trying to increase quantity");
-  //   console.log("Current quantity:", quantity);
-  //   console.log("Available stock:", product?.stock);
-
-  //   if (product?.stock <= quantity) {
-  //     console.warn("❌ Stock limit reached");
-  //     setIsStockLimitReached(true);
-  //     return;
-  //   }
-
-  //   setQuantity(quantity + 1);
-  //   setIsStockLimitReached(false); // Reset if user reduces and re-increases
-  // };
   const increaseQuantity = () => {
     if (quantity >= product?.stock) {
       setIsStockLimitReached(true);
-
-      // Optional: Auto-hide after 3s
       setTimeout(() => setIsStockLimitReached(false), 3000);
       return;
     }
-
     setQuantity(prev => prev + 1);
     setIsStockLimitReached(false);
   };
@@ -115,43 +73,32 @@ const ProductDetails = () => {
   const decreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
-      setIsStockLimitReached(false); // Allow increase again
+      setIsStockLimitReached(false);
     }
   };
   const addToCartHandler = () => {
-    console.log("Product ID:", product._id); // Debugging
+    console.log("Product ID:", product._id);
     dispatch(addItemsToCartThunk({ id: product._id, quantity }));
+    toast.success("Added to cart");
   };
 
-  // const submitReviewToggle = () => setOpen(!open);
+  const submitReviewToggle = () => {
+    if (!open) {
+      const existingReview = product?.reviews?.find(
+        (r) => r.user === user._id
+      );
 
-const submitReviewToggle = () => {
-  if (!open) {
-    // Modal is about to open, check for user's previous review
-    const existingReview = product?.reviews?.find(
-      (r) => r.user === user._id
-    );
-
-    if (existingReview) {
-      setRating(existingReview.rating);
-      setComment(existingReview.comment);
-    } else {
-      setRating(0);
-      setComment("");
+      if (existingReview) {
+        setRating(existingReview.rating);
+        setComment(existingReview.comment);
+      } else {
+        setRating(0);
+        setComment("");
+      }
     }
-  }
 
-  setOpen(!open); // Toggle modal
-};
-  // const reviewSubmitHandler = () => {
-  //   const myForm = new FormData();
-  //   myForm.set("rating", rating);
-  //   myForm.set("comment", comment);
-  //   myForm.set("productId", id);
-
-  //   dispatch(createReview(myForm));
-  //   setOpen(false);
-  // };
+    setOpen(!open); // Toggle modal
+  };
 
   // const reviewSubmitHandler = () => {
   //   const reviewData = {
@@ -161,77 +108,65 @@ const submitReviewToggle = () => {
   //   };
 
   //   dispatch(createReview(reviewData));
-  //   console.log("📦 Reviews received:", reviews);
   //   setOpen(false);
-  // };
-  const reviewSubmitHandler = () => {
-  const reviewData = {
-    rating,
-    comment,
-    productId: id,
+
+  //   // Reset form fields
+  //   setRating(0);
+  //   setComment("");
+  // };    
+  const reviewSubmitHandler = async () => {
+    const reviewData = { rating, comment, productId: id };
+
+    try {
+      await dispatch(createReview(reviewData)).unwrap(); // ✅ ensures promise resolves
+      toast.success("Review Submitted Successfully"); // show immediately
+      dispatch(getProductDetails(id)); // reload product
+      dispatch(getReviews(id));         // reload reviews
+      setOpen(false);
+      setRating(0);
+      setComment("");
+    } catch (err) {
+      toast.error(err.message || "Failed to submit review");
+    }
   };
 
-  dispatch(createReview(reviewData));
-  setOpen(false);
+  useEffect(() => {
+    dispatch(getProductDetails(id));
+  }, [dispatch, id]);
 
-  // Reset form fields
-  setRating(0);
-  setComment("");
-};
-if (success) {
-  toast.success("Review Submitted Successfully");
-  dispatch({ type: NEW_REVIEW_RESET });
-  dispatch(getProductDetails(id)); // reloads the latest reviews
-}
-
-
-  // useEffect(() => {
-  //   if (error) {
-  //     toast.error(error);
-  //     dispatch(clearErrors());
-  //   }
-  //   if (reviewError) {
-  //     toast.error(reviewError);
-  //     dispatch(clearErrors());
-  //   }
-  //   if (success) {
-  //     toast.success("Review Submitted Successfully");
-  //     dispatch({ type: NEW_REVIEW_RESET }); // Ensure it's defined
-  //   }
-  //   dispatch(getProductDetails(id));
-  // }, [dispatch, id, error, reviewError, success]);
-
+  // ✅ Handle errors
   useEffect(() => {
     if (error) {
-      console.log("🔥 Error:", error); // ✅ Confirm this logs
       toast.error(error);
       dispatch(clearErrors());
     }
-
     if (reviewError) {
-      console.log("🔥 Review Error:", reviewError); // ✅ Confirm this logs
       toast.error(reviewError);
       dispatch(clearErrors());
     }
+  }, [error, reviewError, dispatch]);
 
-    if (success) {
-      console.log("🎉 Success triggered");
-      toast.success("Review Submitted Successfully");
-      dispatch({ type: NEW_REVIEW_RESET });
-    }
 
-    dispatch(getProductDetails(id));
-  }, [dispatch, id, error, reviewError, success]);
+  // ✅ Handle review success
+  // useEffect(() => {
+  //   if (success) {
+  //     toast.success("Review Submitted Successfully");
+  //     dispatch({ type: NEW_REVIEW_RESET });
+  //     dispatch(getProductDetails(id)); // only reload after success
+  //     dispatch(getReviews(id));
+  //   }
+  // }, [success, dispatch, id]);
 
-useEffect(() => {
-  dispatch(getReviews(id)).then((res) => {
-    console.log("Fetched reviews:", res); // 🔍 Check if avatar is there
-  });
-}, []);
+
+  // useEffect(() => {
+  //   dispatch(getReviews(id)).then((res) => {
+  //     console.log("Fetched reviews:", res);
+  //   });
+  // }, []);
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {loading ? (
         <Loader />
       ) : (
@@ -255,7 +190,7 @@ useEffect(() => {
             <div>
               <div className="detailsBlock-1">
                 <h2>{product?.name}</h2>
-                <p>Product # {product?._id}</p>
+                {/* <p>Product # {product?._id}</p> */}
               </div>
               <div className="detailsBlock-2">
                 {/* <Rating {...options} /> */}
@@ -349,25 +284,25 @@ useEffect(() => {
             <p className="noReviews">No Reviews Yet</p>
           )} */}
           {reviews?.length > 0 ? (
-  <div className="reviews">
-    {reviews.map((review) => (
-      <ReviewCard key={review._id} review={review} />
-    ))}
-  </div>
-) : (
-  <p className="noReviews">No Reviews Yet</p>
-)}
+            <div className="reviews">
+              {reviews.map((review) => (
+                <ReviewCard key={review._id} review={review} />
+              ))}
+            </div>
+          ) : (
+            <p className="noReviews">No Reviews Yet</p>
+          )}
 
           {ecoRecommendations.length > 0 && (
-  <div className="eco-recommendations">
-    <h3>♻️ Greener Alternatives You Might Like</h3>
-    <div className="recommendation-list" style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-      {ecoRecommendations.map((product) => (
-        <ProductCard key={product._id} product={product} />
-      ))}
-    </div>
-  </div>
-)}
+            <div className="eco-recommendations">
+              <h3>♻️ Greener Alternatives You Might Like</h3>
+              <div className="recommendation-list" style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+                {ecoRecommendations.map((product) => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </div>
+            </div>
+          )}
 
 
 

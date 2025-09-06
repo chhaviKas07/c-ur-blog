@@ -6,6 +6,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter"; // X is still TwitterIcon here
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import PinterestIcon from "@mui/icons-material/Pinterest";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -39,9 +40,9 @@ const Footer = () => {
       </p>
 
       <nav className="ecoFooter__nav" aria-label="Footer Navigation">
-        <a href="/about">About</a>
-        <a href="/products">Products</a>
-        <a href="/contact">Contact</a>
+        <Link to="/about">About</Link>
+        <Link to="/products">Products</Link>
+        <Link to="/contact">Contact</Link>
       </nav>
     </footer>
   );

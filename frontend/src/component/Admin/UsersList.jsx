@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,6 +29,11 @@ const UsersLists = () => {
   const deleteUserHandler = (id) => {
     dispatch(deleteUser(id));
   };
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 10,
+    page: 0,
+  });
+
 
   useEffect(() => {
     if (error) {
@@ -94,19 +99,30 @@ const UsersLists = () => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <MetaData title={`ALL USERS - Admin`} />
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
           <h1 id="productListHeading">ALL USERS</h1>
-          <DataGrid
+          {/* <DataGrid
             rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick
             className="productListTable"
             // autoHeight
+          /> */}
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pagination
+            paginationModel={paginationModel}
+            onPaginationModelChange={(model) => setPaginationModel(model)}
+            pageSizeOptions={[5, 10, 20, 50]}
+            disableSelectionOnClick
+            className="productListTable"
+            autoHeight
           />
         </div>
       </div>

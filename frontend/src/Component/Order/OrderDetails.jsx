@@ -34,7 +34,7 @@ const OrderDetails = () => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {loading ? (
         <Loader />
       ) : (

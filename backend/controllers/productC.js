@@ -593,7 +593,7 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
 
 // Create New Review or Update the review
 exports.createProductReview = async (req, res, next) => {
-    console.log("REQ.BODY REVIEW:", req.body);
+    // console.log("REQ.BODY REVIEW:", req.body);
 
     try {
       const { rating, comment, productId } = req.body;
@@ -688,7 +688,7 @@ exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
       };
     })
   );
-console.log("Populated Reviews:", JSON.stringify(reviewsWithUser, null, 2));
+productListContainer("Populated Reviews:", JSON.stringify(reviewsWithUser, null, 2));
 
   res.status(200).json({
     success: true,

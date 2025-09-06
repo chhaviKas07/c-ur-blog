@@ -18,6 +18,7 @@ import { Button } from "@mui/material";
 import SideBar from "./Sidebar";
 
 const ProductReviews = () => {
+
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -61,6 +62,11 @@ const ProductReviews = () => {
       dispatch(resetDeleteReview());
     }
   }, [dispatch, error, deleteError, isDeleted, productId, navigate]);
+  
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 10,
+    page: 0,
+  });
 
   const columns = [
     { field: "id", headerName: "Review ID", minWidth: 200, flex: 0.5 },
@@ -100,7 +106,7 @@ const ProductReviews = () => {
       renderCell: (params) => {
         return (
           <Fragment>
-              <Button onClick={() => deleteReviewHandler(params.row.id)}>
+            <Button onClick={() => deleteReviewHandler(params.row.id)}>
               <DeleteIcon />
             </Button>
           </Fragment>
@@ -160,7 +166,10 @@ const ProductReviews = () => {
             <DataGrid
               rows={rows}
               columns={columns}
-              pageSize={10}
+              pagination
+              paginationModel={paginationModel}
+              onPaginationModelChange={(model) => setPaginationModel(model)}
+              pageSizeOptions={[5, 10, 20, 50]}
               disableSelectionOnClick
               className="productListTable"
               autoHeight

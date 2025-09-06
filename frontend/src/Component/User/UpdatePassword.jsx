@@ -6,6 +6,7 @@ import {
   clearProfileErrors,
   updatePassword,
   updatePasswordReset,
+  loadUser
 } from "../../userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -47,13 +48,16 @@ const UpdatePassword = () => {
 
     if (isPasswordUpdated) {
       toast.success("Password Updated Successfully");
-      navigate("/account");
-      dispatch(updatePasswordReset());
+      setTimeout(() => {
+        navigate("/account");
+        dispatch(updatePasswordReset());
+      }, 2000); // ⏳ Give toast time to appear
     }
   }, [dispatch, error, isPasswordUpdated, navigate]);
 
   return (
     <Fragment>
+      {/* <ToastContainer /> */}
       {loading ? (
         <Loader />
       ) : (
@@ -108,7 +112,7 @@ const UpdatePassword = () => {
           </div>
         </Fragment>
       )}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </Fragment>
   );
 };

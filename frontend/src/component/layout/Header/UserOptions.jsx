@@ -7,19 +7,17 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Navigate, useNavigate } from "react-router-dom"; // ✅ Use Navigate
-import   { logout }  from "../../../userSlice.jsx";
+import { logout } from "../../../userSlice.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-// import { useAlert } from "react-alert";
 
 const UserOptions = ({ user }) => {
   const { cartItems } = useSelector((state) => state.cart);
 
 
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate(); // ✅ Replace useHistory with useNavigate
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const options = [
@@ -58,27 +56,32 @@ const UserOptions = ({ user }) => {
   function cart() {
     navigate("/cart");
   }
+
   // function logoutUser() {
+  //   const storedUser = JSON.parse(localStorage.getItem("user"));
+  //   if (storedUser && storedUser._id) {
+  //     localStorage.removeItem(`shippingInfo_${storedUser._id}`);
+  //   }
   //   dispatch(logout());
   //   toast.success("Logout Successfully");
-  //   navigate("/login"); // ✅ Redirect after logout
+  //   navigate("/login");
   // }
-
   function logoutUser() {
-  // Remove user-specific shipping info before logout
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  if (storedUser && storedUser._id) {
-    localStorage.removeItem(`shippingInfo_${storedUser._id}`);
-  }
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser && storedUser._id) {
+      localStorage.removeItem(`shippingInfo_${storedUser._id}`);
+    }
+    dispatch(logout());
+    toast.success("Logout Successfully");
 
-  dispatch(logout());
-  toast.success("Logout Successfully");
-  navigate("/login"); // ✅ Redirect after logout
-}
+    setTimeout(() => {
+      navigate("/login");
+    }, 1500); // give toast 1.5s to show
+  }
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <Backdrop open={open} style={{ zIndex: "10" }} />
       <SpeedDial
         ariaLabel="SpeedDial tooltip example"

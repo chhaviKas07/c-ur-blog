@@ -81,10 +81,12 @@
 
 .sidebar {
   position: fixed;
-  top: 70px;
+  /* top: 70px; */
+  /* height: calc(100vh - 70px); */
+  top: 0;
+  height: 100% !important;
   /* equal to header height */
   left: 0;
-  height: calc(100vh - 70px);
   /* full viewport height minus header */
   width: 250px;
   background-color: white;
@@ -93,9 +95,10 @@
   box-sizing: border-box;
   z-index: 998;
   /* less than header so header stays on top */
-  height: calc(100vh - 70px);
+  /* height: calc(100vh - 70px); */
   /* full height minus header */
-    height: calc(100vh - 70px); /* full viewport height minus header height */
+    /* height: calc(100vh - 70px); */
+     /* full viewport height minus header height */
   overflow-y: auto; /* scroll sidebar content if overflow */
 }
 
@@ -219,4 +222,9 @@
   box-shadow: 0 2px 5px rgba(25, 118, 210, 0.07);
   color: #1976d2;
   font-weight: 600;
+}
+
+
+.productListContainer{
+  width: 100%;
 }

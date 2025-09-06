@@ -9,7 +9,7 @@ const Search = () => {
 
   const searchSubmitHandler = (e) => {
     e.preventDefault();
-    console.log("Keyword:", keyword); // Check if keyword is being set
+    // console.log("Keyword:", keyword); // Check if keyword is being set
     if (keyword.trim()) {
       navigate(`/products/${keyword}`);
     } else {

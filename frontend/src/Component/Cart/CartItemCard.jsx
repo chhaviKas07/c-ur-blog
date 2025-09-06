@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 
 const CartItemCard = ({ item, deleteCartItems }) => {
-  console.log("🛒 CartItemCard Item:", item); // Debug log
+  // console.log("🛒 CartItemCard Item:", item); // Debug log
 
   return (
     <div className="CartItemCard">
@@ -17,7 +17,7 @@ const CartItemCard = ({ item, deleteCartItems }) => {
         <p 
           onClick={() => {
             const itemId = item.product || item._id || item.id;
-            console.log("🗑 Removing item with ID:", itemId); // Debug log
+            // console.log("🗑 Removing item with ID:", itemId); // Debug log
             if (!itemId) {
               console.error("❌ No valid product ID found in CartItemCard.");
               return;

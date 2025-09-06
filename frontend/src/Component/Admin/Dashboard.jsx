@@ -41,7 +41,7 @@ const Dashboard = () => {
   const { adminProducts = [] } = useSelector((state) => state.products);
   // const { orders = [] } = useSelector((state) => state.orders) || {}; // Default to empty array
   const { orders, loading, error } = useSelector((state) => state.orders);
-  console.log("Orders State:", orders, "Loading:", loading, "Error:", error);
+  // console.log("Orders State:", orders, "Loading:", loading, "Error:", error);
   
   const { users = [] } = useSelector((state) => state.userAdmin) || {};
 
@@ -99,9 +99,9 @@ const ecoBarData = {
   }, [dispatch]);
   
   useEffect(() => {
-    console.log("Products:", adminProducts);
-    console.log("Orders:", orders);
-    console.log("Users:", users);
+    // console.log("Products:", adminProducts);
+    // console.log("Orders:", orders);
+    // console.log("Users:", users);
   }, [adminProducts, orders, users]);
   
   useEffect(() => {

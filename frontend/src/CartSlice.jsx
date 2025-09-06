@@ -42,29 +42,49 @@ const cartSlice = createSlice({
         state.cartItems.push({ product, quantity, price, image, name, description, stock });
       }
 
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      // localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(
+          state.cartItems.map((item) => ({
+            ...item,
+            image: item.image || item.images?.[0]?.url || "", // ensure image
+            product: item.product || item._id,                // ensure product id
+          }))
+        )
+      );
     },
 
     removeItemsFromCart: (state, action) => {
       const id = action.payload;
       state.cartItems = state.cartItems.filter(item => item.product !== id);
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      // localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem(
+        "cartItems",
+        JSON.stringify(
+          state.cartItems.map((item) => ({
+            ...item,
+            image: item.image || item.images?.[0]?.url || "", // ensure image
+            product: item.product || item._id,                // ensure product id
+          }))
+        )
+      );
     },
-setShippingInfo: (state, action) => {
-  state.shippingInfo = action.payload;
+    setShippingInfo: (state, action) => {
+      state.shippingInfo = action.payload;
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (user && user._id && Object.keys(action.payload).length > 0) {
-    // Only save if shipping info is not empty
-    localStorage.setItem(`shippingInfo_${user._id}`, JSON.stringify(action.payload));
-  }
-},
-loadShippingInfoForUser: (state, action) => {
-  const userId = action.payload;
-  const key = `shippingInfo_${userId}`;
-  const info = JSON.parse(localStorage.getItem(key)) || {};
-  state.shippingInfo = info;
-},
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user && user._id && Object.keys(action.payload).length > 0) {
+        // Only save if shipping info is not empty
+        localStorage.setItem(`shippingInfo_${user._id}`, JSON.stringify(action.payload));
+      }
+    },
+    loadShippingInfoForUser: (state, action) => {
+      const userId = action.payload;
+      const key = `shippingInfo_${userId}`;
+      const info = JSON.parse(localStorage.getItem(key)) || {};
+      state.shippingInfo = info;
+    },
     clearCart: (state) => {
       state.cartItems = [];
       localStorage.removeItem("cartItems");
@@ -74,7 +94,7 @@ loadShippingInfoForUser: (state, action) => {
   extraReducers: (builder) => {
     builder
       .addCase(addItemsToCartThunk.pending, () => {
-        console.log("Adding item to cart...");
+        // console.log("Adding item to cart...");
       })
       .addCase(addItemsToCartThunk.fulfilled, (state, action) => {
         const { product: id, quantity: delta, stock } = action.payload;
@@ -108,7 +128,17 @@ loadShippingInfoForUser: (state, action) => {
           });
         }
 
-        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        // localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        localStorage.setItem(
+          "cartItems",
+          JSON.stringify(
+            state.cartItems.map((item) => ({
+              ...item,
+              image: item.image || item.images?.[0]?.url || "", // ensure image
+              product: item.product || item._id,                // ensure product id
+            }))
+          )
+        );
       })
       .addCase(removeItemsFromCartThunk.fulfilled, (state, action) => {
         const { product: id, quantity: delta } = action.payload; // Delta is NEGATIVE
@@ -118,7 +148,17 @@ loadShippingInfoForUser: (state, action) => {
           const newQuantity = existingItem.quantity + delta;
           existingItem.quantity = Math.max(1, newQuantity); // Don't go below 1
 
-          localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+          // localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+          localStorage.setItem(
+            "cartItems",
+            JSON.stringify(
+              state.cartItems.map((item) => ({
+                ...item,
+                image: item.image || item.images?.[0]?.url || "", // ensure image
+                product: item.product || item._id,                // ensure product id
+              }))
+            )
+          );
         }
       })
       .addCase(decrementItemQtyThunk.fulfilled, (state, action) => {
@@ -127,7 +167,17 @@ loadShippingInfoForUser: (state, action) => {
 
         if (existingItem && existingItem.quantity > 1) {
           existingItem.quantity += delta; // delta = -1
-          localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+          // localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+          localStorage.setItem(
+            "cartItems",
+            JSON.stringify(
+              state.cartItems.map((item) => ({
+                ...item,
+                image: item.image || item.images?.[0]?.url || "", // ensure image
+                product: item.product || item._id,                // ensure product id
+              }))
+            )
+          );
         }
       })
       ;
@@ -161,7 +211,7 @@ export const addItemsToCartThunk = createAsyncThunk(
     try {
       const { data } = await axios.get(`/api/v1/product/${id}`);
       const product = data.product;
-      console.log("🛒 Cart Item:", product.name, "Qty:", delta, "Stock:", product.stock);
+      // console.log("🛒 Cart Item:", product.name, "Qty:", delta, "Stock:", product.stock);
 
       // return {
       //   product: product._id,
@@ -172,14 +222,14 @@ export const addItemsToCartThunk = createAsyncThunk(
       //   quantity: delta, // delta is change in quantity
       // };
       return {
-  product: product._id,
-  name: product.name,
-  description: product.description, // ✅ ADD THIS
-  price: product.price,
-  image: product.images[0]?.url,
-  stock: product.stock,
-  quantity: delta,
-};
+        product: product._id,
+        name: product.name,
+        description: product.description, // ✅ ADD THIS
+        price: product.price,
+        image: product.images[0]?.url,
+        stock: product.stock,
+        quantity: delta,
+      };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
@@ -232,16 +282,16 @@ export const saveShippingInfoThunk = createAsyncThunk(
   "cart/saveShippingInfo",
   async (data, { dispatch }) => {
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log("💾 Saving shipping info for user:", user?._id, data);
+    // console.log("💾 Saving shipping info for user:", user?._id, data);
 
     dispatch(setShippingInfo(data));
 
     if (user && user._id && Object.keys(data).length > 0) {
       localStorage.setItem(`shippingInfo_${user._id}`, JSON.stringify(data));
-      console.log(
-        "✅ Shipping info saved:",
-        localStorage.getItem(`shippingInfo_${user._id}`)
-      );
+      // console.log(
+      //   "✅ Shipping info saved:",
+      //   localStorage.getItem(`shippingInfo_${user._id}`)
+      // );
     }
 
     return data;
@@ -268,11 +318,11 @@ export const loadShippingInfoForUser = (userId) => (dispatch) => {
   try {
     const key = `shippingInfo_${userId}`;
     const storedShipping = localStorage.getItem(key);
-    console.log("🔍 Trying to load shipping info from localStorage with key:", key);
+    // console.log("🔍 Trying to load shipping info from localStorage with key:", key);
 
     if (storedShipping) {
       const parsed = JSON.parse(storedShipping);
-      console.log("✅ Found shipping info:", parsed);
+      // console.log("✅ Found shipping info:", parsed);
       dispatch(setShippingInfo(parsed));
     } else {
       console.warn("❌ No shipping info found in localStorage for key:", key);

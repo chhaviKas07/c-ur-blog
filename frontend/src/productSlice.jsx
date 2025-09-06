@@ -331,7 +331,7 @@ const productSlice = createSlice({
       // })
       .addCase(getProducts.fulfilled, (state, action) => {
         state.loading = false;
-        console.log("Redux Payload:", action.payload); 
+        // console.log("Redux Payload:", action.payload); 
         state.products = action.payload.products || [];
   state.productsCount = action.payload.productsCount;
   state.resultPerPage = action.payload.resultPerPage;

@@ -174,7 +174,7 @@ const UpdateProduct = () => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <MetaData title="Create Product" />
       <div className="dashboard">
         <SideBar />

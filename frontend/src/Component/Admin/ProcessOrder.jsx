@@ -18,10 +18,10 @@ import "./processOrder.css";
 import { useNavigate } from "react-router-dom";
 
 const ProcessOrder = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const { order, error, loading } = useSelector((state) => state.orders);
   const { error: updateError, isUpdated } = useSelector((state) => state.orders);
-  
+
 
   const updateOrderSubmitHandler = (e) => {
     e.preventDefault();
@@ -39,9 +39,9 @@ const ProcessOrder = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [status, setStatus] = useState("");
-//   useEffect(() => {
-//   toast.info("Test toast working?");
-// }, []);
+  //   useEffect(() => {
+  //   toast.info("Test toast working?");
+  // }, []);
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -51,35 +51,37 @@ const ProcessOrder = () => {
       toast.error(updateError);
       dispatch(clearErrors());
     }
-  //   if (isUpdated) {
-  //   toast.success("Order Updated Successfully", {
-  //     autoClose: 2000,
-  //   });
+    //   if (isUpdated) {
+    //   toast.success("Order Updated Successfully", {
+    //     autoClose: 2000,
+    //   });
 
-  //   dispatch(UPDATE_ORDER_RESET());
-  //   setTimeout(() => {
-  //     navigate("/admin/orders");
-  //   // dispatch(getAllOrders());
-  //   }, 2000);
-  // }
+    //   dispatch(UPDATE_ORDER_RESET());
+    //   setTimeout(() => {
+    //     navigate("/admin/orders");
+    //   // dispatch(getAllOrders());
+    //   }, 2000);
+    // }
     if (isUpdated) {
-    toast.success("Order Updated Successfully", {
-      autoClose: 2000,
-      onClose: () => {
-        dispatch(UPDATE_ORDER_RESET());
-        navigate("/admin/orders");
-      },
-    });
-  }
+      toast.success("Order Updated Successfully", {
+        autoClose: 2000,
+        onClose: () => {
+          dispatch(UPDATE_ORDER_RESET());
+          navigate("/admin/orders");
+        },
+      });
+    }
     if (id) {
       dispatch(getOrderDetails(id));
     }
 
   }, [dispatch, error, id, isUpdated, updateError]);
 
+
+  
   return (
     <Fragment>
-           <ToastContainer />
+      {/* <ToastContainer /> */}
       <MetaData title="Process Order" />
       <div className="dashboard">
         <SideBar />
@@ -122,13 +124,13 @@ const ProcessOrder = () => {
                       <p
                         className={
                           order.paymentInfo &&
-                          order.paymentInfo.status === "succeeded"
+                            order.paymentInfo.status === "succeeded"
                             ? "greenColor"
                             : "redColor"
                         }
                       >
                         {order.paymentInfo &&
-                        order.paymentInfo.status === "succeeded"
+                          order.paymentInfo.status === "succeeded"
                           ? "PAID"
                           : "NOT PAID"}
                       </p>

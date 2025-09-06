@@ -1,5 +1,5 @@
 
- // 4000003560000008
+// 4000003560000008
 import React, { Fragment, useEffect, useRef } from "react";
 import CheckoutSteps from "./CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
@@ -30,7 +30,7 @@ const Payment = () => {
   const payBtn = useRef(null);
   const navigate = useNavigate();
 
-    const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const { error } = useSelector((state) => state.orders); // Updated to userBlogPayments
 
@@ -113,7 +113,14 @@ const Payment = () => {
         if (result.paymentIntent.status === "succeeded") {
           const order = {
             shippingInfo,
-            orderItems: cartItems, // Include orderItems
+            // orderItems: cartItems, // Include orderItems
+            orderItems: cartItems.map((item) => ({
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity,
+              image: item.image,     // ✅ required
+              product: item.product, // ✅ reference to Product _id
+            })),
             itemsPrice: orderInfo?.subtotal,
             taxPrice: orderInfo?.tax,
             shippingPrice: orderInfo?.shippingCharges,
@@ -164,7 +171,7 @@ const Payment = () => {
           />
         </form>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </Fragment>
   );
 };

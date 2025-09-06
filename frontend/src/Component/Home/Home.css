@@ -12,17 +12,17 @@
   color: white;
 }
 
-.banner > h1 {
+.banner>h1 {
   margin: 5vmax;
 
   font: 600 2.5vmax "Roboto";
 }
 
-.banner > p {
+.banner>p {
   font: 300 1.4vmax "Lucida Sans";
 }
 
-.banner > a > button {
+.banner>a>button {
   margin-bottom: 5vmax;
   cursor: pointer;
   background-color: white;
@@ -33,7 +33,8 @@
   width: 9vmax;
   font: 500 1vmax "Roboto";
 }
-.banner > a > button:hover {
+
+.banner>a>button:hover {
   background-color: rgba(255, 255, 255, 0);
   color: white;
 }
@@ -81,11 +82,11 @@
   padding-bottom: 0.5vmax;
 }
 
-.productCard > img {
+.productCard>img {
   width: 14vmax;
 }
 
-.productCard > div {
+.productCard>div {
   margin: 0.5vmax;
   display: flex;
   justify-content: flex-start;
@@ -97,14 +98,14 @@
   font: 300 0.7vmax "Roboto";
 }
 
-.productCard > p {
+.productCard>p {
   font-family: "Roboto";
   font-size: 1.2vmax;
   margin: 1vmax 0.5vmax;
   margin-bottom: 0;
 }
 
-.productCard > span {
+.productCard>span {
   margin: 0.5vmax;
   color: tomato;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
@@ -118,27 +119,27 @@
 }
 
 @media screen and (max-width: 600px) {
-  .productCard > p {
+  .productCard>p {
     font-size: 1.7vmax;
   }
 
-  .productCard > div {
+  .productCard>div {
     margin: 0vmax;
     display: block;
   }
 
-  .productCard > span {
+  .productCard>span {
     font-size: 1.5vmax;
   }
 
-  .productCard > div > span {
+  .productCard>div>span {
     margin: 0 0.5vmax;
     font: 300 1vmax "Roboto";
   }
 }
 
 
-.banner > p {
+.banner>p {
   font: 300 1.4vmax "Lucida Sans";
   margin-top: -460px;
   color: black;
@@ -146,10 +147,12 @@
   font-size: 35px;
 }
 
-.banner > h1 {
+.banner>h1 {
   color: black;
   font-size: 23px;
-}.productCard > img {
+}
+
+.productCard>img {
   width: 14vmax;
   height: 14vmax;
   object-fit: cover;
@@ -210,7 +213,7 @@
   background: white;
   padding: 1.5vmax 2vmax;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   font-size: 1vmax;
   min-width: 220px;
 }
@@ -242,7 +245,7 @@
   border-left: 5px solid #ecc94b;
   font-style: italic;
   font-size: 1.1vmax;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .testimonialCards span {
@@ -294,11 +297,13 @@
   background: #f0fff4;
   padding: 2vmax 1vmax;
 }
+
 .features .feature {
   text-align: center;
   flex: 1;
   font-size: 1.1vmax;
 }
+
 .ecoHighlights {
   background-color: #f9fff9;
   padding: 4vmax 2vmax;
@@ -364,7 +369,7 @@
   background: #e6fffa;
   padding: 1.5vmax;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   width: 180px;
 }
 
@@ -385,6 +390,10 @@
   background: #fefefe;
   padding: 4vmax 2vmax;
   text-align: center;
+}
+
+.ecoCategories a {
+  text-decoration: none;
 }
 
 .ecoCategories .sectionTitle {
@@ -411,7 +420,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #facc15; /* Yellow circle */
+  background-color: #facc15;
+  /* Yellow circle */
   width: 130px;
   height: 150px;
   border-radius: 50%;
@@ -419,7 +429,7 @@
   font-size: 2vmax;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .categoryCard p {
@@ -430,7 +440,7 @@
 
 .categoryCard:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
 .categoryIcon {
@@ -440,7 +450,7 @@
 .ecoCategories {
   max-width: 1200px;
   margin: 40px auto;
-      margin-top: -80px;
+  margin-top: -80px;
   padding: 32px;
   background: #f6f8f7;
   border-radius: 20px;
@@ -472,7 +482,7 @@
 }
 
 .categoryCard {
-padding: 0 3px 0px;
+  padding: 0 3px 0px;
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 2px 20px rgba(44, 62, 51, 0.07);
@@ -483,7 +493,8 @@ padding: 0 3px 0px;
   cursor: pointer;
 }
 
-.categoryCard:hover, .categoryCard:focus {
+.categoryCard:hover,
+.categoryCard:focus {
   box-shadow: 0 8px 32px rgba(44, 62, 51, 0.13);
   transform: translateY(-4px) scale(1.03);
 }
@@ -498,7 +509,7 @@ padding: 0 3px 0px;
   align-items: center;
   justify-content: center;
   margin-bottom: 14px;
-  box-shadow: 0 2px 16px rgba(60,170,100,0.08);
+  box-shadow: 0 2px 16px rgba(60, 170, 100, 0.08);
 }
 
 .categoryCard p {
@@ -508,6 +519,7 @@ padding: 0 3px 0px;
   margin: 0;
   letter-spacing: -0.3px;
 }
+
 .ecoHighlights {
   margin: 50px 100px;
   background: #f6fbf5;
@@ -544,7 +556,7 @@ padding: 0 3px 0px;
 .featureBox {
   background: transparent;
   border-radius: 16px;
-    padding: 40px 0px;
+  padding: 40px 0px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -592,7 +604,7 @@ padding: 0 3px 0px;
   max-width: 100%;
   height: auto;
   border-radius: 50%;
-  box-shadow: 0 4px 20px rgba(120,180,90,0.10);
+  box-shadow: 0 4px 20px rgba(120, 180, 90, 0.10);
   background: #e7f8eb;
   padding: 18px;
 }
@@ -604,7 +616,7 @@ padding: 0 3px 0px;
   margin-top: 24px;
 }
 
-.trustBadges > div {
+.trustBadges>div {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(80, 110, 90, 0.07);
@@ -640,9 +652,11 @@ padding: 0 3px 0px;
     grid-template-columns: 1fr;
     gap: 24px;
   }
+
   .featureImage {
     margin: 18px 0;
   }
+
   .trustBadges {
     grid-template-columns: 1fr 1fr;
     gap: 16px;
@@ -653,12 +667,16 @@ padding: 0 3px 0px;
   .ecoHighlights {
     padding: 16px 4vw 20px;
   }
-  .featureBox, .trustBadges > div {
+
+  .featureBox,
+  .trustBadges>div {
     padding: 14px 5vw;
   }
+
   .sectionTitle {
     font-size: 1.4rem;
   }
+
   .sectionSubtext {
     font-size: 1rem;
   }
@@ -685,7 +703,7 @@ padding: 0 3px 0px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 3px 18px rgba(60,170,100,0.10);
+  box-shadow: 0 3px 18px rgba(60, 170, 100, 0.10);
   font-size: 2.3rem;
 }
 
@@ -719,7 +737,7 @@ padding: 0 3px 0px;
   margin-right: auto;
 }
 
-.ecoMission__highlights > div {
+.ecoMission__highlights>div {
   background: #fff;
   border-radius: 15px;
   box-shadow: 0 2px 14px rgba(40, 90, 45, 0.06);
@@ -731,8 +749,8 @@ padding: 0 3px 0px;
   transition: box-shadow 0.2s, border 0.2s;
 }
 
-.ecoMission__highlights > div:hover {
-  box-shadow: 0 8px 32px rgba(48,177,87,0.11);
+.ecoMission__highlights>div:hover {
+  box-shadow: 0 8px 32px rgba(48, 177, 87, 0.11);
   border: 1.5px solid #7de2ae;
 }
 
@@ -767,18 +785,22 @@ padding: 0 3px 0px;
   .ecoMission {
     padding: 18px 2vw 12px;
   }
+
   .ecoMission__highlights {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+
   .ecoMission__icon {
     width: 60px;
     height: 60px;
     font-size: 1.5rem;
   }
+
   .ecoMission h2 {
     font-size: 1.35rem;
   }
+
   .ecoMission__summary {
     font-size: 1rem;
     margin-bottom: 18px;
@@ -831,7 +853,7 @@ padding: 0 3px 0px;
   line-height: 1.65;
   margin-bottom: 22px;
   color: #d3edca;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .testimonials__author {
@@ -876,9 +898,11 @@ padding: 0 3px 0px;
   .testimonials {
     padding: 50px 18px 60px;
   }
+
   .testimonials__title {
     font-size: 1.7rem;
   }
+
   .testimonials__quote {
     font-size: 1.15rem;
   }
@@ -955,6 +979,11 @@ padding: 0 3px 0px;
   cursor: pointer;
   font-weight: 600;
   transition: background 0.3s;
+}
+
+.eco-card-button a {
+  color: #fff;
+  text-decoration: none;
 }
 
 .eco-card-button:hover {
@@ -1073,20 +1102,23 @@ padding: 0 3px 0px;
 }
 
 /* Optional smooth fade-in animation for product cards */
-.container > * {
+.container>* {
   opacity: 0;
   animation: fadeInUp 0.6s forwards;
 }
 
-.container > *:nth-child(1) {
+.container>*:nth-child(1) {
   animation-delay: 0.1s;
 }
-.container > *:nth-child(2) {
+
+.container>*:nth-child(2) {
   animation-delay: 0.2s;
 }
-.container > *:nth-child(3) {
+
+.container>*:nth-child(3) {
   animation-delay: 0.3s;
 }
+
 /* Add more nth-child delays as needed */
 
 @keyframes fadeInUp {
@@ -1094,6 +1126,7 @@ padding: 0 3px 0px;
     opacity: 0;
     transform: translateY(24px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -1106,6 +1139,7 @@ padding: 0 3px 0px;
     font-size: 1.9rem;
     margin-bottom: 20px;
   }
+
   .container {
     grid-template-columns: 1fr;
     gap: 18px;
@@ -1159,7 +1193,7 @@ padding: 0 3px 0px;
   margin-bottom: 14px;
 }
 
-.productCard > div {
+.productCard>div {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1184,7 +1218,7 @@ padding: 0 3px 0px;
 
 /* Eco score styling - colors come from inline styles in JSX */
 /* To keep consistent spacing and alignment: */
-.productCard > div > span:last-child {
+.productCard>div>span:last-child {
   font-weight: 700;
   font-size: 0.9rem;
 }
@@ -1194,9 +1228,11 @@ padding: 0 3px 0px;
   .productCard {
     max-width: 100%;
   }
+
   .productCard img {
     height: 160px;
   }
+
   .productCard p {
     font-size: 1rem;
   }
@@ -1233,27 +1269,27 @@ padding: 0 3px 0px;
 
 
 #home h1 {
-    font-family: 'Bree Serif', serif;
-    color:  black;
-    font-size: 42px;
-    margin: 22px;
-    margin-top: 0;
+  font-family: 'Bree Serif', serif;
+  color: black;
+  font-size: 42px;
+  margin: 22px;
+  margin-top: 0;
 }
 
-#home p{
+#home p {
   color: black;
 }
 
 #home::before {
-    content: "";
-    background: url(/src/assets/homeimg.jpg) no-repeat center center / cover;
-    height: 750px;
-    width: 100%;
-    position: absolute;
-    top: 75px;
-    left: 0px;
-    z-index: -1;
-    opacity: 1;
+  content: "";
+  background: url(/src/assets/homeimg.jpg) no-repeat center center / cover;
+  height: 750px;
+  width: 100%;
+  position: absolute;
+  top: 75px;
+  left: 0px;
+  z-index: -1;
+  opacity: 1;
 }
 
 
@@ -1360,18 +1396,19 @@ padding: 0 3px 0px;
 
 
 .eco-card {
-    border: 1px solid #e0e0e0;
-    padding: 30px 20px !important;
-  }
+  border: 1px solid #e0e0e0;
+  padding: 30px 20px !important;
+}
 
-  /* new product card css */
- .container {
+/* new product card css */
+.container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 40px;
   padding: 50px 30px;
   max-width: 1400px;
   margin: 0 auto;
+  margin: 20px auto;
   background-color: #f4f7f6;
 }
 
@@ -1394,7 +1431,7 @@ padding: 0 3px 0px;
   left: -30%;
   width: 160%;
   height: 160%;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.4), transparent 60%);
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.4), transparent 60%);
   opacity: 0;
   transition: opacity 0.4s ease;
   z-index: 1;

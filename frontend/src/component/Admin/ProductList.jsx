@@ -13,7 +13,7 @@ import MetaData from "../layout/MetaData";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SideBar from "./Sidebar";
-import { toast, ToastContainer } from "react-toastify";
+// import { toast, ToastContainer } from "react-toastify";
 import { Button } from "@mui/material";
 
 const ProductList = () => {
@@ -137,7 +137,7 @@ const ProductList = () => {
 
   return (
     <Fragment>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       <MetaData title={`ALL PRODUCTS - Admin`} />
       <div className="dashboard">
         <SideBar />

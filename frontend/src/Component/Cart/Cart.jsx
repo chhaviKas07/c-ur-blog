@@ -24,12 +24,10 @@ const Cart = () => {
   );
 
   const increaseQuantity = (id, currentQty, stock) => {
-    console.log("Trying to add to cart:", { id, currentQty, stock });
+    // console.log("Trying to add to cart:", { id, currentQty, stock });
     const available = stock - currentQty;
     const addQty = Math.min(1, available);
-
     if (addQty > 0) {
-      console.log("✅ Dispatching add to cart");
       dispatch(addItemsToCartThunk({ id, quantity: addQty }));
     } else {
       console.warn("❌ Reached stock limit");
@@ -81,13 +79,6 @@ const Cart = () => {
                       -
                     </button>
                     <input type="number" value={item.quantity} readOnly />
-
-                    {/* <button
-    onClick={() => increaseQuantity(itemId, item.quantity, item.stock)}
-    disabled={item.quantity >= item.stock}
-  >
-    +
-  </button> */}
                     <button
                       onClick={() =>
                         increaseQuantity(itemId, item.quantity, item.stock)

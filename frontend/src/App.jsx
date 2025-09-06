@@ -7,15 +7,19 @@ import { Elements } from "@stripe/react-stripe-js";
 import { useSelector, useDispatch } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 import { Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+import ScrollToTop from "./component/ScrollToTop.jsx";
 import store from "./store.jsx";
-import Footer from "./component/layout/Footer/Footer.jsx";            
-import Header from "./component/layout/Header/Header.jsx";            
-import Payment from "./component/Cart/Payment.jsx";                   //D
-import Home from "./component/Home/Home.jsx";
-import ProductDetails from "./component/Product/ProductDetails.jsx";
-import Products from "./component/Product/Products.jsx";
-import Search from "./component/Product/Search.jsx";                   //D  
+import Payment from "./component/Cart/Payment.jsx";                    //R C
+import Footer from "./component/layout/Footer/Footer.jsx";             //D
+import Header from "./component/layout/Header/Header.jsx";             //D
+import Home from "./component/Home/Home.jsx";                          //D
+import ProductDetails from "./component/Product/ProductDetails.jsx";   //D
+import Products from "./component/Product/Products.jsx";               //D
+import Search from "./component/Product/Search.jsx";                   //D 
 import LoginSignUp from "./component/User/LoginSignUp.jsx";            //D
 import UserOptions from "./component/layout/Header/UserOptions.jsx";   //D
 import Profile from "./component/User/Profile.jsx";                    //D
@@ -29,13 +33,14 @@ import Shipping from "./component/Cart/Shipping.jsx";                  //D
 import ConfirmOrder from "./component/Cart/ConfirmOrder.jsx";          //D
 import OrderSuccess from "./component/Cart/OrderSuccess.jsx";          //D 
 import MyOrders from "./component/Order/MyOrders.jsx";                 //D                   
-import OrderDetails from "./component/Order/OrderDetails.jsx";         //D   
+import OrderDetails from "./component/Order/OrderDetails.jsx";         //D
+
 import Dashboard from "./component/Admin/Dashboard.jsx";               //D  
 import ProductList from "./component/Admin/ProductList.jsx";           //D 
 import NewProduct from "./component/Admin/NewProduct.jsx";             //D 
 import UpdateProduct from "./component/Admin/UpdateProduct.jsx";       //D
 import OrderList from "./component/Admin/OrderList.jsx";               //D 
-import ProcessOrder from "./component/Admin/ProcessOrder.jsx";         //D 
+import ProcessOrder from "./component/Admin/ProcessOrder.jsx";         //D
 import UsersList from "./component/Admin/UsersList.jsx";               //D   
 import UpdateUser from "./component/Admin/UpdateUser.jsx";             //D   
 import ProductReviews from "./component/Admin/ProductReviews.jsx";     //D   
@@ -43,8 +48,6 @@ import ProductReviews from "./component/Admin/ProductReviews.jsx";     //D
 import Contact from "./component/layout/Contact/Contact.jsx";          //D
 import About from "./component/layout/About/About.jsx";                //D
 import NotFound from "./component/layout/Not Found/NotFound.jsx";      //D
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 
 function App() {
@@ -89,19 +92,44 @@ function App() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user && user._id) {
-      console.log("📦 App init: loading shipping info for user", user._id);
+      // console.log("📦 App init: loading shipping info for user", user._id);
       dispatch(loadShippingInfoForUser(user._id));
     }
   }, [dispatch]);
 
   window.addEventListener("contextmenu", (e) => e.preventDefault());
 
+
+  const location = useLocation();
+
+  const hiddenPaths = [
+    "/admin/dashboard",
+    "/shipping",
+    "/process/payment",
+    "/success",
+    "/order/confirm",
+    "/admin/products",
+    "/admin/product/new",
+    "/admin/orders",
+    "/admin/users",
+    "/admin/user/",
+    "/admin/reviews",
+    "/admin/product/",
+    "/admin/order/",
+  ];
+
+  const hideHeaderFooter = hiddenPaths.some(path =>
+    location.pathname.startsWith(path)
+  );
+
   return (
     <>
-      {/* <ToastContainer /> */}
-      <ToastContainer position="bottom-center" autoClose={3000} newestOnTop />
-      <Header />
+      <ToastContainer />
+      {/* <ToastContainer position="bottom-center" autoClose={3000} newestOnTop /> */}
+      {!hideHeaderFooter && <Header />}
+
       {isAuthenticated && <UserOptions user={user} />}
+      <ScrollToTop />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/products" element={<Products />} />
@@ -216,7 +244,7 @@ function App() {
 
       </Routes>
 
-      {/* <Footer /> */}
+      {!hideHeaderFooter && <Footer />}
     </>
   );
 }

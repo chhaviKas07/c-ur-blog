@@ -59,7 +59,7 @@ const UpdateUser = () => {
     }
   
     if (isUpdated) {
-      console.log("isUpdated:", isUpdated);
+      // console.log("isUpdated:", isUpdated);
 
       toast.success("User Updated Successfully");
         dispatch(updateUserReset());
@@ -90,11 +90,11 @@ const UpdateUser = () => {
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <MetaData title="Update User" />
       <div className="dashboard">
         <SideBar />
-        <div className="newProductContainer">
+        <div className="newProductContainer userupdate">
           {loading ? (
             <Loader />
           ) : (

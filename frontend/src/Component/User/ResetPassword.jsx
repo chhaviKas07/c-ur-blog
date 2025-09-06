@@ -40,16 +40,17 @@ const ResetPassword = () => {
       toast.error(error);
       dispatch(clearErrors());
     }
-
     if (success) {
       toast.success("Password Updated Successfully");
-      navigate("/login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000); // ⏳ Give toast time to appear
     }
   }, [dispatch, error, success, navigate]);
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       {loading ? (
         <Loader />
       ) : (
@@ -91,7 +92,7 @@ const ResetPassword = () => {
               </form>
             </div>
           </div>
-          <ToastContainer />
+          <ner />
         </Fragment>
       )}
     </Fragment>

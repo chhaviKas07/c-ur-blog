@@ -6,7 +6,8 @@
   font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
   /* border-top: 3px solid #62b25e; */
   position: relative;
-  z-index: -1;
+  /* z-index: -1; */
+  z-index: 1;
 }
 
 .ecoFooter__title img {
@@ -30,6 +31,7 @@
   font-size: 2.2rem;
   transition: color 0.2s, transform 0.2s;
   opacity: 0.92;
+  cursor: pointer;
 }
 .ecoFooter__social a:hover {
   color: #49b37f;
@@ -85,4 +87,5 @@
     gap: 14px;
   }
 }
+
 

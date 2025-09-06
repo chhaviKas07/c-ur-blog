@@ -41,15 +41,15 @@ const OrderList = ({ history }) => {
     // dispatch(deleteorderReset());
   };
 
-    useEffect(() => {
+  useEffect(() => {
     dispatch(getAllOrders());
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("Error:", error);
-    console.log("DeleteError:", deleteError);
-    console.log("isDeleted:", isDeleted);
-   if (orders) {
+    // console.log("Error:", error);
+    // console.log("DeleteError:", deleteError);
+    // console.log("isDeleted:", isDeleted);
+    if (orders) {
       const dynamicPageSize = getPageSizeFromCount(orders.length);
       setPaginationModel((prev) => ({
         ...prev,
@@ -60,26 +60,26 @@ const OrderList = ({ history }) => {
       toast.error(error);
       dispatch(clearErrors());
     }
-  
+
     if (deleteError) {
       toast.error(deleteError);
       dispatch(clearErrors());
     }
-  
+
     if (isDeleted) {
       toast.success("Order Deleted Successfully");
       dispatch(deleteorderReset()); // ✅ Reset here only after toast
       // dispatch(getAllOrders());    // ✅ Refetch list after successful delete
-    } 
+    }
     // else if (!orders || orders.length === 0) {
     //   dispatch(getAllOrders());    // ✅ Initial fetch
     // }
-  // }, [dispatch, error, deleteError, isDeleted, orders, navigate]);
-  // dispatch(getAllOrders());
+    // }, [dispatch, error, deleteError, isDeleted, orders, navigate]);
+    // dispatch(getAllOrders());
 
-}, [dispatch, error, deleteError, isDeleted, orders]);  
-  
-  
+  }, [dispatch, error, deleteError, isDeleted, orders]);
+
+
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
@@ -119,7 +119,7 @@ const OrderList = ({ history }) => {
       renderCell: (params) => {
         return (
           <Fragment>
-             {/* <ToastContainer /> */}
+            {/* <ToastContainer /> */}
             <Link to={`/admin/order/${params.row.id}`}>
               <EditIcon />
             </Link>
@@ -145,15 +145,15 @@ const OrderList = ({ history }) => {
       });
     });
 
-  return ( 
+  return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <MetaData title={`ALL ORDERS - Admin`} />
       <div className="dashboard">
         <SideBar />
         <div className="productListContainer">
           <h1 id="productListHeading">ALL ORDERS</h1>
-           {/* <DataGrid
+          {/* <DataGrid
             rows={rows}
             columns={columns}
             pagination
@@ -164,7 +164,7 @@ const OrderList = ({ history }) => {
             className="productListTable"
             autoHeight
           /> */}
-           <DataGrid
+          {/* <DataGrid
             rows={rows}
             columns={columns}
             pagination
@@ -176,6 +176,17 @@ const OrderList = ({ history }) => {
             autoHeight
             rowCount={rows.length}
             paginationMode="client"
+          /> */}
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            pagination
+            paginationModel={paginationModel}
+            onPaginationModelChange={(model) => setPaginationModel(model)}
+            pageSizeOptions={[5, 10, 20, 50]}
+            disableSelectionOnClick
+            className="productListTable"
+            autoHeight
           />
         </div>
       </div>

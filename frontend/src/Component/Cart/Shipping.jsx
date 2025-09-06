@@ -18,36 +18,14 @@ import { useNavigate } from "react-router-dom";
 const Shipping = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { userInfo } = useSelector((state) => state.cart);
-  // const { shippingInfo } = useSelector((state) => state.cart);
-
-  // const [address, setAddress] = useState(userInfo.address);
-  // const [city, setCity] = useState(userInfo.city);
-  // const [state, setState] = useState(userInfo.state);
-  // const [country, setCountry] = useState(userInfo.country);
-  // const [pinCode, setPinCode] = useState(userInfo.pinCode);
-  // const [phoneNo, setPhoneNo] = useState(userInfo.phoneNo);
 
   const { shippingInfo } = useSelector((state) => state.cart);
-
-  // const [address, setAddress] = useState(shippingInfo.address);
-  // const [city, setCity] = useState(shippingInfo.city);
-  // const [state, setState] = useState(shippingInfo.state);
-  // const [country, setCountry] = useState(shippingInfo.country);
-  // const [pinCode, setPinCode] = useState(shippingInfo.pinCode);
-  // const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
-//   const [address, setAddress] = useState(shippingInfo.address || "");
-// const [city, setCity] = useState(shippingInfo.city || "");
-// const [state, setState] = useState(shippingInfo.state || "");
-// const [country, setCountry] = useState(shippingInfo.country || "");
-// const [pinCode, setPinCode] = useState(shippingInfo.pinCode || "");
-// const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo || "");
-const [address, setAddress] = useState("");
-const [city, setCity] = useState("");
-const [state, setState] = useState("");
-const [country, setCountry] = useState("");
-const [pinCode, setPinCode] = useState("");
-const [phoneNo, setPhoneNo] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
+  const [pinCode, setPinCode] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
 
 
   // const shippingSubmit = (e) => {
@@ -64,40 +42,40 @@ const [phoneNo, setPhoneNo] = useState("");
   // };
   const shippingSubmit = (e) => {
     e.preventDefault();
-  
+
     if (phoneNo.length < 10 || phoneNo.length > 10) {
       toast.error("Phone Number should be 10 digits Long");
       return;
     }
-  
-    console.log("Shipping Info Saved, navigating to confirm page...");
-  
+
+    // console.log("Shipping Info Saved, navigating to confirm page...");
+
     // dispatch(
     //   saveShippingInfoThunk({ address, city, state, country, pinCode, phoneNo })
     // );
     // navigate("/order/confirm");
-      const shippingData = { address, city, state, country, pinCode, phoneNo };
-  dispatch(saveShippingInfoThunk(shippingData));
-  navigate("/order/confirm");
+    const shippingData = { address, city, state, country, pinCode, phoneNo };
+    dispatch(saveShippingInfoThunk(shippingData));
+    navigate("/order/confirm");
   };
-useEffect(() => {
-  if (shippingInfo) {
-    setAddress(shippingInfo.address || "");
-    setCity(shippingInfo.city || "");
-    setState(shippingInfo.state || "");
-    setCountry(shippingInfo.country || "");
-    setPinCode(shippingInfo.pinCode || "");
-    setPhoneNo(shippingInfo.phoneNo || "");
-  }
-}, [shippingInfo]);
-    useEffect(() => {
-  console.log("🚚 shippingInfo in form:", shippingInfo);
-}, [shippingInfo]);
-  
+  useEffect(() => {
+    if (shippingInfo) {
+      setAddress(shippingInfo.address || "");
+      setCity(shippingInfo.city || "");
+      setState(shippingInfo.state || "");
+      setCountry(shippingInfo.country || "");
+      setPinCode(shippingInfo.pinCode || "");
+      setPhoneNo(shippingInfo.phoneNo || "");
+    }
+  }, [shippingInfo]);
+  useEffect(() => {
+    // console.log("🚚 shippingInfo in form:", shippingInfo);
+  }, [shippingInfo]);
+
 
   return (
     <Fragment>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
       <MetaData title="Shipping Details" />
 
       <CheckoutSteps activeStep={0} />

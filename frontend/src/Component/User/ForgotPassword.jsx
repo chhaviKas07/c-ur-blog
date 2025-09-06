@@ -73,7 +73,7 @@ const ForgotPassword = () => {
           </div>
         </Fragment>
       )}
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </Fragment>
   );
 };

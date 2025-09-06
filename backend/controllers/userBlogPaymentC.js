@@ -8,8 +8,8 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 exports.newUserBlogPayment = catchAsyncErrors(async (req, res, next) => {
     const { userInfo, paymentInfo, itemsPrice, taxPrice, totalPrice, orderItems } = req.body;
 
-    console.log("Request body:", req.body);
-    console.log("User:", req.user);
+    // console.log("Request body:", req.body);
+    // console.log("User:", req.user);
 
     // Check if all required fields are provided
     if (!userInfo || !paymentInfo || !itemsPrice || !taxPrice || !totalPrice || !orderItems) {

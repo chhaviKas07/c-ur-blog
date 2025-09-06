@@ -10,7 +10,7 @@ import homesec from "../../assets/home-sec.png";
 import SUSTAINABLEPRODUCTS from "../../assets/SUSTAINABLEPRODUCTS.jpg";
 import track from "../../assets/track.jpg";
 import carbon from "../../assets/carbon.jpg";
-
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -81,10 +81,14 @@ const Home = () => {
                 { name: "Household Essentials", icon: "🧼" },
                 { name: "Beauty", icon: "💄" },
               ].map((cat) => (
-                <div className="categoryCard" key={cat.name}>
+                <Link
+                  key={cat.name}
+                  to={`/products?category=${encodeURIComponent(cat.name)}`}
+                  className="categoryCard"
+                >
                   <div className="categoryIcon">{cat.icon}</div>
                   <p>{cat.name}</p>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
@@ -138,37 +142,43 @@ const Home = () => {
               </div>
             </div>
           </section>
-<section className="eco-features">
-  {/* Card 1 */}
-  <div className="eco-card green">
-    <h3 className="eco-card-title">SUSTAINABLE PRODUCTS</h3>
-    <img src={SUSTAINABLEPRODUCTS} alt="Sustainable Products" className="eco-card-image" />
-    <p className="eco-card-text">
-      Choose from eco-conscious products made with biodegradable, recyclable, and ethically sourced materials.
-    </p>
-    <button className="eco-card-button">SHOP ECO</button>
-  </div>
+          <section className="eco-features">
+            {/* Card 1 */}
+            <div className="eco-card green">
+              <h3 className="eco-card-title">SUSTAINABLE PRODUCTS</h3>
+              <img src={SUSTAINABLEPRODUCTS} alt="Sustainable Products" className="eco-card-image" />
+              <p className="eco-card-text">
+                Choose from eco-conscious products made with biodegradable, recyclable, and ethically sourced materials.
+              </p>
+              <button className="eco-card-button">
+                <Link to="/products">SHOP ECO</Link>
+              </button>
+            </div>
 
-  {/* Card 2 */}
-  <div className="eco-card yellow">
-    <h3 className="eco-card-title">TRACK YOUR IMPACT</h3>
-    <img src={track}alt="Track Carbon Footprint" className="eco-card-image" />
-    <p className="eco-card-text">
-      With every purchase, see how much carbon you saved. Make smarter, greener choices with real data.
-    </p>
-    <button className="eco-card-button">LEARN MORE</button>
-  </div>
+            {/* Card 2 */}
+            <div className="eco-card yellow">
+              <h3 className="eco-card-title">CUSTOMER REVIEWS</h3>
+              <img src={track} alt="Customer Reviews" className="eco-card-image" />
+              <p className="eco-card-text">
+                Read real experiences from eco-conscious shoppers. Share your voice and help others make greener choices.
+              </p>
+              <Link to="/products">
+                <button className="eco-card-button">READ REVIEWS</button>
+              </Link>
+            </div>
 
-  {/* Card 3 */}
-  <div className="eco-card lightgreen">
-    <h3 className="eco-card-title">CARBON OFFSETTING</h3>
-    <img src={carbon} alt="Carbon Offset" className="eco-card-image" />
-    <p className="eco-card-text">
-      Neutralize your carbon footprint by supporting certified climate action projects around the world.
-    </p>
-    <button className="eco-card-button">CALCULATE IMPACT</button>
-  </div>
-</section>
+            {/* Card 3 */}
+            <div className="eco-card lightgreen">
+              <h3 className="eco-card-title">OUR MISSION</h3>
+              <img src={carbon} alt="Our Mission" className="eco-card-image" />
+              <p className="eco-card-text">
+                We’re on a journey to make sustainable shopping easy, affordable, and impactful for everyone.
+              </p>
+              <Link to="/about">
+                <button className="eco-card-button">LEARN MORE</button>
+              </Link>
+            </div>
+          </section>
 
           <section className="testimonials" aria-label="Testimonials about us">
             <div className="testimonials__overlay" />
@@ -195,7 +205,7 @@ const Home = () => {
           <div className="container" id="container">
             {products &&
               // products.map((product) => (
-                    products.slice(0, 8).map((product) => (
+              products.slice(0, 8).map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
           </div>

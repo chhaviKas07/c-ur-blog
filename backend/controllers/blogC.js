@@ -116,7 +116,6 @@ exports.createBlog = catchAsyncErrors(async (req, res, next) => {
                 const result = await cloudinary.uploader.upload(images[i], {
                     folder: 'blogsImages',
                 });
-                console.log('Cloudinary Upload Result:', result);  // Log result for debugging
                 imagesLinks.push({
                     public_id: result.public_id,
                     url: result.secure_url,

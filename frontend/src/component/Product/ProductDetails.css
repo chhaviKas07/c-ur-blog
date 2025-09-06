@@ -7,7 +7,7 @@
   display: flex;
 }
 
-.ProductDetails > div {
+.ProductDetails>div {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@
   border: 1px solid white;
 }
 
-.ProductDetails > div:last-child {
+.ProductDetails>div:last-child {
   align-items: flex-start;
 }
 
@@ -26,12 +26,12 @@
   width: 20vmax;
 }
 
-.detailsBlock-1 > h2 {
+.detailsBlock-1>h2 {
   color: rgb(54, 54, 54);
   font: 600 1.6vmax "Roboto";
 }
 
-.detailsBlock-1 > p {
+.detailsBlock-1>p {
   color: rgba(54, 54, 54, 0.582);
   font: 200 0.6vmax cursive;
 }
@@ -55,17 +55,20 @@
   width: 70%;
 }
 
-.detailsBlock-3 > h1 {
+.detailsBlock-3>h1 {
   color: rgba(17, 17, 17, 0.795);
   font: 400 1.8vmax "Franklin Gothic Medium";
   margin: 1vmax 0;
 }
+
 .detailsBlock-3-1 {
   display: flex;
   align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
-.detailsBlock-3-1-1 > button {
+.detailsBlock-3-1-1>button {
   border: none;
   background-color: rgba(0, 0, 0, 0.616);
   padding: 0.5vmax;
@@ -73,11 +76,12 @@
   color: white;
   transition: all 0.5s;
 }
-.detailsBlock-3-1-1 > button:hover {
+
+.detailsBlock-3-1-1>button:hover {
   background-color: rgba(0, 0, 0, 0.767);
 }
 
-.detailsBlock-3-1-1 > input {
+.detailsBlock-3-1-1>input {
   border: none;
   padding: 0.5vmax;
   width: 1vmax;
@@ -87,24 +91,24 @@
   color: rgba(0, 0, 0, 0.74);
 }
 
-.detailsBlock-3-1 > button:last-child {
+.detailsBlock-3-1>button:last-child {
   border: none;
   cursor: pointer;
   color: white;
   transition: all 0.5s;
   background-color: black;
-  font: 500 0.7vmax "Roboto";
+  font: 600 1vmax "Roboto";
   border-radius: 20px;
   padding: 0.5vmax 2vmax;
-  margin: 1vmax;
+  margin: 0px 20px;
   outline: none;
 }
 
-.detailsBlock-3-1 > button:last-child:hover {
+.detailsBlock-3-1>button:last-child:hover {
   background-color: #ba7543;
 }
 
-.detailsBlock-3 > p {
+.detailsBlock-3>p {
   border-top: 1px solid rgba(0, 0, 0, 0.205);
   border-bottom: 1px solid rgba(0, 0, 0, 0.205);
   padding: 1vmax 0;
@@ -118,7 +122,7 @@
   font: 500 1.2vmax sans-serif;
 }
 
-.detailsBlock-4 > p {
+.detailsBlock-4>p {
   color: rgba(0, 0, 0, 0.534);
   font: 300 0.8vmax sans-serif;
 }
@@ -135,8 +139,9 @@
   transition: all 0.5s;
   outline: none;
 }
+
 .submitReview:hover {
-  background-color:#ba7543;
+  background-color: #ba7543;
   transform: scale(1.1);
 }
 
@@ -144,6 +149,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .submitDialogTextArea {
   border: 1px solid rgba(0, 0, 0, 0.082);
   margin: 1vmax 0;
@@ -162,6 +168,7 @@
   margin: auto;
   margin-bottom: 4vmax;
 }
+
 .reviews {
   display: flex;
   overflow: auto;
@@ -169,23 +176,25 @@
 
 .reviewCard {
   flex: none;
-
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.226);
   border: 1px solid rgba(56, 56, 56, 0.116);
-  width: 30vmax;
+  width: 20vmax;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1vmax;
-  padding: 3vmax;
+  margin: 10px 15px;
+  padding: 20px 15px;
 }
-.reviewCard > img {
+
+.reviewCard>img {
   width: 5vmax;
 }
-.reviewCard > p {
+
+.reviewCard>p {
   color: rgba(0, 0, 0, 0.836);
   font: 600 0.9vmax "Roboto";
 }
+
 .reviewCardComment {
   color: rgba(0, 0, 0, 0.445);
   font: 300 0.8vmax cursive;
@@ -203,16 +212,16 @@
     height: unset;
   }
 
-  .ProductDetails > div:last-child {
+  .ProductDetails>div:last-child {
     align-items: center;
   }
 
-  .detailsBlock-1 > h2 {
+  .detailsBlock-1>h2 {
     font-size: 2.8vmax;
     text-align: center;
   }
 
-  .detailsBlock-1 > p {
+  .detailsBlock-1>p {
     text-align: center;
     font-size: 1vmax;
   }
@@ -220,11 +229,12 @@
   .detailsBlock-2 {
     justify-content: center;
   }
-  .detailsBlock-2 > span {
+
+  .detailsBlock-2>span {
     font-size: 1.5vmax;
   }
 
-  .detailsBlock-3 > h1 {
+  .detailsBlock-3>h1 {
     font: 700 3vmax "Franklin Gothic Medium";
     text-align: center;
   }
@@ -236,25 +246,26 @@
   .detailsBlock-3-1-1 {
     padding: 2vmax 0;
   }
-  .detailsBlock-3-1-1 > button {
+
+  .detailsBlock-3-1-1>button {
     padding: 1.2vmax;
     width: 4vmax;
   }
 
-  .detailsBlock-3-1-1 > input {
+  .detailsBlock-3-1-1>input {
     padding: 1.5vmax;
     width: 3vmax;
     font: 400 1.8vmax "Roboto";
   }
 
-  .detailsBlock-3-1 > button:last-child {
+  .detailsBlock-3-1>button:last-child {
     font: 500 1.7vmax "Roboto";
     padding: 1.5vmax;
     width: 20vmax;
     margin: 3vmax 0;
   }
 
-  .detailsBlock-3 > p {
+  .detailsBlock-3>p {
     padding: 2.5vmax 0;
     text-align: center;
     font: 400 2vmax "Roboto";
@@ -264,7 +275,7 @@
     font: 500 2.5vmax sans-serif;
   }
 
-  .detailsBlock-4 > p {
+  .detailsBlock-4>p {
     font: 300 1.8vmax sans-serif;
   }
 
@@ -275,9 +286,10 @@
     margin: 3vmax 0;
   }
 
-  .reviewCard > p {
+  .reviewCard>p {
     font: 600 3vw "Roboto";
   }
+
   .reviewCardComment {
     font: 300 5vw cursive;
   }
@@ -292,7 +304,7 @@
 
 .CarouselImage {
   width: 100%;
-  height: 400px;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
@@ -310,13 +322,15 @@
   color: red;
   font-weight: bold;
 }
+
 .greenColor {
   color: green;
   font-weight: bold;
 }
 
 .stock-warning {
-  color: #e63946; /* red warning */
+  color: #e63946;
+  /* red warning */
   font-size: 0.9rem;
   margin-top: 5px;
   margin-left: 10px;
@@ -347,11 +361,7 @@
 .eco-recommendations {
   margin-top: 2rem;
 }
-.recommendation-list {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+
 .eco-card {
   border: 1px solid #e0e0e0;
   padding: 10px;
@@ -359,6 +369,7 @@
   text-align: center;
   border-radius: 5px;
 }
+
 .buy-now-btn {
   background-color: #2e7d32;
   color: white;
@@ -375,11 +386,11 @@
 /* new cssss gpt */
 /* Container */
 .ProductDetails {
-  max-width: 1160px;
+  max-width: 90%;
   margin: 48px auto 72px;
-  padding: 0 24px;
+  padding: 50px;
   display: flex;
-  gap: 48px;
+  gap: 100px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #2f562e;
   background: #f8fcf6;
@@ -397,11 +408,12 @@
 
 .CarouselImage {
   width: 100%;
-  height: 420px;
+  height: auto;
   object-fit: cover;
   user-select: none;
   border-radius: 20px;
   transition: transform 0.3s ease;
+  margin-top: 30px;
 }
 
 .CarouselImage:hover {
@@ -409,7 +421,7 @@
 }
 
 /* Product Info Block */
-.ProductDetails > div:nth-child(2) {
+.ProductDetails>div:nth-child(2) {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -459,7 +471,6 @@
   align-items: center;
   gap: 18px;
   margin-bottom: 22px;
-  flex-wrap: wrap;
 }
 
 /* Quantity controls */
@@ -483,6 +494,8 @@
   border-radius: 50%;
   transition: background-color 0.22s, color 0.22s;
   user-select: none;
+  display: flex;
+  align-items: center;
 }
 
 .detailsBlock-3-1-1 button:hover:not(:disabled),
@@ -490,6 +503,8 @@
   background-color: #7dde75;
   color: #1f3f17;
   outline: none;
+  display: flex;
+  justify-content: center;
 }
 
 .detailsBlock-3-1-1 button:disabled {
@@ -513,7 +528,7 @@
 }
 
 /* Add to Cart Button */
-.detailsBlock-3-1 > button {
+.detailsBlock-3-1>button {
   cursor: pointer;
   background: linear-gradient(100deg, #4daa35, #78de4a);
   color: white;
@@ -528,14 +543,14 @@
   flex-shrink: 0;
 }
 
-.detailsBlock-3-1 > button:hover:not(:disabled),
-.detailsBlock-3-1 > button:focus:not(:disabled) {
+.detailsBlock-3-1>button:hover:not(:disabled),
+.detailsBlock-3-1>button:focus:not(:disabled) {
   background: linear-gradient(100deg, #71c746, #91e963);
   box-shadow: 0 10px 30px rgba(113, 220, 70, 0.7);
   outline: none;
 }
 
-.detailsBlock-3-1 > button:disabled {
+.detailsBlock-3-1>button:disabled {
   background: #99b38c;
   cursor: not-allowed;
   box-shadow: none;
@@ -547,18 +562,22 @@
   margin-top: 4px;
   font-weight: 700;
 }
+
 .greenColor {
   color: #3c7e29;
   text-shadow: 0 1px 2px #a5d38d;
+  margin-left: 10px;
 }
+
 .redColor {
   color: #c03131;
   text-shadow: 0 1px 2px #ef8e8e;
+  margin-left: 10px;
 }
 
 /* Description */
 .detailsBlock-4 {
-  margin-top: 28px;
+  margin-top: 20px;
   font-size: 1.11rem;
   line-height: 1.47;
   color: #2b4d20;
@@ -573,7 +592,7 @@
 }
 
 /* Eco Score Badge */
-.ProductDetails > div:nth-child(2) > span {
+.ProductDetails>div:nth-child(2)>span {
   display: inline-block;
   margin-top: 20px;
   font-weight: 700;
@@ -620,10 +639,10 @@
 
 /* Reviews container */
 .reviews {
-  max-width: 1160px;
   margin: 0 auto 80px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 22px;
 }
 
@@ -654,8 +673,7 @@
 
 /* Recommendations Section */
 .eco-recommendations {
-  max-width: 1160px;
-  margin: 0 auto 70px;
+  margin: 0 70px 70px;
 }
 
 .eco-recommendations h3 {
@@ -664,13 +682,20 @@
   color: #357831;
   margin-bottom: 24px;
   user-select: none;
+  text-align: center;
 }
 
 /* Recommendation list grid */
 .recommendation-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 26px;
+  justify-content: center;
+  flex-direction: row;
+  text-align: center;
+  align-items: center;
+}
+
+.recommendation-list .productCard {
+  margin: 20px 50px;
 }
 
 /* Responsive */
@@ -679,16 +704,20 @@
     flex-direction: column;
     padding: 0 16px 48px;
   }
+
   .carousel {
     height: 320px;
   }
+
   .CarouselImage {
     height: 320px;
   }
+
   .detailsBlock-3-1 {
     flex-wrap: wrap;
   }
-  .detailsBlock-3-1 > button {
+
+  .detailsBlock-3-1>button {
     width: 100%;
     flex-grow: 1;
   }
@@ -698,14 +727,37 @@
   .CarouselImage {
     height: 240px;
   }
+
   .detailsBlock-1 h2 {
     font-size: 1.7rem;
   }
+
   .detailsBlock-3 h1 {
     font-size: 2rem;
   }
+
   .submitReview {
     padding: 12px 28px;
     font-size: 1.03rem;
   }
+}
+
+
+/* new csssssss */
+.ProductDetails>div:first-of-type {
+  height: 580px;
+  width: 50%;
+}
+
+.css-ohwg9z {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.css-1m9128y {
+  width: 100%;
+  margin-top: 70px;
 }

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { loadShippingInfoForUser, setShippingInfo } from './CartSlice'; 
+import { loadShippingInfoForUser, setShippingInfo } from './CartSlice';
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -16,7 +16,7 @@ export const login = (email, password) => async (dispatch) => {
       config
     );
     dispatch(loginSuccess(data.user));
-        localStorage.setItem("user", JSON.stringify(data.user)); // ✅ SAVE US
+    localStorage.setItem("user", JSON.stringify(data.user)); // ✅ SAVE US
     dispatch(loadShippingInfoForUser(data.user._id)); // ✅ this loads user-specific shipping info
 
   } catch (error) {
@@ -31,18 +31,22 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 
-export const register = createAsyncThunk("user/register", async (userData, thunkAPI) => {
-  try {
-    const config = {
-      headers: { "Content-Type": "application/json" },
-    };
-    const { data } = await axios.post("/api/v1/register", userData, config);
-        localStorage.setItem("user", JSON.stringify(data.user)); // ✅ SAVE US
-    return data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.message);
+export const register = createAsyncThunk(
+  "user/register",
+  async (userData, thunkAPI) => {
+    try {
+      const { data } = await axios.post("/api/v1/register", userData, {
+        headers: { "Content-Type": "application/json" },
+      });
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Registration failed"
+      );
+    }
   }
-});
+);
+
 
 //  Load User
 // export const loadUser = createAsyncThunk(
@@ -64,7 +68,6 @@ export const loadUser = createAsyncThunk("user/loadUser", async (_, { rejectWith
     return data.user;
   } catch (error) {
     if (error.response && error.response.status === 401) {
-      // Don't show toast here, just return
       return rejectWithValue(null);
     }
     return rejectWithValue(error.response.data.message);
@@ -72,31 +75,7 @@ export const loadUser = createAsyncThunk("user/loadUser", async (_, { rejectWith
 });
 
 
-// // logout user
-// export const logout = () => async (dispatch) => {
-//   try {
-//     await axios.get(`/api/v1/logout`);
-//     dispatch(logoutSuccess());
-//   } catch (error) {
-//     // Handle error
-//   }
-// };
-
-
-
 // logout user
-// export const logout = () => async (dispatch, getState) => {
-//   try {
-//     const user = JSON.parse(localStorage.getItem("user"));
-    
-//     await axios.get(`/api/v1/logout`);
-
-//     dispatch(logoutSuccess());
-
-//   } catch (error) {
-//     console.error("Logout failed:", error);
-//   }
-// };
 export const logout = () => async (dispatch, getState) => {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -128,7 +107,7 @@ export const updateProfile = createAsyncThunk(
   "profile/updateProfile",
   async (userData, { rejectWithValue }) => {
     try {
-      console.log("Sending formData:", userData); // Debugging
+      // console.log("Sending formData:", userData); // Debugging
 
       const config = {
         headers: {
@@ -276,7 +255,7 @@ const userSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
-      
+
     },
     loginSuccess: (state, action) => {
       state.loading = false;
@@ -302,30 +281,52 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // REGISTER
+      .addCase(register.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.loading = false;
+        if (action.payload?.success) {
+          state.isAuthenticated = true;
+          state.user = action.payload.user;
+        }
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
+        state.error = action.payload;
+      })
       .addCase(loadUser.pending, (state) => {
         state.loading = true;
         state.isAuthenticated = false;
       })
-      .addCase(loadUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = true;
-        state.user = action.payload;
-  // ✅ Save again to localStorage
-  localStorage.setItem("user", JSON.stringify(action.payload));
-        state.error = null;
-      })
-      .addCase(loadUser.rejected, (state, action) => {
-        state.loading = false;
-        state.isAuthenticated = false;
-        state.user = null;
-        state.error = action.payload;
-      });
+        .addCase(loadUser.fulfilled, (state, action) => {
+          state.loading = false;
+          state.isAuthenticated = true;
+          state.user = action.payload;
+          // ✅ Save again to localStorage
+          localStorage.setItem("user", JSON.stringify(action.payload));
+          state.error = null;
+        })
+        .addCase(loadUser.rejected, (state, action) => {
+          state.loading = false;
+          state.isAuthenticated = false;
+          state.user = null;
+          state.error = action.payload;
+        });
   },
 });
-
+const updateProfileInitialState = {
+  loading: false,
+  error: null,
+  isUpdated: false,
+  isPasswordUpdated: false,
+  message: "",
+};
 const updateProfileSlice = createSlice({
   name: "profile",
-  initialState,
+  initialState: updateProfileInitialState,
   reducers: {
     clearProfileErrors: (state) => {
       state.error = null;

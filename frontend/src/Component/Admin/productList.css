@@ -1,4 +1,4 @@
-.productListContainer {
+.confirmOrderPage>div:last-child.productListContainer {
   width: 100%;
   box-sizing: border-box;
   background-color: rgb(255, 255, 255);
@@ -54,10 +54,16 @@
 }
 
 
-
+.confirmOrderPage>div:last-child {
+  border-left: 1px solid rgba(0, 0, 0, 0.247);
+  height: 90%;
+}
 
 
 /* .productListContainer {
   height: 1500px;
   overflow-y: auto;
 } */
+
+
+
